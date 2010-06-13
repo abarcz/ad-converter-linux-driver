@@ -1,0 +1,98 @@
+﻿Szanowni Panowie,
+
+Płytka, którą Wam wypożyczyłem zawiera firmware implementujący prosty
+wielowejściowy przetwornik A/D.
+Schemat płytki jest dostępny tu: http://www.ise.pw.edu.pl/~wzab/opiclab/
+Opis użytego tam mikrokontrolera można znaleźć tu (gdyby chcieli Panowie
+lepiej zrozumieć firmware)
+http://ww1.microchip.com/downloads/en/DeviceDoc/39632e.pdf
+
+Urządzenie poza obowiązkowym endpointem 0 wykorzystuje endpoint 1, przez
+który odbiera komendy sterujące oraz endpoint 2, przez który wysyła
+odpowiedzi na owe komendy sterujące oraz dane. Endpointy 1 i 2 działają
+w trybie "bulk", gwarantującym niezawodną transmisję, o ile wystarczy pasma.
+
+Komendy sterujące są następujące:
+
+   * 0x00 - żądanie przedstawienia się, urządzenie odpowiada ciągiem
+     bajtów: "USB ADC ver. 1.1"
+   * 0x01,FDIVL,FDIVH,FPSC,CHN0,CHN1,CHN2,CHN3,CHN4,CHN5,CHN6,CHN7 -
+     konfiguracja przetwornika (11 bajtów). Poszczególne bajty mają
+     następujące znaczenie: FDIVL i FDIVH - młodszy i starszy bajt
+     określający częstotliwość próbkowania sygnału wejściowego, FPSC -
+     najmłodsze dwa bity określają wstępny podział częstotliwości (00 -
+     1:1, 01-1:2, 10-1:4, 11-1:8), CHN0-CHN8 - lista próbkowanych
+     kanałów, kanał o numerze większym od 15 oznacza koniec listy.
+     Urządzenie powinno odpowiedzieć "OK"
+   * 0x02 - polecenie startu próbkowania. Urządzenie powinno
+     odpowiedzieć "OK", po czym zacznie wysyłać dane z przetwornika, w
+     formacie opisanym dalej
+   * 0x03 - polecenie zakończenia próbkowania. Urządzenie powinno
+     odpowiedzieć "OK" i zakończyć przysyłanie danych z przetwornika.
+
+
+Dane z przetwornika są wysyłane w pakietach o następującym formacie:
+'D',nr_pakietu,D0H,D0L,D1H,D1L,....,DMH,DML
+D - znak "D", nr_pakietu - zwiększany kolejno o 1, pozwala upewnić się,
+że  nie zgubiliśmy pakietu. Dane z kolejnych kanałów z listy (od 0 do
+"M") są wysyłane jako dwa kolejne bajty - najpierw starszy, potem młodszy.
+
+Jeśli komputer nie nadąży odbierać danych, urządzenie wyśle pakiet:
+"E:OVERRUN" i zaprzestanie wysyłania dalszych danych.
+
+Próba wysłania błędnych danych powoduje przejście endpointu 1 w stan
+"stall".
+
+Jak widać protokół komunikacji jest prościutki, natomiast poprawna
+komunikacja z urządzeniem wymaga sprawnego odbierania danych, aby nie
+dopuścić do błędu OVERRUN. Dlatego też konieczna jest implementacja
+obsługi w postaci sterownika, a nie programu korzystającego z biblioteki
+libusb.
+
+Oczywiście możecie Panowie sugerować poprawki do fimware'u .
+
+W załączniku są źródła firmware'u oraz skrypt w Pythonie (korzystający
+z biblioteki pyusb), pozwalający porozumieć się z płytką.
+
+Opis wymagań dotyczących sterownika:
+
+Sterownik powinien umożliwić kilku programom klienckim dostęp do danych
+zbieranych przez przetwornik.Programy powinny móc zgłaszać żądaną
+częstotliwość próbkowania i to, jakie kanały je interesują.
+Sterownik powinien być w stanie dobrać parametry maksymalnie zbliżone do
+żądanych i poinformować program o tym (np. jeśli jeden program będzie
+chciał otrzymywać dane z kanału 1, próbkowane z częstotliwością 50 Hz, a
+drugi z kanałów 1 i 3, próbkowane z częstotliwością 98 Hz, to
+ostatecznie można będzie próbkować np. z częstotliwością około 100 Hz,
+przy czym pierwszy program będzie dostawał co drugą próbkę, lub próbkę
+uśrednioną z dwóch kolejnych).
+
+Można to sobie wyobrazić tak, że do ustawienia parametrów służy ioctl,
+gdzie parametrem jest struktura na wejściu opisująca żądane warunki
+próbkowania,a na wyjściu - możliwe do spełnienia przez sterownik w
+aktualnej chwili. Oczywiście pozostaje do rozwiązania problem jak
+pogodzić żądania przychodzące kolejno po sobie, żeby nie zakłócić
+próbkowania już działającym programom...
+
+Druga kwestia to odbiór danych. Oczywiście sterownik musi buforować
+próbki przychodzące z przetwornika i przekazywać je programom klienckim.
+Żeby niepotrzebnie nie przełączać procesów, każdy program powinien móc
+zadeklarować, w jakich porcjach chce otrzymywać dane. (Np. program może
+chcieć otrzymywać dane w porcjach po 128 próbek - wtedy będzie budzony
+dopiero wtedy, gdy uzbiera się taka porcja danych).
+
+Programy mogą czasami długo przetwarzać dane, a możliwości buforowania
+są ograniczone. Jeśli jakiś program długo nie będzie odbierał danych, to
+powinien najpierw zostać ostrzeżony (jak? sygnałem? proszę pomyśleć jak
+to zrobić najlepiej i tak, aby nie zatruć życia autorowi aplikacji
+klienckiej), a potem odłączony od sterownika (ubijanie go byłoby chyba
+przesadą) - tzn. dane oczekujące na niego zostaną utracone. Kluczową
+sprawą jest to powiadamianie o zagrażającym przeciążeniu, bo wtedy
+program może rozsądnie zareagować - np. wyświetlając co któryś wynik
+analizy, zamiast każdego...
+
+W razie wątpliwości co do działania płytki, lub co do założeń, proszę o
+kontakt...
+--
+Pozdrawiam,
+Wojciech Zabołotny

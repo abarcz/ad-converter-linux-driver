@@ -1,0 +1,3 @@
+odyssey PIC18F4550 erase
+odyssey PIC18F4550 write boot.hex
+odyssey PIC18F4550 verify boot.hex

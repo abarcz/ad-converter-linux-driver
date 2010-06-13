@@ -1,0 +1,60 @@
+gpasm-0.13.3 beta               application.asm9-15-2006  11:04:58          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : FreeWare ANSI-C Compiler
+               00003 ; Version 2.6.0 #4309 (Aug 16 2006)
+               00004 ; This file generated Fri Sep 15 11:04:58 2006
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f4455
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _application_data
+               00016 
+               00017 ;--------------------------------------------------------
+               00018 ; global & static initialisations
+               00019 ;--------------------------------------------------------
+               00020 ; ; Starting pCode block for absolute Ival
+               00021 S_application__application_data code    0X002030
+2030           00022 _application_data:
+2030 00FF 0000 00023         DB      0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+2034 0000 0000
+2038 0000 0000
+203C 0000 0000 00024         DB      0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+2040 0000 0000
+2044 0000 0000
+2048 0000      00025         DB      0x00
+               00026 
+               00027 ; I code from now on!
+               00028 
+               00029 
+               00030 ; Statistics:
+               00031 ; code size:        6 (0x0006) bytes ( 0.00%)
+               00032 ;                   3 (0x0003) words
+               00033 ; udata size:       0 (0x0000) bytes ( 0.00%)
+               00034 ; access size:      0 (0x0000) bytes
+               00035 
+               00036 
+gpasm-0.13.3 beta               application.asm9-15-2006  11:04:58          PAGE  2
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+__18F4455                         00000001
+_application_data                 00002030
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+
