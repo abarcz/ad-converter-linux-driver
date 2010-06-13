@@ -1,2 +1,26 @@
-﻿Robione na podstawie:
-http://www.freesoftwaremagazine.com/node/1238/pdf
+﻿ster_test:
+Prosty sterownik, wpisujący komunikaty do buforu komunikatów jądra
+podczas insmod/rmmod.
+(wyświetlenie: dmesg)
+
+ster_test2:
+Sterownik udostępniający bufor memory_buffer o rozmiarze BUFFER_SIZE = 128B,
+oraz metody:
+- write (zerowy bajt)
+- read (zerowy bajt)
+- ioctl, umożliwiający:
+	+ prosty odczyt zerowego bajtu (IOCTL_ZERO_BYTE)
+	+ prosty odczyt pierwszego bajtu (IOCTL_FIRST_BYTE)
+	+ odczyt dowolnego bajtu z zakresu [0..BUFFER_SIZE-1] (IOCTL_READ_NTH_BYTE)
+	+ zapis dowolnego bajtu z zakresu [0..BUFFER_SIZE-1] (IOCTL_WRITE_NTH_BYTE)
+Wpisuje komunikaty do buforu komunikatów jądra.
+	
+ster_test2user:
+(wymaga oddzielnej kompilacji :TODO:)
+program przestrzeni użytkownika wykonujący sekwencję operacji na buforze udostępnianym przez sterownik ster_test2
+	
+Robione na podstawie:
+http://www.freesoftwaremagazine.com/node/1238/pdf (szkielet sterownika, deklaracja bufora bajtów)
+http://tldp.org/LDP/lkmpg/2.6/html/x892.html (użycie IOCTL)
+[STER]wyklad02_przyklad_vga_knoppix.5.3.1 (dostosowanie do mechanizmu udev)
+	
