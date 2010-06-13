@@ -1,0 +1,180 @@
+#include "usb.h"
+#include "flash.h"
+#include "adc_cmds.h"
+// The statically allocated memory for the samples
+#define ADC_BUF_SIZE (256) //May not be more than 256!!! (due to uchar arithmetics)
+uchar __code err_ovr[]="E:OVERRUN";
+static volatile uchar adc_buf[ADC_BUF_SIZE];
+static uchar adc_data_len=0;
+static uchar adc_nbufs;
+static volatile uchar adc_in; //The buffer to be filled with data
+static volatile uchar adc_out; //The buffer with data to be sent
+static uchar adc_nchans;
+static uchar adc_nchan;
+static uchar adc_rec_nr=0;
+adc_flags_t adc_flags;
+adc_cfg_t adc_cfg;
+
+static uchar adc_buf_ptr=0;
+int16_t adc_int_nr=100;
+//Macro for filling of channel table
+//#define chntab(chnum)				
+					       
+// Table for channel decoding
+static uchar adc_one_buf_size=0;
+void adc_init()
+{
+  int i;
+  //We calculate number of channels
+  adc_nchans=0;
+  for(i=0;i<8;i++) {
+    if (adc_cfg.chns[i]<16) adc_nchans++;
+  }
+  adc_one_buf_size = 2*adc_nchans+2;
+  adc_nbufs=ADC_BUF_SIZE/adc_one_buf_size;
+  adc_in=0;
+  adc_out=0;
+  adc_nchan=0;
+}
+
+void adc_start(void)
+{
+  //Prepare buffers
+  adc_in=0;
+  adc_out=0;
+  adc_nchan=0;
+  adc_rec_nr=0;
+  adc_int_nr=60;
+  adc_buf_ptr=0;
+  adc_buf[adc_buf_ptr++]='D';
+  adc_buf[adc_buf_ptr++]=adc_rec_nr;
+  adc_flags.adc_overrun=0;
+
+  ADCON1=0; // Configure A/D inputs
+  PIR1bits.ADIF=0; // Clear A/D interrupt flag bit
+  PIE1bits.ADIE=1; // Enable A/D interrupts
+  IPR1bits.ADIP=1; //High Priority
+  ADCON0 = (adc_cfg.chns[adc_nchan]<<2)+1;
+  ADCON2=0x06; //Left Justified, AN0 is analog, Vref comes from AVDD and AVSS
+  //Program the timer frequency
+  CCPR2H=(adc_cfg.freq[0]);
+  CCPR2L=(adc_cfg.freq[1]);
+  //Special event trigger from CCP2 will start the conversion
+  CCP2CON = 0x0b;
+  //Start the timer
+  T3CON = 0; //Necessary to connect CCP2 to timer1
+  T1CON = 4;
+  TMR1L = 0;
+  TMR1H = 0;
+  T1CON = ((adc_cfg.freq[2]&3)<<4) | 1 ;
+  //Set the timer control word (should be changed later)
+  adc_flags.adc_sampling=1;
+  //Start interrupts
+  PIR1bits.ADIF=0; // Clear A/D interrupt flag bit
+  PIE1bits.ADIE=1;
+  INTCONbits.PEIE=1; //Enable peripheral interrupts
+  INTCONbits.GIE=1; //Enable all interrupts
+}
+
+void adc_stop(void)
+{
+  //We stop the sampling immediately
+  //Then we need to send the remaining buffers (or maybe we should discard them?)
+  //Disable the ADC interrupt
+  PIE1bits.ADIE=0;
+  //Disable the ADC module
+  ADCON0=0;
+  adc_flags.adc_sampling = 0;
+}
+
+
+void adc_interrupt(void) interrupt 1
+{
+  static uchar tmp;
+  //First readout the data and put it to the buffer
+  adc_int_nr++;
+  //Transfer the sampled result to the buffer
+  adc_buf[adc_buf_ptr++]=ADRESH; 
+  adc_buf[adc_buf_ptr++]=ADRESL;
+  //Clear the interrupt flag
+  PIR1bits.ADIF=0;
+  //Increase the channel number
+  adc_nchan++;
+  if (adc_nchan >= adc_nchans) {
+    // If all channels have been sampled, go to the next buffer
+    adc_nchan=0;
+    adc_in++;
+    if(adc_in >= adc_nbufs) {
+      adc_in = 0;
+      adc_buf_ptr=0;
+    }
+    if(adc_in==adc_out) {
+      // Buffer is still occupied
+      // We have to send the error message and stop sampling
+      adc_flags.adc_overrun=1;
+      PIE1bits.ADIE=0;
+      ADCON0=0;
+      return;
+    }
+    adc_buf[adc_buf_ptr++]='D';
+    adc_buf[adc_buf_ptr++]=++adc_rec_nr;
+  }
+  //Set the new channel for multiplexer, keep ADC going
+  ADCON0 = (adc_cfg.chns[adc_nchan]<<2)+1;
+}
+
+void adc_dispatch(void)
+{
+  
+  //We check if there is any data sequence ready to be transfered to the USB
+  //If there is any, we check, if there is a free USB buffer to transfer the data
+  if( !(EP_IN_BD(2).Stat.uc & BDS_USIE)) {
+    //First check if the overrun occured
+    if(adc_flags.adc_overrun) {
+      ep2_num_bytes_to_send = sizeof(err_ovr);
+      ep2_source_data = err_ovr;
+      prepare_ep2_in();
+      adc_flags.adc_overrun=0;
+    } else {
+      //If there is, we copy the data to that buffer
+      if(adc_in != adc_out) {
+	ep2_num_bytes_to_send = adc_one_buf_size;
+	ep2_source_data = &(adc_buf[adc_one_buf_size*adc_out]);
+	prepare_ep2_in();
+	adc_out++;
+	if(adc_out>=adc_nbufs) adc_out=0;
+      }
+    }
+    //We mark, that the ADC data have been received
+  }  
+}
+
+/*
+  The following steps should be followed to perform an
+  A/D conversion:
+  1.  Configure the A/D module:
+  * Configure analog pins, voltage reference and
+  digital I/O (ADCON1)
+  * Select A/D input channel (ADCON0)
+  * Select A/D acquisition time (ADCON2)
+  * Select A/D conversion clock (ADCON2)
+  * Turn on A/D module (ADCON0)
+  2.  Configure A/D interrupt (if desired):
+  * Clear ADIF bit
+  * Set ADIE bit
+  * Set GIE bit
+  3.  Wait the required acquisition time (if required).
+  4.  Start conversion:
+  * Set GO/DONE bit (ADCON0 register)
+  5. Wait for A/D conversion to complete, by either:
+  * Polling for the GO/DONE bit to be cleared
+  OR
+  * Waiting for the A/D interrupt
+  6. Read A/D Result registers (ADRESH:ADRESL);
+  clear bit ADIF, if required.
+  7. For next conversion, go to step 1 or step 2, as
+  required. The A/D conversion time per bit is
+  defined as TAD. A minimum wait of 3 TAD is
+  required before the next acquisition starts.
+
+*/
