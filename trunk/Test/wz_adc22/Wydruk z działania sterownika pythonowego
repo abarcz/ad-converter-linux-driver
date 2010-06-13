@@ -1,0 +1,51 @@
+//////////Wydruk z dzialania sterownika pythonowego///////////
+To jest nasze urzadzenie!
+Device: 028
+  Device class: 255
+  Device sub class: 0
+  Device protocol: 255
+  Max packet size: 8
+  idVendor: 42405
+  idProduct: 1
+  Device Version: 01.00
+  Configuration: 1025
+    Total length: 18
+    selfPowered: 1
+    remoteWakeup: 0
+    maxPower: 0
+    Interface: 0
+    Alternate Setting: 0
+      Interface class: 255
+      Interface sub class: 255
+      Interface protocol: 255
+  Configuration: 1282
+    Total length: 32
+    selfPowered: 1
+    remoteWakeup: 0
+    maxPower: 0
+    Interface: 0
+    Alternate Setting: 0
+      Interface class: 255
+      Interface sub class: 255
+      Interface protocol: 255
+      Endpoint: 0x1L
+        Type: 2
+        Max packet size: 64
+        Interval: 0
+      Endpoint: 0x82L
+        Type: 2
+        Max packet size: 64
+        Interval: 0
+(85L, 83L, 66L, 32L, 65L, 68L, 67L, 32L, 118L, 101L, 114L, 46L, 32L, 49L, 46L, 49L, 0L)
+USB ADC ver. 1.1
+(79L, 75L, 0L)
+OK
+OK
+(79L, 75L, 0L)
+(1L, 127L, 0L, 0L, 1L, 2L, 33L, 4L, 5L, 6L, 7L)
+stop
+(79L, 75L, 0L)
+start
+(79L, 75L, 0L)
+['0x44L', '0x0L', '0x5cL', '0x40L', '0x5fL', '0x0L', '0x6aL', '-0x40L']
+['0x44L', '0x1L', '0x3eL', '0x40L', '0x10L', '0x0L', '0x0L', '0x0L']

@@ -1,0 +1,22 @@
+﻿Zmodyfikowałem usbenum.py tak, żeby wyświetlał dane tylko naszego urządzenia, 
+a nie wszystkich urządzeń usb dostępnych w systemie ("zmodyfikowałem" - wielkie słowo jak na 3 spacje ;]).
+Wydruk dodałem do svn'a na wypadek gdybyśmy potrzebowali jakichś danych z urządzenia 
+(usbview nie działa na standardowym jądrze Ubuntu).
+
+O Pythonie:
+Jak już doinstalujesz interpreter, wystarczy że w konsoli wpiszesz "python usbenum.py" żeby odpalić skrypt.
+Samo "python" wywoła konsolę pythona (wyjście : "quit()", ale konsoli nie potrzebujemy zasadniczo).
+
+O odpalaniu:
+Po włączeniu urządzenia (czerwona dioda zapalona) i podłączaniu do kompa, odpalasz skrypt.
+("python usbenum.py")
+Jeśli powie, że nie znalazł mydev, spróbuj jeszcze raz.
+Po przerwaniu odbierania próbek trzeba wyłączyć i włączyć przetwornik do prądu.
+
+Jeśli będziesz chciał modyfikować skrypt:
+Bloki kodu są określone przez wcięcia - istotne jest czy są to spacje czy taby. 
+(w wersji zmodyfikowanej pozmieniałem wszystkie wcięcia na 3 spacje)
+Jeśli gdzieś pojawi się tab zamiast spacji, interpreter wypluje błąd.
+Reszta na wiki ;)
+
+Aleksy

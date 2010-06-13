@@ -1,0 +1,1115 @@
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00001 ;--------------------------------------------------------
+               00002 ; File Created by SDCC : FreeWare ANSI-C Compiler
+               00003 ; Version 2.6.0 #4309 (Aug 16 2006)
+               00004 ; This file generated Fri Sep 15 11:39:29 2006
+               00005 ;--------------------------------------------------------
+               00006 ; PIC16 port for the Microchip 16-bit core micros
+               00007 ;--------------------------------------------------------
+               00008         list    p=18f4455
+               00009 
+               00010         radix dec
+               00011 
+               00012 ;--------------------------------------------------------
+               00013 ; public variables in this module
+               00014 ;--------------------------------------------------------
+               00015         global _ep1_init
+               00016         global _ep1_out
+               00017         global _ep1_OutBuffer
+               00018         global _id_msg
+               00019         global _ack
+               00020         global _nack
+               00021 
+               00022 ;--------------------------------------------------------
+               00023 ; extern variables in this module
+               00024 ;--------------------------------------------------------
+               00025         extern __gptrput1
+               00026         extern _ep_bdt
+               00027         extern _usb_device_state
+               00028         extern _usb_active_cfg
+               00029         extern _usb_active_alt_setting
+               00030         extern _device_descriptor
+               00031         extern _configuration_descriptor
+               00032         extern _string_descriptor
+               00033         extern _ep_init
+               00034         extern _ep_in
+               00035         extern _ep_out
+               00036         extern _ep_setup
+               00037         extern _ep2_num_bytes_to_send
+               00038         extern _ep2_source_data
+               00039         extern _SPPDATAbits
+               00040         extern _SPPCFGbits
+               00041         extern _SPPEPSbits
+               00042         extern _SPPCONbits
+               00043         extern _UFRMLbits
+               00044         extern _UFRMHbits
+               00045         extern _UIRbits
+               00046         extern _UIEbits
+               00047         extern _UEIRbits
+               00048         extern _UEIEbits
+               00049         extern _USTATbits
+               00050         extern _UCONbits
+               00051         extern _UADDRbits
+               00052         extern _UCFGbits
+               00053         extern _UEP0bits
+               00054         extern _UEP1bits
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00055         extern _UEP2bits
+               00056         extern _UEP3bits
+               00057         extern _UEP4bits
+               00058         extern _UEP5bits
+               00059         extern _UEP6bits
+               00060         extern _UEP7bits
+               00061         extern _UEP8bits
+               00062         extern _UEP9bits
+               00063         extern _UEP10bits
+               00064         extern _UEP11bits
+               00065         extern _UEP12bits
+               00066         extern _UEP13bits
+               00067         extern _UEP14bits
+               00068         extern _UEP15bits
+               00069         extern _PORTAbits
+               00070         extern _PORTBbits
+               00071         extern _PORTCbits
+               00072         extern _PORTDbits
+               00073         extern _PORTEbits
+               00074         extern _LATAbits
+               00075         extern _LATBbits
+               00076         extern _LATCbits
+               00077         extern _LATDbits
+               00078         extern _LATEbits
+               00079         extern _TRISAbits
+               00080         extern _TRISBbits
+               00081         extern _TRISCbits
+               00082         extern _TRISDbits
+               00083         extern _TRISEbits
+               00084         extern _OSCTUNEbits
+               00085         extern _PIE1bits
+               00086         extern _PIR1bits
+               00087         extern _IPR1bits
+               00088         extern _PIE2bits
+               00089         extern _PIR2bits
+               00090         extern _IPR2bits
+               00091         extern _EECON1bits
+               00092         extern _RCSTAbits
+               00093         extern _TXSTAbits
+               00094         extern _T3CONbits
+               00095         extern _CMCONbits
+               00096         extern _CVRCONbits
+               00097         extern _ECCP1ASbits
+               00098         extern _ECCP1DELbits
+               00099         extern _BAUDCONbits
+               00100         extern _CCP2CONbits
+               00101         extern _ECCP1CONbits
+               00102         extern _ADCON2bits
+               00103         extern _ADCON1bits
+               00104         extern _ADCON0bits
+               00105         extern _SSPCON2bits
+               00106         extern _SSPCON1bits
+               00107         extern _SSPSTATbits
+               00108         extern _T2CONbits
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00109         extern _T1CONbits
+               00110         extern _RCONbits
+               00111         extern _WDTCONbits
+               00112         extern _HLVDCONbits
+               00113         extern _OSCCONbits
+               00114         extern _T0CONbits
+               00115         extern _STATUSbits
+               00116         extern _FSR2Hbits
+               00117         extern _BSRbits
+               00118         extern _FSR1Hbits
+               00119         extern _FSR0Hbits
+               00120         extern _INTCON3bits
+               00121         extern _INTCON2bits
+               00122         extern _INTCONbits
+               00123         extern _TBLPTRUbits
+               00124         extern _PCLATHbits
+               00125         extern _PCLATUbits
+               00126         extern _STKPTRbits
+               00127         extern _TOSUbits
+               00128         extern _adc_cfg
+               00129         extern _adc_int_nr
+               00130         extern _adc_flags
+               00131         extern _SPPDATA
+               00132         extern _SPPCFG
+               00133         extern _SPPEPS
+               00134         extern _SPPCON
+               00135         extern _UFRML
+               00136         extern _UFRMH
+               00137         extern _UIR
+               00138         extern _UIE
+               00139         extern _UEIR
+               00140         extern _UEIE
+               00141         extern _USTAT
+               00142         extern _UCON
+               00143         extern _UADDR
+               00144         extern _UCFG
+               00145         extern _UEP0
+               00146         extern _UEP1
+               00147         extern _UEP2
+               00148         extern _UEP3
+               00149         extern _UEP4
+               00150         extern _UEP5
+               00151         extern _UEP6
+               00152         extern _UEP7
+               00153         extern _UEP8
+               00154         extern _UEP9
+               00155         extern _UEP10
+               00156         extern _UEP11
+               00157         extern _UEP12
+               00158         extern _UEP13
+               00159         extern _UEP14
+               00160         extern _UEP15
+               00161         extern _PORTA
+               00162         extern _PORTB
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00163         extern _PORTC
+               00164         extern _PORTD
+               00165         extern _PORTE
+               00166         extern _LATA
+               00167         extern _LATB
+               00168         extern _LATC
+               00169         extern _LATD
+               00170         extern _LATE
+               00171         extern _TRISA
+               00172         extern _TRISB
+               00173         extern _TRISC
+               00174         extern _TRISD
+               00175         extern _TRISE
+               00176         extern _OSCTUNE
+               00177         extern _PIE1
+               00178         extern _PIR1
+               00179         extern _IPR1
+               00180         extern _PIE2
+               00181         extern _PIR2
+               00182         extern _IPR2
+               00183         extern _EECON1
+               00184         extern _EECON2
+               00185         extern _EEDATA
+               00186         extern _EEADR
+               00187         extern _RCSTA
+               00188         extern _TXSTA
+               00189         extern _TXREG
+               00190         extern _RCREG
+               00191         extern _SPBRG
+               00192         extern _SPBRGH
+               00193         extern _T3CON
+               00194         extern _TMR3L
+               00195         extern _TMR3H
+               00196         extern _CMCON
+               00197         extern _CVRCON
+               00198         extern _ECCP1AS
+               00199         extern _ECCP1DEL
+               00200         extern _BAUDCON
+               00201         extern _CCP2CON
+               00202         extern _CCPR2L
+               00203         extern _CCPR2H
+               00204         extern _ECCP1CON
+               00205         extern _CCPR1L
+               00206         extern _CCPR1H
+               00207         extern _ADCON2
+               00208         extern _ADCON1
+               00209         extern _ADCON0
+               00210         extern _ADRESL
+               00211         extern _ADRESH
+               00212         extern _SSPCON2
+               00213         extern _SSPCON1
+               00214         extern _SSPSTAT
+               00215         extern _SSPADD
+               00216         extern _SSPBUF
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00217         extern _T2CON
+               00218         extern _PR2
+               00219         extern _TMR2
+               00220         extern _T1CON
+               00221         extern _TMR1L
+               00222         extern _TMR1H
+               00223         extern _RCON
+               00224         extern _WDTCON
+               00225         extern _HLVDCON
+               00226         extern _OSCCON
+               00227         extern _T0CON
+               00228         extern _TMR0L
+               00229         extern _TMR0H
+               00230         extern _STATUS
+               00231         extern _FSR2L
+               00232         extern _FSR2H
+               00233         extern _PLUSW2
+               00234         extern _PREINC2
+               00235         extern _POSTDEC2
+               00236         extern _POSTINC2
+               00237         extern _INDF2
+               00238         extern _BSR
+               00239         extern _FSR1L
+               00240         extern _FSR1H
+               00241         extern _PLUSW1
+               00242         extern _PREINC1
+               00243         extern _POSTDEC1
+               00244         extern _POSTINC1
+               00245         extern _INDF1
+               00246         extern _WREG
+               00247         extern _FSR0L
+               00248         extern _FSR0H
+               00249         extern _PLUSW0
+               00250         extern _PREINC0
+               00251         extern _POSTDEC0
+               00252         extern _POSTINC0
+               00253         extern _INDF0
+               00254         extern _INTCON3
+               00255         extern _INTCON2
+               00256         extern _INTCON
+               00257         extern _PRODL
+               00258         extern _PRODH
+               00259         extern _TABLAT
+               00260         extern _TBLPTRL
+               00261         extern _TBLPTRH
+               00262         extern _TBLPTRU
+               00263         extern _PCL
+               00264         extern _PCLATH
+               00265         extern _PCLATU
+               00266         extern _STKPTR
+               00267         extern _TOSL
+               00268         extern _TOSH
+               00269         extern _TOSU
+               00270         extern _prepare_ep2_in
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00271         extern _adc_start
+               00272         extern _adc_init
+               00273         extern _adc_stop
+               00274         extern _boot_device_descriptor
+               00275         extern _boot_configuration_descriptor
+               00276         extern _boot_string_descriptor
+               00277         extern _str0
+               00278         extern _str1
+               00279         extern _str2
+               00280         extern _str3
+               00281         extern _boot_ep_init
+               00282         extern _boot_ep_in
+               00283         extern _boot_ep_out
+               00284         extern _boot_ep_setup
+               00285         extern _section_descriptor
+               00286 ;--------------------------------------------------------
+               00287 ;       Equates to used internal registers
+               00288 ;--------------------------------------------------------
+  00000FD8     00289 STATUS  equ     0xfd8
+  00000FF9     00290 PCL     equ     0xff9
+  00000FFA     00291 PCLATH  equ     0xffa
+  00000FFB     00292 PCLATU  equ     0xffb
+  00000FE8     00293 WREG    equ     0xfe8
+  00000FE9     00294 FSR0L   equ     0xfe9
+  00000FEA     00295 FSR0H   equ     0xfea
+  00000FE1     00296 FSR1L   equ     0xfe1
+  00000FD9     00297 FSR2L   equ     0xfd9
+  00000FEF     00298 INDF0   equ     0xfef
+  00000FE5     00299 POSTDEC1        equ     0xfe5
+  00000FE4     00300 PREINC1 equ     0xfe4
+  00000FF3     00301 PRODL   equ     0xff3
+               00302 
+               00303 
+               00304 ; Internal registers
+               00305 .registers      udata_ovr       0x0000
+               00306 r0x00   res     1
+               00307 r0x01   res     1
+               00308 r0x02   res     1
+               00309 r0x03   res     1
+               00310 r0x04   res     1
+               00311 r0x05   res     1
+               00312 r0x06   res     1
+               00313 r0x07   res     1
+               00314 r0x08   res     1
+               00315 r0x09   res     1
+               00316 
+               00317 udata_ep1_0     udata
+               00318 iTemp0  res     1
+               00319 
+               00320 udata_ep1_1     udata
+               00321 iTemp13 res     1
+               00322 
+               00323 
+               00324 ustat_ep1_00    udata   0X0510
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00325 _ep1_OutBuffer  res     64
+               00326 
+               00327 ;--------------------------------------------------------
+               00328 ; global & static initialisations
+               00329 ;--------------------------------------------------------
+               00330 ; I code from now on!
+               00331 ; ; Starting pCode block
+               00332 S_ep1__ep1_out  code
+0000           00333 _ep1_out:
+               00334 ;       .line   49; ep1.c       void ep1_out(void)
+0000 CFD9 FFE5 00335         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00336         MOVFF   FSR1L, FSR2L
+0008 C000 FFE5 00337         MOVFF   r0x00, POSTDEC1
+000C C000 FFE5 00338         MOVFF   r0x01, POSTDEC1
+0010 C000 FFE5 00339         MOVFF   r0x02, POSTDEC1
+0014 C000 FFE5 00340         MOVFF   r0x03, POSTDEC1
+0018 C000 FFE5 00341         MOVFF   r0x04, POSTDEC1
+001C C000 FFE5 00342         MOVFF   r0x05, POSTDEC1
+0020 C000 FFE5 00343         MOVFF   r0x06, POSTDEC1
+0024 C000 FFE5 00344         MOVFF   r0x07, POSTDEC1
+               00345 ;       .line   52; ep1.c       if(EP_OUT_BD(1).Cnt >= 1)
+0028 C000 F000 00346         MOVFF   (_ep_bdt + 9), (iTemp0 + 1)
+002C 0E01      00347         MOVLW   0x01
+002E 0000      00348         BANKSEL (iTemp0 + 1)
+0030 5D00      00349         SUBWF   (iTemp0 + 1), W, B
+0032 A0D8      00350         BTFSS   STATUS, 0
+0034 EF00 F000 00351         GOTO    _00130_DS_
+               00352 ;       .line   54; ep1.c       switch(ep1_OutBuffer[0])
+0038 EE00 F000 00353         LFSR    0x00, _ep1_OutBuffer
+003C CFEF F000 00354         MOVFF   INDF0, r0x00
+0040 0E06      00355         MOVLW   0x06
+0042 5C00      00356         SUBWF   r0x00, W
+0044 B0D8      00357         BTFSC   STATUS, 0
+0046 EF00 F000 00358         GOTO    _00130_DS_
+004A C000 FFE5 00359         MOVFF   r0x08, POSTDEC1
+004E C000 FFE5 00360         MOVFF   r0x09, POSTDEC1
+0052 6A00      00361         CLRF    r0x09
+0054 3400      00362         RLCF    r0x00, W
+0056 3600      00363         RLCF    r0x09, F
+0058 34E8      00364         RLCF    WREG, W
+005A 3600      00365         RLCF    r0x09, F
+005C 0BFC      00366         ANDLW   0xfc
+005E 6E00      00367         MOVWF   r0x08
+0060 0E00      00368         MOVLW   UPPER(_00147_DS_)
+0062 6EFB      00369         MOVWF   PCLATU
+0064 0E00      00370         MOVLW   HIGH(_00147_DS_)
+0066 6EFA      00371         MOVWF   PCLATH
+0068 0E00      00372         MOVLW   LOW(_00147_DS_)
+006A 2600      00373         ADDWF   r0x08, F
+006C 5000      00374         MOVF    r0x09, W
+006E 22FA      00375         ADDWFC  PCLATH, F
+0070 B0D8      00376         BTFSC   STATUS, 0
+0072 2AFB      00377         INCF    PCLATU, F
+0074 5000      00378         MOVF    r0x08, W
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0076 CFE4 F000 00379         MOVFF   PREINC1, r0x09
+007A CFE4 F000 00380         MOVFF   PREINC1, r0x08
+007E 6EF9      00381         MOVWF   PCL
+0080           00382 _00147_DS_:
+0080 EF00 F000 00383         GOTO    _00109_DS_
+0084 EF00 F000 00384         GOTO    _00110_DS_
+0088 EF00 F000 00385         GOTO    _00115_DS_
+008C EF00 F000 00386         GOTO    _00119_DS_
+0090 EF00 F000 00387         GOTO    _00120_DS_
+0094 EF00 F000 00388         GOTO    _00121_DS_
+0098           00389 _00109_DS_:
+               00390 ;       .line   59; ep1.c       ep2_num_bytes_to_send = sizeof(id_msg);
+0098 0E11      00391         MOVLW   0x11
+009A 0000      00392         BANKSEL _ep2_num_bytes_to_send
+009C 6F00      00393         MOVWF   _ep2_num_bytes_to_send, B
+009E 0000      00394         BANKSEL (_ep2_num_bytes_to_send + 1)
+00A0 6B00      00395         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00396 ;       .line   60; ep1.c       ep2_source_data = (uchar __code *) id_msg;
+00A2 0E00      00397         MOVLW   LOW(_id_msg)
+00A4 0000      00398         BANKSEL _ep2_source_data
+00A6 6F00      00399         MOVWF   _ep2_source_data, B
+00A8 0E00      00400         MOVLW   HIGH(_id_msg)
+00AA 0000      00401         BANKSEL (_ep2_source_data + 1)
+00AC 6F00      00402         MOVWF   (_ep2_source_data + 1), B
+00AE 0E00      00403         MOVLW   UPPER(_id_msg)
+00B0 0000      00404         BANKSEL (_ep2_source_data + 2)
+00B2 6F00      00405         MOVWF   (_ep2_source_data + 2), B
+               00406 ;       .line   61; ep1.c       prepare_ep2_in();
+00B4 EC00 F000 00407         CALL    _prepare_ep2_in
+               00408 ;       .line   62; ep1.c       break;
+00B8 EF00 F000 00409         GOTO    _00123_DS_
+00BC           00410 _00110_DS_:
+               00411 ;       .line   65; ep1.c       if(EP_OUT_BD(1).Cnt < ADC_CONF_SIZE+1) {
+00BC C000 F000 00412         MOVFF   (_ep_bdt + 9), (iTemp13 + 1)
+00C0 0E0C      00413         MOVLW   0x0c
+00C2 0000      00414         BANKSEL (iTemp13 + 1)
+00C4 5D00      00415         SUBWF   (iTemp13 + 1), W, B
+00C6 A0D8      00416         BTFSS   STATUS, 0
+00C8 EF00 F000 00417         GOTO    _00130_DS_
+               00418 ;       .line   68; ep1.c       if(adc_flags.adc_sampling == 1) {
+00CC 6A00      00419         CLRF    r0x00
+00CE 0000      00420         BANKSEL _adc_flags
+00D0 B100      00421         BTFSC   _adc_flags, 0, B
+00D2 2A00      00422         INCF    r0x00, F
+00D4 5000      00423         MOVF    r0x00, W
+00D6 0A01      00424         XORLW   0x01
+00D8 E100      00425         BNZ     _00150_DS_
+00DA EF00 F000 00426         GOTO    _00130_DS_
+00DE           00427 _00150_DS_:
+               00428 ;       .line   72; ep1.c       for(j=0;j<sizeof(adc_cfg);j++) {
+00DE 6A00      00429         CLRF    r0x00
+00E0           00430 _00131_DS_:
+00E0 0E0B      00431         MOVLW   0x0b
+00E2 5C00      00432         SUBWF   r0x00, W
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+00E4 B0D8      00433         BTFSC   STATUS, 0
+00E6 EF00 F000 00434         GOTO    _00134_DS_
+               00435 ;       .line   73; ep1.c       *(((uchar *) &adc_cfg)+j) = ep1_OutBuffer[j+1];
+00EA 0E00      00436         MOVLW   HIGH(_adc_cfg)
+00EC 6E00      00437         MOVWF   r0x02
+00EE 0E00      00438         MOVLW   LOW(_adc_cfg)
+00F0 6E00      00439         MOVWF   r0x01
+00F2 0E80      00440         MOVLW   0x80
+00F4 6E00      00441         MOVWF   r0x03
+00F6 5000      00442         MOVF    r0x00, W
+00F8 2600      00443         ADDWF   r0x01, F
+00FA 6AE8      00444         CLRF    WREG
+00FC 2200      00445         ADDWFC  r0x02, F
+00FE 6AE8      00446         CLRF    WREG
+0100 2200      00447         ADDWFC  r0x03, F
+0102 2800      00448         INCF    r0x00, W
+0104 6E00      00449         MOVWF   r0x04
+0106 0E00      00450         MOVLW   LOW(_ep1_OutBuffer)
+0108 2400      00451         ADDWF   r0x04, W
+010A 6E00      00452         MOVWF   r0x05
+010C 6A00      00453         CLRF    r0x06
+010E 0E00      00454         MOVLW   HIGH(_ep1_OutBuffer)
+0110 2200      00455         ADDWFC  r0x06, F
+0112 6A00      00456         CLRF    r0x07
+0114 0E00      00457         MOVLW   UPPER(_ep1_OutBuffer)
+0116 2200      00458         ADDWFC  r0x07, F
+0118 C000 FFE9 00459         MOVFF   r0x05, FSR0L
+011C C000 FFEA 00460         MOVFF   r0x06, FSR0H
+0120 CFEF F000 00461         MOVFF   INDF0, r0x05
+0124 C000 FFE5 00462         MOVFF   r0x05, POSTDEC1
+0128 C000 FFE9 00463         MOVFF   r0x01, FSR0L
+012C C000 FFF3 00464         MOVFF   r0x02, PRODL
+0130 5000      00465         MOVF    r0x03, W
+0132 EC00 F000 00466         CALL    __gptrput1
+               00467 ;       .line   72; ep1.c       for(j=0;j<sizeof(adc_cfg);j++) {
+0136 C000 F000 00468         MOVFF   r0x04, r0x00
+013A EF00 F000 00469         GOTO    _00131_DS_
+013E           00470 _00134_DS_:
+               00471 ;       .line   75; ep1.c       ep2_num_bytes_to_send = sizeof(ack);
+013E 0E03      00472         MOVLW   0x03
+0140 0000      00473         BANKSEL _ep2_num_bytes_to_send
+0142 6F00      00474         MOVWF   _ep2_num_bytes_to_send, B
+0144 0000      00475         BANKSEL (_ep2_num_bytes_to_send + 1)
+0146 6B00      00476         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00477 ;       .line   76; ep1.c       ep2_source_data = (uchar __code *) ack;
+0148 0E00      00478         MOVLW   LOW(_ack)
+014A 0000      00479         BANKSEL _ep2_source_data
+014C 6F00      00480         MOVWF   _ep2_source_data, B
+014E 0E00      00481         MOVLW   HIGH(_ack)
+0150 0000      00482         BANKSEL (_ep2_source_data + 1)
+0152 6F00      00483         MOVWF   (_ep2_source_data + 1), B
+0154 0E00      00484         MOVLW   UPPER(_ack)
+0156 0000      00485         BANKSEL (_ep2_source_data + 2)
+0158 6F00      00486         MOVWF   (_ep2_source_data + 2), B
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00487 ;       .line   77; ep1.c       prepare_ep2_in();
+015A EC00 F000 00488         CALL    _prepare_ep2_in
+               00489 ;       .line   78; ep1.c       break;
+015E EF00 F000 00490         GOTO    _00123_DS_
+0162           00491 _00115_DS_:
+0162 0000      00492         BANKSEL _adc_flags
+               00493 ;       .line   81; ep1.c       if(adc_flags.adc_sampling==0) {
+0164 B100      00494         BTFSC   _adc_flags, 0, B
+0166 EF00 F000 00495         GOTO    _00130_DS_
+               00496 ;       .line   82; ep1.c       adc_init();
+016A EC00 F000 00497         CALL    _adc_init
+               00498 ;       .line   83; ep1.c       adc_start();
+016E EC00 F000 00499         CALL    _adc_start
+               00500 ;       .line   84; ep1.c       ep2_num_bytes_to_send = sizeof(ack);
+0172 0E03      00501         MOVLW   0x03
+0174 0000      00502         BANKSEL _ep2_num_bytes_to_send
+0176 6F00      00503         MOVWF   _ep2_num_bytes_to_send, B
+0178 0000      00504         BANKSEL (_ep2_num_bytes_to_send + 1)
+017A 6B00      00505         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00506 ;       .line   85; ep1.c       ep2_source_data = (uchar __code *) ack;
+017C 0E00      00507         MOVLW   LOW(_ack)
+017E 0000      00508         BANKSEL _ep2_source_data
+0180 6F00      00509         MOVWF   _ep2_source_data, B
+0182 0E00      00510         MOVLW   HIGH(_ack)
+0184 0000      00511         BANKSEL (_ep2_source_data + 1)
+0186 6F00      00512         MOVWF   (_ep2_source_data + 1), B
+0188 0E00      00513         MOVLW   UPPER(_ack)
+018A 0000      00514         BANKSEL (_ep2_source_data + 2)
+018C 6F00      00515         MOVWF   (_ep2_source_data + 2), B
+               00516 ;       .line   86; ep1.c       prepare_ep2_in();
+018E EC00 F000 00517         CALL    _prepare_ep2_in
+0192 EF00 F000 00518         GOTO    _00123_DS_
+0196           00519 _00119_DS_:
+               00520 ;       .line   93; ep1.c       adc_stop();
+0196 EC00 F000 00521         CALL    _adc_stop
+               00522 ;       .line   94; ep1.c       ep2_num_bytes_to_send = sizeof(ack);
+019A 0E03      00523         MOVLW   0x03
+019C 0000      00524         BANKSEL _ep2_num_bytes_to_send
+019E 6F00      00525         MOVWF   _ep2_num_bytes_to_send, B
+01A0 0000      00526         BANKSEL (_ep2_num_bytes_to_send + 1)
+01A2 6B00      00527         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00528 ;       .line   95; ep1.c       ep2_source_data = (uchar __code *) ack;
+01A4 0E00      00529         MOVLW   LOW(_ack)
+01A6 0000      00530         BANKSEL _ep2_source_data
+01A8 6F00      00531         MOVWF   _ep2_source_data, B
+01AA 0E00      00532         MOVLW   HIGH(_ack)
+01AC 0000      00533         BANKSEL (_ep2_source_data + 1)
+01AE 6F00      00534         MOVWF   (_ep2_source_data + 1), B
+01B0 0E00      00535         MOVLW   UPPER(_ack)
+01B2 0000      00536         BANKSEL (_ep2_source_data + 2)
+01B4 6F00      00537         MOVWF   (_ep2_source_data + 2), B
+               00538 ;       .line   96; ep1.c       prepare_ep2_in();
+01B6 EC00 F000 00539         CALL    _prepare_ep2_in
+               00540 ;       .line   97; ep1.c       break;
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+01BA EF00 F000 00541         GOTO    _00123_DS_
+01BE           00542 _00120_DS_:
+               00543 ;       .line   100; ep1.c      adc_stop();
+01BE EC00 F000 00544         CALL    _adc_stop
+               00545 ;       .line   101; ep1.c      ep2_num_bytes_to_send =2;
+01C2 0E02      00546         MOVLW   0x02
+01C4 0000      00547         BANKSEL _ep2_num_bytes_to_send
+01C6 6F00      00548         MOVWF   _ep2_num_bytes_to_send, B
+01C8 0000      00549         BANKSEL (_ep2_num_bytes_to_send + 1)
+01CA 6B00      00550         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00551 ;       .line   102; ep1.c      ep2_source_data = &adc_int_nr;
+01CC 0E00      00552         MOVLW   HIGH(_adc_int_nr)
+01CE 0000      00553         BANKSEL (_ep2_source_data + 1)
+01D0 6F00      00554         MOVWF   (_ep2_source_data + 1), B
+01D2 0E00      00555         MOVLW   LOW(_adc_int_nr)
+01D4 0000      00556         BANKSEL _ep2_source_data
+01D6 6F00      00557         MOVWF   _ep2_source_data, B
+01D8 0E80      00558         MOVLW   0x80
+01DA 0000      00559         BANKSEL (_ep2_source_data + 2)
+01DC 6F00      00560         MOVWF   (_ep2_source_data + 2), B
+               00561 ;       .line   103; ep1.c      prepare_ep2_in();
+01DE EC00 F000 00562         CALL    _prepare_ep2_in
+               00563 ;       .line   104; ep1.c      break;
+01E2 EF00 F000 00564         GOTO    _00123_DS_
+01E6           00565 _00121_DS_:
+               00566 ;       .line   107; ep1.c      adc_stop();
+01E6 EC00 F000 00567         CALL    _adc_stop
+               00568 ;       .line   108; ep1.c      ep2_num_bytes_to_send =sizeof(adc_cfg);
+01EA 0E0B      00569         MOVLW   0x0b
+01EC 0000      00570         BANKSEL _ep2_num_bytes_to_send
+01EE 6F00      00571         MOVWF   _ep2_num_bytes_to_send, B
+01F0 0000      00572         BANKSEL (_ep2_num_bytes_to_send + 1)
+01F2 6B00      00573         CLRF    (_ep2_num_bytes_to_send + 1), B
+               00574 ;       .line   109; ep1.c      ep2_source_data = &adc_cfg;
+01F4 0E00      00575         MOVLW   HIGH(_adc_cfg)
+01F6 0000      00576         BANKSEL (_ep2_source_data + 1)
+01F8 6F00      00577         MOVWF   (_ep2_source_data + 1), B
+01FA 0E00      00578         MOVLW   LOW(_adc_cfg)
+01FC 0000      00579         BANKSEL _ep2_source_data
+01FE 6F00      00580         MOVWF   _ep2_source_data, B
+0200 0E80      00581         MOVLW   0x80
+0202 0000      00582         BANKSEL (_ep2_source_data + 2)
+0204 6F00      00583         MOVWF   (_ep2_source_data + 2), B
+               00584 ;       .line   110; ep1.c      prepare_ep2_in();
+0206 EC00 F000 00585         CALL    _prepare_ep2_in
+020A           00586 _00123_DS_:
+               00587 ;       .line   117; ep1.c      EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+020A 0E40      00588         MOVLW   0x40
+020C 0000      00589         BANKSEL (_ep_bdt + 9)
+020E 6F00      00590         MOVWF   (_ep_bdt + 9), B
+0210 0000      00591         BANKSEL (_ep_bdt + 8)
+               00592 ;       .line   118; ep1.c      if(EP_OUT_BD(1).Stat.DTS == 0)
+0212 BD00      00593         BTFSC   (_ep_bdt + 8), 6, B
+0214 EF00 F000 00594         GOTO    _00125_DS_
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+               00595 ;       .line   120; ep1.c      EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT1 | BDS_DTSEN;
+0218 0EC8      00596         MOVLW   0xc8
+021A 0000      00597         BANKSEL (_ep_bdt + 8)
+021C 6F00      00598         MOVWF   (_ep_bdt + 8), B
+021E EF00 F000 00599         GOTO    _00129_DS_
+0222           00600 _00125_DS_:
+               00601 ;       .line   124; ep1.c      EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT0 | BDS_DTSEN;
+0222 0E88      00602         MOVLW   0x88
+0224 0000      00603         BANKSEL (_ep_bdt + 8)
+0226 6F00      00604         MOVWF   (_ep_bdt + 8), B
+0228           00605 _00129_DS_:
+               00606 ;       .line   131; ep1.c      return;
+0228 EF00 F000 00607         GOTO    _00135_DS_
+022C           00608 _00130_DS_:
+               00609 ;       .line   133; ep1.c      EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+022C 0E40      00610         MOVLW   0x40
+022E 0000      00611         BANKSEL (_ep_bdt + 9)
+0230 6F00      00612         MOVWF   (_ep_bdt + 9), B
+               00613 ;       .line   134; ep1.c      EP_OUT_BD(1).ADR = (uchar __data *)&ep1_OutBuffer;
+0232 0E10      00614         MOVLW   0x10
+0234 0000      00615         BANKSEL (_ep_bdt + 10)
+0236 6F00      00616         MOVWF   (_ep_bdt + 10), B
+0238 0E05      00617         MOVLW   0x05
+023A 0000      00618         BANKSEL (_ep_bdt + 11)
+023C 6F00      00619         MOVWF   (_ep_bdt + 11), B
+               00620 ;       .line   135; ep1.c      EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_BSTALL;
+023E 0E84      00621         MOVLW   0x84
+0240 0000      00622         BANKSEL (_ep_bdt + 8)
+0242 6F00      00623         MOVWF   (_ep_bdt + 8), B
+0244           00624 _00135_DS_:
+               00625 ;       .line   136; ep1.c      return;
+0244 CFE4 F000 00626         MOVFF   PREINC1, r0x07
+0248 CFE4 F000 00627         MOVFF   PREINC1, r0x06
+024C CFE4 F000 00628         MOVFF   PREINC1, r0x05
+0250 CFE4 F000 00629         MOVFF   PREINC1, r0x04
+0254 CFE4 F000 00630         MOVFF   PREINC1, r0x03
+0258 CFE4 F000 00631         MOVFF   PREINC1, r0x02
+025C CFE4 F000 00632         MOVFF   PREINC1, r0x01
+0260 CFE4 F000 00633         MOVFF   PREINC1, r0x00
+0264 CFE4 FFD9 00634         MOVFF   PREINC1, FSR2L
+0268 0012      00635         RETURN  
+               00636 
+               00637 ; ; Starting pCode block
+               00638 S_ep1__ep1_init code
+0000           00639 _ep1_init:
+               00640 ;       .line   40; ep1.c       void ep1_init(void)
+0000 CFD9 FFE5 00641         MOVFF   FSR2L, POSTDEC1
+0004 CFE1 FFD9 00642         MOVFF   FSR1L, FSR2L
+               00643 ;       .line   43; ep1.c       EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+0008 0E40      00644         MOVLW   0x40
+000A 0000      00645         BANKSEL (_ep_bdt + 9)
+000C 6F00      00646         MOVWF   (_ep_bdt + 9), B
+               00647 ;       .line   44; ep1.c       EP_OUT_BD(1).ADR = (uchar __data *)&ep1_OutBuffer;
+000E 0E10      00648         MOVLW   0x10
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 13
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+0010 0000      00649         BANKSEL (_ep_bdt + 10)
+0012 6F00      00650         MOVWF   (_ep_bdt + 10), B
+0014 0E05      00651         MOVLW   0x05
+0016 0000      00652         BANKSEL (_ep_bdt + 11)
+0018 6F00      00653         MOVWF   (_ep_bdt + 11), B
+               00654 ;       .line   45; ep1.c       EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT0 | BDS_DTSEN;
+001A 0E88      00655         MOVLW   0x88
+001C 0000      00656         BANKSEL (_ep_bdt + 8)
+001E 6F00      00657         MOVWF   (_ep_bdt + 8), B
+               00658 ;       .line   46; ep1.c       UEP1 = EPHSHK_EN | EPOUTEN_EN | EPCONDIS_EN;       // Init EP1 as an OUT EP
+0020 0E1C      00659         MOVLW   0x1c
+0022 6E00      00660         MOVWF   _UEP1
+0024 CFE4 FFD9 00661         MOVFF   PREINC1, FSR2L
+0028 0012      00662         RETURN  
+               00663 
+               00664 ; ; Starting pCode block for Ival
+               00665         code
+0000           00666 _id_msg:
+0000 5355 2042 00667         DB      0x55, 0x53, 0x42, 0x20, 0x41, 0x44, 0x43, 0x20, 0x76, 0x65, 0x72, 0x2e
+0004 4441 2043
+0008 6576 2E72
+000C 3120 312E 00668         DB      0x20, 0x31, 0x2e, 0x31, 0x00
+0010 0000
+               00669 ; ; Starting pCode block for Ival
+0012           00670 _ack:
+0012 4B4F 0000 00671         DB      0x4f, 0x4b, 0x00
+               00672 ; ; Starting pCode block for Ival
+0016           00673 _nack:
+0016 5245 4F52 00674         DB      0x45, 0x52, 0x52, 0x4f, 0x52, 0x00
+001A 0052
+               00675 
+               00676 
+               00677 ; Statistics:
+               00678 ; code size:      670 (0x029e) bytes ( 0.51%)
+               00679 ;                 335 (0x014f) words
+               00680 ; udata size:      66 (0x0042) bytes ( 3.68%)
+               00681 ; access size:     10 (0x000a) bytes
+               00682 
+               00683 
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+FSR0H                             00000FEA
+FSR0L                             00000FE9
+FSR1L                             00000FE1
+FSR2L                             00000FD9
+INDF0                             00000FEF
+PCL                               00000FF9
+PCLATH                            00000FFA
+PCLATU                            00000FFB
+POSTDEC1                          00000FE5
+PREINC1                           00000FE4
+PRODL                             00000FF3
+STATUS                            00000FD8
+WREG                              00000FE8
+_00109_DS_                        00000098
+_00110_DS_                        000000BC
+_00115_DS_                        00000162
+_00119_DS_                        00000196
+_00120_DS_                        000001BE
+_00121_DS_                        000001E6
+_00123_DS_                        0000020A
+_00125_DS_                        00000222
+_00129_DS_                        00000228
+_00130_DS_                        0000022C
+_00131_DS_                        000000E0
+_00134_DS_                        0000013E
+_00135_DS_                        00000244
+_00147_DS_                        00000080
+_00150_DS_                        000000DE
+_ADCON0                           00000000
+_ADCON0bits                       00000000
+_ADCON1                           00000000
+_ADCON1bits                       00000000
+_ADCON2                           00000000
+_ADCON2bits                       00000000
+_ADRESH                           00000000
+_ADRESL                           00000000
+_BAUDCON                          00000000
+_BAUDCONbits                      00000000
+_BSR                              00000000
+_BSRbits                          00000000
+_CCP2CON                          00000000
+_CCP2CONbits                      00000000
+_CCPR1H                           00000000
+_CCPR1L                           00000000
+_CCPR2H                           00000000
+_CCPR2L                           00000000
+_CMCON                            00000000
+_CMCONbits                        00000000
+_CVRCON                           00000000
+_CVRCONbits                       00000000
+_ECCP1AS                          00000000
+_ECCP1ASbits                      00000000
+_ECCP1CON                         00000000
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 15
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_ECCP1CONbits                     00000000
+_ECCP1DEL                         00000000
+_ECCP1DELbits                     00000000
+_EEADR                            00000000
+_EECON1                           00000000
+_EECON1bits                       00000000
+_EECON2                           00000000
+_EEDATA                           00000000
+_FSR0H                            00000000
+_FSR0Hbits                        00000000
+_FSR0L                            00000000
+_FSR1H                            00000000
+_FSR1Hbits                        00000000
+_FSR1L                            00000000
+_FSR2H                            00000000
+_FSR2Hbits                        00000000
+_FSR2L                            00000000
+_HLVDCON                          00000000
+_HLVDCONbits                      00000000
+_INDF0                            00000000
+_INDF1                            00000000
+_INDF2                            00000000
+_INTCON                           00000000
+_INTCON2                          00000000
+_INTCON2bits                      00000000
+_INTCON3                          00000000
+_INTCON3bits                      00000000
+_INTCONbits                       00000000
+_IPR1                             00000000
+_IPR1bits                         00000000
+_IPR2                             00000000
+_IPR2bits                         00000000
+_LATA                             00000000
+_LATAbits                         00000000
+_LATB                             00000000
+_LATBbits                         00000000
+_LATC                             00000000
+_LATCbits                         00000000
+_LATD                             00000000
+_LATDbits                         00000000
+_LATE                             00000000
+_LATEbits                         00000000
+_OSCCON                           00000000
+_OSCCONbits                       00000000
+_OSCTUNE                          00000000
+_OSCTUNEbits                      00000000
+_PCL                              00000000
+_PCLATH                           00000000
+_PCLATHbits                       00000000
+_PCLATU                           00000000
+_PCLATUbits                       00000000
+_PIE1                             00000000
+_PIE1bits                         00000000
+_PIE2                             00000000
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 16
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_PIE2bits                         00000000
+_PIR1                             00000000
+_PIR1bits                         00000000
+_PIR2                             00000000
+_PIR2bits                         00000000
+_PLUSW0                           00000000
+_PLUSW1                           00000000
+_PLUSW2                           00000000
+_PORTA                            00000000
+_PORTAbits                        00000000
+_PORTB                            00000000
+_PORTBbits                        00000000
+_PORTC                            00000000
+_PORTCbits                        00000000
+_PORTD                            00000000
+_PORTDbits                        00000000
+_PORTE                            00000000
+_PORTEbits                        00000000
+_POSTDEC0                         00000000
+_POSTDEC1                         00000000
+_POSTDEC2                         00000000
+_POSTINC0                         00000000
+_POSTINC1                         00000000
+_POSTINC2                         00000000
+_PR2                              00000000
+_PREINC0                          00000000
+_PREINC1                          00000000
+_PREINC2                          00000000
+_PRODH                            00000000
+_PRODL                            00000000
+_RCON                             00000000
+_RCONbits                         00000000
+_RCREG                            00000000
+_RCSTA                            00000000
+_RCSTAbits                        00000000
+_SPBRG                            00000000
+_SPBRGH                           00000000
+_SPPCFG                           00000000
+_SPPCFGbits                       00000000
+_SPPCON                           00000000
+_SPPCONbits                       00000000
+_SPPDATA                          00000000
+_SPPDATAbits                      00000000
+_SPPEPS                           00000000
+_SPPEPSbits                       00000000
+_SSPADD                           00000000
+_SSPBUF                           00000000
+_SSPCON1                          00000000
+_SSPCON1bits                      00000000
+_SSPCON2                          00000000
+_SSPCON2bits                      00000000
+_SSPSTAT                          00000000
+_SSPSTATbits                      00000000
+_STATUS                           00000000
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 17
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_STATUSbits                       00000000
+_STKPTR                           00000000
+_STKPTRbits                       00000000
+_T0CON                            00000000
+_T0CONbits                        00000000
+_T1CON                            00000000
+_T1CONbits                        00000000
+_T2CON                            00000000
+_T2CONbits                        00000000
+_T3CON                            00000000
+_T3CONbits                        00000000
+_TABLAT                           00000000
+_TBLPTRH                          00000000
+_TBLPTRL                          00000000
+_TBLPTRU                          00000000
+_TBLPTRUbits                      00000000
+_TMR0H                            00000000
+_TMR0L                            00000000
+_TMR1H                            00000000
+_TMR1L                            00000000
+_TMR2                             00000000
+_TMR3H                            00000000
+_TMR3L                            00000000
+_TOSH                             00000000
+_TOSL                             00000000
+_TOSU                             00000000
+_TOSUbits                         00000000
+_TRISA                            00000000
+_TRISAbits                        00000000
+_TRISB                            00000000
+_TRISBbits                        00000000
+_TRISC                            00000000
+_TRISCbits                        00000000
+_TRISD                            00000000
+_TRISDbits                        00000000
+_TRISE                            00000000
+_TRISEbits                        00000000
+_TXREG                            00000000
+_TXSTA                            00000000
+_TXSTAbits                        00000000
+_UADDR                            00000000
+_UADDRbits                        00000000
+_UCFG                             00000000
+_UCFGbits                         00000000
+_UCON                             00000000
+_UCONbits                         00000000
+_UEIE                             00000000
+_UEIEbits                         00000000
+_UEIR                             00000000
+_UEIRbits                         00000000
+_UEP0                             00000000
+_UEP0bits                         00000000
+_UEP1                             00000000
+_UEP10                            00000000
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 18
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_UEP10bits                        00000000
+_UEP11                            00000000
+_UEP11bits                        00000000
+_UEP12                            00000000
+_UEP12bits                        00000000
+_UEP13                            00000000
+_UEP13bits                        00000000
+_UEP14                            00000000
+_UEP14bits                        00000000
+_UEP15                            00000000
+_UEP15bits                        00000000
+_UEP1bits                         00000000
+_UEP2                             00000000
+_UEP2bits                         00000000
+_UEP3                             00000000
+_UEP3bits                         00000000
+_UEP4                             00000000
+_UEP4bits                         00000000
+_UEP5                             00000000
+_UEP5bits                         00000000
+_UEP6                             00000000
+_UEP6bits                         00000000
+_UEP7                             00000000
+_UEP7bits                         00000000
+_UEP8                             00000000
+_UEP8bits                         00000000
+_UEP9                             00000000
+_UEP9bits                         00000000
+_UFRMH                            00000000
+_UFRMHbits                        00000000
+_UFRML                            00000000
+_UFRMLbits                        00000000
+_UIE                              00000000
+_UIEbits                          00000000
+_UIR                              00000000
+_UIRbits                          00000000
+_USTAT                            00000000
+_USTATbits                        00000000
+_WDTCON                           00000000
+_WDTCONbits                       00000000
+_WREG                             00000000
+__18F4455                         00000001
+__gptrput1                        00000000
+_ack                              00000012
+_adc_cfg                          00000000
+_adc_flags                        00000000
+_adc_init                         00000000
+_adc_int_nr                       00000000
+_adc_start                        00000000
+_adc_stop                         00000000
+_boot_configuration_descriptor    00000000
+_boot_device_descriptor           00000000
+_boot_ep_in                       00000000
+_boot_ep_init                     00000000
+gpasm-0.13.3 beta               ep1.asm     9-15-2006  11:39:29          PAGE 19
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+ 
+_boot_ep_out                      00000000
+_boot_ep_setup                    00000000
+_boot_string_descriptor           00000000
+_configuration_descriptor         00000000
+_device_descriptor                00000000
+_ep1_OutBuffer                    00000510
+_ep1_init                         00000000
+_ep1_out                          00000000
+_ep2_num_bytes_to_send            00000000
+_ep2_source_data                  00000000
+_ep_bdt                           00000000
+_ep_in                            00000000
+_ep_init                          00000000
+_ep_out                           00000000
+_ep_setup                         00000000
+_id_msg                           00000000
+_nack                             00000016
+_prepare_ep2_in                   00000000
+_section_descriptor               00000000
+_str0                             00000000
+_str1                             00000000
+_str2                             00000000
+_str3                             00000000
+_string_descriptor                00000000
+_usb_active_alt_setting           00000000
+_usb_active_cfg                   00000000
+_usb_device_state                 00000000
+iTemp0                            00000000
+iTemp13                           00000000
+r0x00                             00000000
+r0x01                             00000001
+r0x02                             00000002
+r0x03                             00000003
+r0x04                             00000004
+r0x05                             00000005
+r0x06                             00000006
+r0x07                             00000007
+r0x08                             00000008
+r0x09                             00000009
+
+
+Errors   :       0
+Warnings :       0 reported,       0 suppressed
+Messages :       0 reported,       0 suppressed
+
