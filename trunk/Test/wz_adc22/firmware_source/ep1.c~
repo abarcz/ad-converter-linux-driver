@@ -1,0 +1,130 @@
+/*-------------------------------------------------------------------------
+  ep1.c - USB endpoint 1 callbacks
+
+             (c) 2006 Pierre Gaufillet <pierre.gaufillet@magic.fr> 
+
+   This library is free software; you can redistribute it and/or modify it
+   under the terms of the GNU Library General Public License as published by the
+   Free Software Foundation; either version 2, or (at your option) any
+   later version.
+   
+   This library is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Library General Public License for more details.
+   
+   You should have received a copy of the GNU Library General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+-------------------------------------------------------------------------*/
+
+/* $Id: ep1.c,v 1.2 2006/03/05 19:39:31 gaufille Exp $ */
+
+//#define _DEBUG true
+
+#include "ep1.h"
+#include "ep2.h"
+#include "usb.h"
+#include "debug.h"
+#include "flash.h"
+#include <pic18fregs.h>
+#include <delay.h>
+#include "adc_cmds.h"
+uchar __code id_msg[]="USB ADC ver. 1.0";
+uchar __code ack[]="OK";
+uchar __code nack[]="ERROR";
+
+
+volatile far uchar __at (0x500+EP0_BUFFER_SIZE+EP0_BUFFER_SIZE) ep1_OutBuffer[EP1_BUFFER_SIZE];
+
+void ep1_init(void)
+{
+    debug("ep1_init\n");
+    EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+    EP_OUT_BD(1).ADR = (uchar __data *)&ep1_OutBuffer;
+    EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT0 | BDS_DTSEN;
+    UEP1 = EPHSHK_EN | EPOUTEN_EN | EPCONDIS_EN;       // Init EP1 as an OUT EP
+}
+
+void ep1_out(void)
+{
+    debug("ep1_out\n");
+    if(EP_OUT_BD(1).Cnt >= 1)
+    {
+        switch(ep1_OutBuffer[0])
+        {
+	  register uchar j;
+            case ADC_ID:
+                debug("Komenda 1\n");
+                ep2_num_bytes_to_send = sizeof(id_msg);
+                ep2_source_data = (uchar __code *) id_msg;
+                prepare_ep2_in();
+                break;
+            case ADC_CONF:
+                debug("Komenda 2\n");
+		if(EP_OUT_BD(1).Cnt < ADC_CONF_SIZE+1) {
+		  goto error;
+		}
+		if(adc_flags.adc_sampling == 1) {
+		  goto error;
+		}
+		// Now copy sampling parameters
+		for(j=0;j<sizeof(adc_cfg);j++) {
+		  *(((uchar *) &adc_cfg)+j) = ep1_OutBuffer[j+1];
+		}
+                ep2_num_bytes_to_send = sizeof(ack);
+                ep2_source_data = (uchar __code *) ack;
+                prepare_ep2_in();
+                break;
+            case ADC_START:
+                debug("Komenda 3\n");
+		if(adc_flags.adc_sampling==0) {
+		  adc_init();
+		  adc_start();
+		  ep2_num_bytes_to_send = sizeof(ack);
+		  ep2_source_data = (uchar __code *) ack;
+		  prepare_ep2_in();
+		} else {
+		  goto error;
+		}
+                break;
+            case ADC_STOP:
+                debug("Komenda 3\n");
+		adc_stop();
+                ep2_num_bytes_to_send = sizeof(ack);
+                ep2_source_data = (uchar __code *) ack;
+                prepare_ep2_in();
+                break;
+            case ADC_QUERY:
+                debug("Komenda 3\n");
+		adc_stop();
+                ep2_num_bytes_to_send =2;
+                ep2_source_data = &adc_int_nr;
+                prepare_ep2_in();
+                break;
+            default:
+                debug("unknown command\n");
+                // Raise an error
+		goto error;
+        }
+        EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+        if(EP_OUT_BD(1).Stat.DTS == 0)
+        {
+            EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT1 | BDS_DTSEN;
+        }
+        else
+        {
+            EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_DAT0 | BDS_DTSEN;
+        }
+    }
+    else // Raise an error
+    {
+      goto error;
+    }
+    return;
+ error:
+    EP_OUT_BD(1).Cnt = EP1_BUFFER_SIZE;
+    EP_OUT_BD(1).ADR = (uchar __data *)&ep1_OutBuffer;
+    EP_OUT_BD(1).Stat.uc = BDS_USIE | BDS_BSTALL;
+    return;
+}
