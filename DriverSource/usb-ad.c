@@ -51,7 +51,7 @@ MODULE_DEVICE_TABLE(usb, ad_table);
 /* tablica wskaznikow na programy - klientow */
 Client** gpClients_array;
 //int Clients_number=0;
-DECLARE_WAIT_QUEUE_HEAD(queue);
+//DECLARE_WAIT_QUEUE_HEAD(queue);
 
 
 
@@ -572,9 +572,8 @@ switch (ioctl_num) {
                 if (access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels) != 0 )
                         return -EFAULT;
                 //sprawdzic czy jest co wyslac jak nie to zawiesic
-                // nie dziala
-                //wait_event(gpClients_array[i]->queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
-                wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
+                wait_event(gpClients_array[i]->queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
+                //wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
                 //sprawdzenie ktory bufor mamy wyslac	
                 switch (gpClients_array[i]->buffer_full_number) {
                         case 1:return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);break;

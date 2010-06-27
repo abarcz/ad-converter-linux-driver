@@ -13,8 +13,7 @@ struct Client {
         int buffer_full_number;                     //ktory bufor jest gotowy do odczytu (1/2/NA)
         struct Client_buffer first_buf;            
         struct Client_buffer second_buf;
-        //wait_queue_head_t queue;
-        //to tez nie dziala DECLARE_WAIT_QUEUE_HEAD(queue);
+        wait_queue_head_t queue;
 };
 
 /* inicjalizacja nowo utworzonej struktury klienta */
@@ -37,8 +36,8 @@ int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsi
         byte_buffer_size = buffer_size * channels_count * 2;
         if((byte_buffer_size <= 0 )|| (byte_buffer_size >= USB_AD_CLIENT_BUFFER_MAX_SIZE))
                 return USB_AD_ERROR_VALUE;
-        //Stworzenie kolejki - cos robie xle chyba
-        //client->queue = __WAIT_QUEUE_HEAD_INITIALIZER(queue); 
+        //Stworzenie kolejki 
+        init_waitqueue_head(&client->queue);
         //:TODO: obliczanie zaleznosci czestotliwosci klienta od czestotliwosci probkowania, zamiast avg_divisor == 1
         ret_val = buffer_init(&(client->first_buf), channels_count * 2, buffer_size, 1);
         if(ret_val != 0)
