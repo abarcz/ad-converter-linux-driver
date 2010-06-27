@@ -50,7 +50,7 @@ MODULE_DEVICE_TABLE(usb, ad_table);
 
 /* tablica wskaznikow na programy - klientow */
 Client** gpClients_array;
-int Clients_number=0;
+//int Clients_number=0;
 DECLARE_WAIT_QUEUE_HEAD(queue);
 
 
@@ -532,26 +532,29 @@ if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) {
         }
 pid = ((int*)ioctl_param)[1];
 //dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
-for (i = 0;i < Clients_number;i++)
-        if (gpClients_array[i]->pid == pid) {
-                new = 0;
-                break;
-                }
+for (i = 0;i < USB_AD_MAX_CLIENTS_NUM;i++)
+        if(gpClients_array[i] != NULL)
+                if (gpClients_array[i]->pid == pid) {
+                        new = 0;
+                        break;
+                        }
 //swybranie tego co mamy klientowi zrobic
 switch (ioctl_num) {
         case IOCTL_SET_PARAMS:
         //czy wskaxnik jest ok
-                if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) !=0 ) 
+                if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) != 0) 
                         return -EFAULT;
                 for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
-                        pom[j] = ((int *)ioctl_param)[j+4];
+                        pom[j] = ((int *)ioctl_param)[j + 4];
                 if (new == 1) {
-                        gpClients_array[Clients_number] = kmalloc(sizeof(Client),GFP_KERNEL);
-                        if (gpClients_array[Clients_number] == NULL) 
+                        for (j = 0;j < USB_AD_MAX_CLIENTS_NUM; j++)
+                                if (gpClients_array[j] == NULL)
+                                        break;
+                        gpClients_array[j] = kmalloc(sizeof(Client),GFP_KERNEL);
+                        if (gpClients_array[j] == NULL) 
                                 return -EFAULT;
-                        if (init_client(gpClients_array[Clients_number],pid,((int *)ioctl_param)[3],((int *)ioctl_param)[4],pom) != 0)
+                        if (init_client(gpClients_array[j],pid,((int *)ioctl_param)[3],((int *)ioctl_param)[4],pom) != 0)
                                 return -EFAULT;        
-                        Clients_number++;
                         }
                         else {
                         /*TODO: zmina parametrow*/
@@ -569,6 +572,8 @@ switch (ioctl_num) {
                 if (access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels) != 0 )
                         return -EFAULT;
                 //sprawdzic czy jest co wyslac jak nie to zawiesic
+                // nie dziala
+                //wait_event(gpClients_array[i]->queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
                 wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
                 //sprawdzenie ktory bufor mamy wyslac	
                 switch (gpClients_array[i]->buffer_full_number) {
