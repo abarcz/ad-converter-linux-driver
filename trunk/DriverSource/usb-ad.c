@@ -51,6 +51,9 @@ MODULE_DEVICE_TABLE(usb, ad_table);
 /* tablica wskaznikow na programy - klientow */
 Client** gpClients_array;
 int Clients_number=0;
+DECLARE_WAIT_QUEUE_HEAD(queue);
+
+
 
 /* Structure to hold all of our device specific stuff */
 struct usb_ad {
@@ -516,53 +519,65 @@ int ad_ioctl(struct inode *indoe, struct file *file, unsigned int ioctl_num, uns
 //zmienne
 int pid;
 int i,j;
-int channels=0;
-int new=1;
+int channels = 0;
+int new = 1;
 unsigned char pom[USB_AD_CHANNELS_NUM];
 
 //sprawdzenie czy to nasz
-if(access_ok(VERIFY_READ,(char *)ioctl_param,2*sizeof(int))!=0)return -EFAULT;
-if(((int*)ioctl_param)[0]!=USB_AD_IOCTL_MAGIC_NUMBER){printk("Nie nasz IOCTL\n");return -EIO;}
-pid=((int*)ioctl_param)[1];
-//dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
-for(i=0;i<Clients_number;i++)
-    if(gpClients_array[i]->pid==pid){
-	new=0;
-	break;
+if (access_ok(VERIFY_READ,(char *)ioctl_param,2 * sizeof(int) ) != 0)
+        return -EFAULT;  
+if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) {
+        printk("<1>USB_AD: Nie nasz IOCTL\n");
+        return -EIO;
         }
+pid = ((int*)ioctl_param)[1];
+//dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
+for (i = 0;i < Clients_number;i++)
+        if (gpClients_array[i]->pid == pid) {
+                new = 0;
+                break;
+                }
 //swybranie tego co mamy klientowi zrobic
-switch(ioctl_num){
-    case IOCTL_SET_PARAMS:
+switch (ioctl_num) {
+        case IOCTL_SET_PARAMS:
         //czy wskaxnik jest ok
-        if(access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM)*sizeof(int))!=0) return -EFAULT;
-        for(j=0;j<USB_AD_CHANNELS_NUM;j++)
-	    pom[j]=((int *)ioctl_param)[j+4];
-	if(new==1){
-	    gpClients_array[Clients_number]=kmalloc(sizeof(Client),GFP_KERNEL);
-	    if(gpClients_array[Clients_number]==NULL) return -EFAULT;
-            if(init_client(gpClients_array[Clients_number],pid,((int*)ioctl_param)[3],((int*)ioctl_param)[4],pom)!=0)return -EFAULT;        
-	    Clients_number++;
-	    }
-	else{
-	    /*TODO: zmina parametrow*/
-	    }
-	break;
-    case IOCTL_GET_DATA:
-	//czy wskaxnik jest ok
-	if(new==1){printk("Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane");return -EFAULT;}
-	for(j=0;j<USB_AD_CHANNELS_NUM;j++)
-	    if(gpClients_array[i]->channels[j]==1)channels++;
-	if(access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels)!=0) return -EFAULT;
-	//sprawdzic czy jest co wyslac jak nie to zawiesic TODO
-
-        //sprawdzenie ktory bufor mamy wyslac	
-	switch(gpClients_array[i]->buffer_full_number){
-	    case 1:copy_to_user((char *)ioctl_param,gpClients_array[i]->first_buf.buf,gpClients_array[i]->first_buf.size);break;
-	    case 2:copy_to_user((char *)ioctl_param,gpClients_array[i]->second_buf.buf,gpClients_array[i]->second_buf.size);break;
-	    }
-	break;
-    default: printk("TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
-    }
+                if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) !=0 ) 
+                        return -EFAULT;
+                for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
+                        pom[j] = ((int *)ioctl_param)[j+4];
+                if (new == 1) {
+                        gpClients_array[Clients_number] = kmalloc(sizeof(Client),GFP_KERNEL);
+                        if (gpClients_array[Clients_number] == NULL) 
+                                return -EFAULT;
+                        if (init_client(gpClients_array[Clients_number],pid,((int *)ioctl_param)[3],((int *)ioctl_param)[4],pom) != 0)
+                                return -EFAULT;        
+                        Clients_number++;
+                        }
+                        else {
+                        /*TODO: zmina parametrow*/
+                        }
+                break;
+        case IOCTL_GET_DATA:
+        //czy wskaxnik jest ok
+                if (new == 1) {
+                        printk("<1>USB_AD: Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane");
+                        return -EFAULT;
+                        }
+                for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
+                        if (gpClients_array[i]->channels[j] == 1)
+                                channels++;
+                if (access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels) != 0 )
+                        return -EFAULT;
+                //sprawdzic czy jest co wyslac jak nie to zawiesic
+                wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
+                //sprawdzenie ktory bufor mamy wyslac	
+                switch (gpClients_array[i]->buffer_full_number) {
+                        case 1:return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);break;
+                        case 2:return copy_to_user(gpClients_array[i]->second_buf.buf,(char *)ioctl_param,gpClients_array[i]->second_buf.size);break;
+                        }
+                break;
+        default: printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
+        }
 
 
 return 0;
