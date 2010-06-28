@@ -1,18 +1,21 @@
 //Autor: Aleksy Barcz
+#define BUFFER_SIZE 1024
+
 #include <stdio.h>
 #include <unistd.h>     //read, write, close..
 #include <fcntl.h>      //open, O_RDWR
 #include <stdlib.h>     //exit
+#include <unistd.h>     //getpid
 #include <sys/ioctl.h>
+#include "usb-ioctl.h"
 
 int main() { 
-  //unsigned char byte;
-  char stext[5] = {'a','b','c', '\n', '\0'};
-  printf("%s",stext);
-  
-  //int ret_val;
-  //char buffer[BUFFER_SIZE];
-  
+//unsigned char byte;
+char stext[5] = {'a','b','c', '\n', '\0'};
+printf("%s",stext);
+int pid = getpid();  
+int ret_val,i;
+char buffer[BUFFER_SIZE];
   //Opening the device
   printf("Ready to open\n");
   fflush(stdout);
@@ -25,48 +28,44 @@ int main() {
    }
    printf("Opened device\n");
      fflush(stdout);
-  /*
-  byte=1;
+//buduje zapytanie  magic number explicite
+((int *)buffer)[0]=474747;  
+((int *)buffer)[1]=pid;
+//fq
+((int *)buffer)[2]=127;    
+//wielkosc paczki
+((int *)buffer)[3]=50;
+//kanaly
+((int *)buffer)[4]=1;   
+((int *)buffer)[5]=0;  
+((int *)buffer)[6]=0;
+((int *)buffer)[7]=0;  
+((int *)buffer)[8]=0;  
+((int *)buffer)[9]=0;  
+((int *)buffer)[10]=0;  
+printf("Started ioctl: fq 127 1 kanal\n");
+ret_val = ioctl(usb_ad, IOCTL_SET_PARAMS, buffer);
+printf("ioctl odpowiedx: %d\n", ret_val);
   
-  read(STER,&byte,1);
-  printf("Read character: %d\n", byte);
-  
-  byte=4;
-  write(STER,&byte,1);
-  printf("Wrote character: %d\n", byte);
-  byte=1;
-  read(STER,&byte,1);
-  printf("Read character: %d\n", byte);
-
-  printf("Started ioctl\n");
-  ret_val = ioctl(STER, IOCTL_ZERO_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  printf("Ioctl returned: %d\n", ret_val);
-  ret_val = ioctl(STER, IOCTL_FIRST_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  
-  buffer[0] = 0;     //index
-  ret_val = ioctl(STER, IOCTL_READ_NTH_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  
-  buffer[0] = 1;
-  ret_val = ioctl(STER, IOCTL_READ_NTH_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  
-  buffer[0] = 2;
-  ret_val = ioctl(STER, IOCTL_READ_NTH_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  
-  buffer[0] = 2;     //index
-  buffer[1] = 5;     //value to be written in driver's buffer
-  ret_val = ioctl(STER, IOCTL_WRITE_NTH_BYTE, buffer);
+printf("Wysyłam prosby o dane\n");
+while(1){
+        ((int *)buffer)[0]=474747;  
+        ((int *)buffer)[1]=pid;
  
-  //using the same index... 
-  ret_val = ioctl(STER, IOCTL_READ_NTH_BYTE, buffer);
-  printf("Read using ioctl character: %d\n", buffer[0]);
-  */
-  sleep(2);
-  close(usb_ad);
-  printf("Closed device\n");
-  return 0;
+        ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
+        printf("ioctl odpowiedx: %d\n", ret_val);
+        printf("Zawartosc bufora [1bajt,2bajt\n]");
+        for (i = 0; i < 50; i++) {
+                printf("%d,%d\n",
+                                buffer[i],
+                                buffer[i+1]);
+                }
+        }
+  
+
+//using the same index... 
+sleep(2);
+close(usb_ad);
+printf("Closed device\n");
+return 0;
 }

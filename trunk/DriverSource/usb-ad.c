@@ -727,6 +727,8 @@ switch (ioctl_num) {
                         for (j = 0;j < USB_AD_MAX_CLIENTS_NUM; j++)
                                 if (gpClients_array[j] == NULL)
                                         break;
+                        if(j == USB_AD_MAX_CLIENTS_NUM - 1)
+                                return -EFAULT;
                         gpClients_array[j] = kmalloc(sizeof(Client),GFP_KERNEL);
                         if (gpClients_array[j] == NULL) 
                                 return -EFAULT;
@@ -735,11 +737,7 @@ switch (ioctl_num) {
                         }
                         else {
                         //Wstepna implementacja: Zabijamy go i tworzymy nowego 
-                        //1)zwalniamy pamiec z buforow                        
-                        kfree(gpClients_array[i]->first_buf.buf);
-                        kfree(gpClients_array[i]->second_buf.buf);
-                        //2)Zwalniamy samego klienta
-                        kfree(gpClients_array[i]);
+                        remove_client(gpClients_array[i]);
                         //tworzenie nowego
                         gpClients_array[i] = kmalloc(sizeof(Client),GFP_KERNEL);
                         if (gpClients_array[i] == NULL) 
@@ -764,8 +762,10 @@ switch (ioctl_num) {
                 //wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
                 //sprawdzenie ktory bufor mamy wyslac	
                 switch (gpClients_array[i]->buffer_full_number) {
-                        case 1:return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);break;
-                        case 2:return copy_to_user(gpClients_array[i]->second_buf.buf,(char *)ioctl_param,gpClients_array[i]->second_buf.size);break;
+                        case 1:
+                                return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);
+                        case 2:
+                                return copy_to_user(gpClients_array[i]->second_buf.buf,(char *)ioctl_param,gpClients_array[i]->second_buf.size);
                         }
                 break;
         default: printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
