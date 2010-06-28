@@ -734,7 +734,18 @@ switch (ioctl_num) {
                                 return -EFAULT;        
                         }
                         else {
-                        /*TODO: zmina parametrow*/
+                        //Wstepna implementacja: Zabijamy go i tworzymy nowego 
+                        //1)zwalniamy pamiec z buforow                        
+                        kfree(gpClients_array[i]->first_buf.buf);
+                        kfree(gpClients_array[i]->second_buf.buf);
+                        //2)Zwalniamy samego klienta
+                        kfree(gpClients_array[i]);
+                        //tworzenie nowego
+                        gpClients_array[i] = kmalloc(sizeof(Client),GFP_KERNEL);
+                        if (gpClients_array[i] == NULL) 
+                                return -EFAULT;
+                        if (init_client(gpClients_array[i],pid,((int *)ioctl_param)[3],((int *)ioctl_param)[4],pom) != 0)
+                                return -EFAULT;   
                         }
                 break;
         case IOCTL_GET_DATA:
@@ -763,6 +774,7 @@ switch (ioctl_num) {
 
 return 0;
 }
+
 //--------------------------------------------------------------------IOCTL_end
 
 static const struct file_operations ad_fops = {
