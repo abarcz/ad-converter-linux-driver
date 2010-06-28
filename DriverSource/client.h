@@ -54,6 +54,7 @@ int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsi
         client->buffer_full_number = -1;
         printk("<1>USB_AD : init_client successfully completed\n");
         return 0;
+        
 }
 #endif
     

@@ -25,7 +25,6 @@
 #include "constants.h"     
 #include "usb-ioctl.h"
 
-
 /* Define these values to match your devices */
 #define USB_AD_VENDOR_ID      0xa5a5    //hex(42405)
 #define USB_AD_PRODUCT_ID     0x01      //hex(1)
@@ -49,11 +48,7 @@ MODULE_DEVICE_TABLE(usb, ad_table);
 /* arbitrarily chosen */
 
 /* tablica wskaznikow na programy - klientow */
-Client** gpClients_array;
-//int Clients_number=0;
-//DECLARE_WAIT_QUEUE_HEAD(queue);
-
-
+static Client** gpClients_array;
 
 /* Structure to hold all of our device specific stuff */
 struct usb_ad {
@@ -63,6 +58,8 @@ struct usb_ad {
         struct usb_anchor       submitted;              /* in case we need to retract our submissions */
         struct urb              *bulk_in_urb;           /* the urb to read data with */
         unsigned char           *bulk_in_buffer;        /* the buffer to receive data */
+        //struct urb              *bulk_in_urb2;          /* the urb to read data with */
+        //unsigned char           *bulk_in_buffer2;       /* the buffer to receive data */
         size_t                  bulk_in_size;           /* the size of the receive buffer */
         size_t                  bulk_in_filled;         /* number of bytes in the buffer */
         size_t                  bulk_in_copied;         /* already copied to user space */
@@ -76,144 +73,27 @@ struct usb_ad {
         struct kref             kref;
         struct mutex            io_mutex;               /* synchronize I/O with disconnect */
         struct completion       bulk_in_completion;     /* to wait for an ongoing read */
+        bool                    running;                /* indicates that the device is already sending data */
+        int                     already_printed;        /* for debug */
 };
 #define to_ad_dev(d) container_of(d, struct usb_ad, kref)
 
 static struct usb_driver ad_driver;
 static void ad_draw_down(struct usb_ad *dev);
+static void ad_read_bulk_callback(struct urb *urb);  //completion handler. in interrupt context!
 
 static void ad_delete(struct kref *kref)
 {
         struct usb_ad *dev = to_ad_dev(kref);
-
+        printk("<1>USB_AD : usb_ad_delete executed\n");
         usb_free_urb(dev->bulk_in_urb);
+        //usb_free_urb(dev->bulk_in_urb2);
         usb_put_dev(dev->udev);
         kfree(dev->bulk_in_buffer);
+        //kfree(dev->bulk_in_buffer2);
         kfree(dev);
 }
 
-static int ad_open(struct inode *inode, struct file *file)
-{
-        struct usb_ad *dev;
-        struct usb_interface *interface;
-        int subminor;
-        int retval = 0;
-
-        subminor = iminor(inode);
-
-        interface = usb_find_interface(&ad_driver, subminor);
-        if (!interface) {
-                err("%s - error, can't find device for minor %d",
-                     __func__, subminor);
-                retval = -ENODEV;
-                goto exit;
-        }
-
-        dev = usb_get_intfdata(interface);
-        if (!dev) {
-                retval = -ENODEV;
-                goto exit;
-        }
-
-        /* increment our usage count for the device */
-        kref_get(&dev->kref);
-
-        /* lock the device to allow correctly handling errors
-         * in resumption */
-        mutex_lock(&dev->io_mutex);
-
-        if (!dev->open_count++) {
-                retval = usb_autopm_get_interface(interface);
-                        if (retval) {
-                                dev->open_count--;
-                                mutex_unlock(&dev->io_mutex);
-                                kref_put(&dev->kref, ad_delete);
-                                goto exit;
-                        }
-        } /* else { //uncomment this block if you want exclusive open
-                retval = -EBUSY;
-                dev->open_count--;
-                mutex_unlock(&dev->io_mutex);
-                kref_put(&dev->kref, ad_delete);
-                goto exit;
-        } */
-        /* prevent the device from being autosuspended */
-
-        /* save our object in the file's private structure */
-        file->private_data = dev;
-        mutex_unlock(&dev->io_mutex);
-
-exit:
-        return retval;
-}
-
-static int ad_release(struct inode *inode, struct file *file)
-{
-        struct usb_ad *dev;
-
-        dev = (struct usb_ad *)file->private_data;
-        if (dev == NULL)
-                return -ENODEV;
-
-        /* allow the device to be autosuspended */
-        mutex_lock(&dev->io_mutex);
-        if (!--dev->open_count && dev->interface)
-                usb_autopm_put_interface(dev->interface);
-        mutex_unlock(&dev->io_mutex);
-
-        /* decrement the count on our device */
-        kref_put(&dev->kref, ad_delete);
-        return 0;
-}
-
-static int ad_flush(struct file *file, fl_owner_t id)
-{
-        struct usb_ad *dev;
-        int res;
-
-        dev = (struct usb_ad *)file->private_data;
-        if (dev == NULL)
-                return -ENODEV;
-
-        /* wait for io to stop */
-        mutex_lock(&dev->io_mutex);
-        ad_draw_down(dev);
-
-        /* read out errors, leave subsequent opens a clean slate */
-        spin_lock_irq(&dev->err_lock);
-        res = dev->errors ? (dev->errors == -EPIPE ? -EPIPE : -EIO) : 0;
-        dev->errors = 0;
-        spin_unlock_irq(&dev->err_lock);
-
-        mutex_unlock(&dev->io_mutex);
-
-        return res;
-}
-
-static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in interrupt context!
-{
-        struct usb_ad *dev;
-
-        dev = urb->context;
-
-        spin_lock(&dev->err_lock);
-        /* sync/async unlink faults aren't errors */
-        if (urb->status) {
-                if (!(urb->status == -ENOENT ||
-                    urb->status == -ECONNRESET ||
-                    urb->status == -ESHUTDOWN))
-                        err("%s - nonzero write bulk status received: %d",
-                            __func__, urb->status);
-
-                dev->errors = urb->status;
-        } else {
-                dev->bulk_in_filled = urb->actual_length;
-        }
-        dev->ongoing_read = 0;
-        spin_unlock(&dev->err_lock);
-
-        complete(&dev->bulk_in_completion);
-}
 
 static int ad_do_read_io(struct usb_ad *dev, size_t count)
 {
@@ -233,8 +113,8 @@ static int ad_do_read_io(struct usb_ad *dev, size_t count)
         dev->ongoing_read = 1;
         spin_unlock_irq(&dev->err_lock);
 
-        /* do it */
-        rv = usb_submit_urb(dev->bulk_in_urb, GFP_KERNEL);
+        /* do it in ATOMIC way */
+        rv = usb_submit_urb(dev->bulk_in_urb, GFP_ATOMIC);
         if (rv < 0) {
                 err("%s - failed submitting read urb, error %d",
                         __func__, rv);
@@ -243,9 +123,306 @@ static int ad_do_read_io(struct usb_ad *dev, size_t count)
                 spin_lock_irq(&dev->err_lock);
                 dev->ongoing_read = 0;
                 spin_unlock_irq(&dev->err_lock);
-        }
+        } 
 
         return rv;
+}
+
+static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in interrupt context!
+{
+        struct usb_ad *dev;
+        /* zmienne do kontynuacji pobierania danych */
+        int rv;
+        size_t count = 25;
+        struct urb  *temp_urb;
+        unsigned char *temp_buffer; 
+
+        dev = urb->context;
+
+        spin_lock(&dev->err_lock);
+        /* sync/async unlink faults aren't errors */
+        if (urb->status) {
+                if (!(urb->status == -ENOENT ||
+                    urb->status == -ECONNRESET ||
+                    urb->status == -ESHUTDOWN))
+                        err("%s - nonzero read bulk status received: %d",
+                            __func__, urb->status);
+
+                dev->errors = urb->status;
+                printk("<1>USB_AD_read_completion other error %d\n", urb->status);
+        } else {
+                dev->bulk_in_filled = urb->actual_length;
+                if(dev->already_printed < 5) {
+                    //dev->bulk_in_buffer[dev->bulk_in_size - 1] = '\0';
+                    printk("<1>USB_AD_read_completion received %c\n", dev->bulk_in_buffer[0]);
+                    dev->already_printed++;
+                }
+        }
+        dev->ongoing_read = 0;
+        spin_unlock(&dev->err_lock);
+    
+        complete(&dev->bulk_in_completion);
+        
+        if(dev->running == 1) {
+                //printk("<1>USB_AD_read_completion entered loop\n");
+                // swap urb and buffers
+                /*temp_buffer = dev->bulk_in_buffer;
+                dev->bulk_in_buffer = dev->bulk_in_buffer2;
+                dev->bulk_in_buffer2 = temp_buffer;
+                
+                temp_urb = dev->bulk_in_urb;
+                dev->bulk_in_urb = dev->bulk_in_urb2;
+                dev->bulk_in_urb2 = temp_urb;
+                */
+                // prepare a read
+                usb_fill_bulk_urb(dev->bulk_in_urb,
+                                dev->udev,
+                                usb_rcvbulkpipe(dev->udev,
+                                        dev->bulk_in_endpointAddr),
+                                dev->bulk_in_buffer,
+                                min(dev->bulk_in_size, count),
+                                ad_read_bulk_callback,
+                                dev);
+                // tell everybody to leave the URB alone
+                spin_lock_irq(&dev->err_lock);
+                dev->ongoing_read = 1;
+                spin_unlock_irq(&dev->err_lock);
+
+                // do it in ATOMIC way
+                rv = usb_submit_urb(dev->bulk_in_urb, GFP_ATOMIC);
+                if (rv < 0) {
+                        err("%s - failed submitting read urb, error %d",
+                                __func__, rv);
+                        dev->bulk_in_filled = 0;
+                        rv = (rv == -ENOMEM) ? rv : -EIO;
+                        spin_lock_irq(&dev->err_lock);
+                        dev->ongoing_read = 0;
+                        spin_unlock_irq(&dev->err_lock);
+                } 
+        }
+}
+
+static int ad_open(struct inode *inode, struct file *file)
+{
+        struct usb_ad *dev;
+        struct usb_interface *interface;
+        int subminor;
+        int retval = 0;
+        char *buffer;
+        int buff_len = 1;           //w bajtach
+        int actual_len = 1;
+        
+        printk("<1>USB_AD : usb_ad_open executed\n");
+
+        subminor = iminor(inode);
+
+        interface = usb_find_interface(&ad_driver, subminor);
+        if (!interface) {
+                err("%s - error, can't find device for minor %d",
+                     __func__, subminor);
+                retval = -ENODEV;
+                goto exit;
+        }
+
+        dev = usb_get_intfdata(interface);
+        if (!dev) {
+                printk("<1>USB_AD : usb_ad_open error : no device\n");
+                retval = -ENODEV;
+                goto exit;
+        }
+
+        /* increment our usage count for the device */
+        kref_get(&dev->kref);
+
+        /* lock the device to allow correctly handling errors
+         * in resumption */
+        mutex_lock(&dev->io_mutex);
+
+        if (!dev->open_count++) {
+                retval = usb_autopm_get_interface(interface);
+                        if (retval) {
+                                dev->open_count--;
+                                mutex_unlock(&dev->io_mutex);
+                                kref_put(&dev->kref, ad_delete);
+                                goto exit;
+                        }
+                
+        } /* else { //uncomment this block if you want exclusive open
+                retval = -EBUSY;
+                dev->open_count--;
+                mutex_unlock(&dev->io_mutex);
+                kref_put(&dev->kref, ad_delete);
+                goto exit;
+        } */
+        /* prevent the device from being autosuspended */
+
+        /* save our object in the file's private structure */
+        file->private_data = dev;
+        
+        /* if the device isn't running yet, make it run */
+        buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
+        if(buffer == NULL) {
+                    printk("<1>USB_AD_open failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+        }
+        buffer[0] = (char) 0;    
+        if(dev->running == 0) {
+                retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                    printk("<1>USB_AD : usb_ad_open error couldn't send\n");
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                kfree(buffer);
+                buff_len = 20;
+                buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
+                if(buffer == NULL) {
+                    printk("<1>USB_AD_open failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                    printk("<1>USB_AD : usb_ad_open error couldn't rcv\n");
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                buffer[buff_len - 1] = '\0';
+                printk("<1>USB_AD_open received %s\n", buffer);
+                memset(buffer, 0, buff_len);
+                buffer[0] = (char) 1;
+                /* set fq */
+                buffer[1] = (char) 127;
+                buffer[2] = (char) 127;
+                buffer[3] = (char) 127;
+                /* set channels */
+                buffer[4] = (char) 0;
+                buffer[5] = (char) 32;
+                retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                    printk("<1>USB_AD : usb_ad_open error couldn't send\n");
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                memset(buffer, 0, buff_len);
+                retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                    printk("<1>USB_AD : usb_ad_open error couldn't rcv\n");
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                buffer[buff_len - 1] = '\0';
+                printk("<1>USB_AD_open received %s\n", buffer);
+                
+                /* zlecenie startu probkowania */
+                memset(buffer, 0, buff_len);
+                buffer[0] = (char) 2;
+                retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                    printk("<1>USB_AD : usb_ad_open error couldn't send\n");
+                    mutex_unlock(&dev->io_mutex);
+                    return retval;
+                }
+                dev->running = 1;
+                /* zlec odebranie "OK" i kontynuacje odbierania */
+                ad_do_read_io(dev, 25);
+        }
+        kfree(buffer);
+        mutex_unlock(&dev->io_mutex);
+
+exit:
+        printk("<1>USB_AD : usb_ad_open exit with error\n");
+        return retval;
+}
+
+static int ad_release(struct inode *inode, struct file *file)
+{
+        struct usb_ad *dev;
+        char *buffer;
+        int buff_len = 5;           //w bajtach
+        int actual_len = 1;
+        int retval = 0;
+        printk("<1>USB_AD : usb_ad_release executed\n");
+
+        dev = (struct usb_ad *)file->private_data;
+        if (dev == NULL) {
+                printk("<1>USB_AD : usb_ad_release no device!\n");
+                return -ENODEV;
+        }
+
+        /* allow the device to be autosuspended */
+        mutex_lock(&dev->io_mutex);
+        if (!--dev->open_count && dev->interface) {
+                printk("<1>USB_AD : usb_ad_release ostatni gasi swiatlo..\n");
+                /* ostatni gasi swiatlo */
+                buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
+                if(buffer == NULL) {
+                        retval = USB_AD_ERROR_ALLOCATION;
+                        printk("<1>USB_AD_release failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+                        mutex_unlock(&dev->io_mutex);
+                        /* decrement the count on our device */
+                        kref_put(&dev->kref, ad_delete);
+                        return retval;
+                }
+                buffer[0] = (char) 3;           //zakoncz probkowanie
+                retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                        printk("<1>USB_AD_release failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+                        mutex_unlock(&dev->io_mutex);
+                        kref_put(&dev->kref, ad_delete);
+                        return retval;
+                }
+                retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
+                            buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
+                if(retval != 0) {
+                        printk("<1>USB_AD_release failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+                        mutex_unlock(&dev->io_mutex);
+                        kref_put(&dev->kref, ad_delete);
+                        return retval;
+                }
+                buffer[buff_len - 1] = '\0';
+                printk("<1>USB_AD_release received %s\n", buffer);
+                dev->running = 0;
+                
+                usb_autopm_put_interface(dev->interface);
+        }
+        mutex_unlock(&dev->io_mutex);
+
+        /* decrement the count on our device */
+        kref_put(&dev->kref, ad_delete);
+        return 0;
+}
+
+static int ad_flush(struct file *file, fl_owner_t id)
+{
+        struct usb_ad *dev;
+        int res;
+        printk("<1>USB_AD : ad_flush executed\n");
+
+        dev = (struct usb_ad *)file->private_data;
+        if (dev == NULL)
+                return -ENODEV;
+
+        /* wait for io to stop */
+        mutex_lock(&dev->io_mutex);
+        ad_draw_down(dev);
+
+        /* read out errors, leave subsequent opens a clean slate */
+        spin_lock_irq(&dev->err_lock);
+        res = dev->errors ? (dev->errors == -EPIPE ? -EPIPE : -EIO) : 0;
+        dev->errors = 0;
+        spin_unlock_irq(&dev->err_lock);
+
+        mutex_unlock(&dev->io_mutex);
+
+        return res;
 }
 
 static ssize_t ad_read(struct file *file, char *buffer, size_t count,
@@ -510,7 +687,7 @@ exit:
 }
 /*
  *IOCTL
- *Funkcja obsÅ‚ugujÄ…ca ioctle
+ *Funkcja obs³uguj¹ca ioctle
  *
  *
  */
@@ -590,8 +767,8 @@ return 0;
 
 static const struct file_operations ad_fops = {
         .owner =        THIS_MODULE,
-        .read =         ad_read,
-        .write =        ad_write,
+        //.read =         ad_read,
+        //.write =        ad_write,
 	.ioctl =	ad_ioctl,
         .open =         ad_open,
         .release =      ad_release,
@@ -618,11 +795,13 @@ static int ad_probe(struct usb_interface *interface,
         int i;
         int retval = -ENOMEM;
         
+        unsigned char test_channels[USB_AD_CHANNELS_NUM] = {1,0,0,0,0,0,0};
+        
         printk("<1>USB_AD : ad_probe executed\n");
         /* allocate memory for our device state and initialize it */
         dev = kzalloc(sizeof(*dev), GFP_KERNEL);
         if (!dev) {
-                err("Out of memory");
+                err("Out of memory\n");
                 goto error;
         }
         kref_init(&dev->kref);
@@ -634,6 +813,19 @@ static int ad_probe(struct usb_interface *interface,
 
         dev->udev = usb_get_dev(interface_to_usbdev(interface));
         dev->interface = interface;
+        
+        /*printk("<1>USB_AD : ad_probe : num of configurations is %d\n",
+            dev->udev->descriptor.bNumConfigurations);
+        printk("<1>USB_AD : ad_probe : conf_id : %d\n",
+            dev->udev->actconfig->desc.bConfigurationValue);*/
+        
+        /* zmiana konfiguracji na wlasciwa (i 'reset' fcji probe) */
+        if(dev->udev->actconfig->desc.bConfigurationValue == USB_AD_BOOT_CONF) {
+                retval = usb_driver_set_configuration(dev->udev, USB_AD_ACTIVE_CONF);
+                retval = retval ? retval : -ENODEV;
+                goto error;
+        }
+            
 
         /* set up the endpoint information */
         /* use only the first bulk-in and bulk-out endpoints */
@@ -646,17 +838,29 @@ static int ad_probe(struct usb_interface *interface,
                         /* we found a bulk in endpoint */
                         buffer_size = le16_to_cpu(endpoint->wMaxPacketSize);
                         dev->bulk_in_size = buffer_size;
+                        printk("<1>USB_AD : ad_probe bulk in size is: %d\n",
+                            buffer_size);
                         dev->bulk_in_endpointAddr = endpoint->bEndpointAddress;
                         dev->bulk_in_buffer = kmalloc(buffer_size, GFP_KERNEL);
                         if (!dev->bulk_in_buffer) {
-                                err("Could not allocate bulk_in_buffer");
+                                err("Could not allocate bulk_in_buffer\n");
                                 goto error;
                         }
                         dev->bulk_in_urb = usb_alloc_urb(0, GFP_KERNEL);
                         if (!dev->bulk_in_urb) {
-                                err("Could not allocate bulk_in_urb");
+                                err("Could not allocate bulk_in_urb\n");
                                 goto error;
                         }
+                        /*dev->bulk_in_buffer2 = kmalloc(buffer_size, GFP_KERNEL);
+                        if (!dev->bulk_in_buffer2) {
+                                err("Could not allocate bulk_in_buffer2\n");
+                                goto error;
+                        }
+                        dev->bulk_in_urb2 = usb_alloc_urb(0, GFP_KERNEL);
+                        if (!dev->bulk_in_urb2) {
+                                err("Could not allocate bulk_in_urb2\n");
+                                goto error;
+                        }*/
                 }
 
                 if (!dev->bulk_out_endpointAddr &&
@@ -666,7 +870,7 @@ static int ad_probe(struct usb_interface *interface,
                 }
         }
         if (!(dev->bulk_in_endpointAddr && dev->bulk_out_endpointAddr)) {
-                err("Could not find both bulk-in and bulk-out endpoints");
+                err("Could not find both bulk-in and bulk-out endpoints\n");
                 goto error;
         }
 
@@ -677,21 +881,39 @@ static int ad_probe(struct usb_interface *interface,
         retval = usb_register_dev(interface, &ad_class);
         if (retval) {
                 /* something prevented us from registering this driver */
-                err("Not able to get a minor for this device.");
+                err("Not able to get a minor for this device.\n");
                 usb_set_intfdata(interface, NULL);
                 goto error;
         }
 
         /* let the user know what node this device is now attached to */
         dev_info(&interface->dev,
-                 "USB Skeleton device now attached to USBSkel-%d",
+                 "USB AD device now attached to USB_AD-%d\n",
                  interface->minor);
+                 
+        /* alokuj i zeruj pamiec dla tablicy wskaznikow na klientow */
+        gpClients_array = kzalloc(sizeof(Client*) * USB_AD_MAX_CLIENTS_NUM, GFP_KERNEL);
+        if(gpClients_array == NULL)
+            err("usb_probe failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+            
+        /* alokuj pamiec dla testowego klienta */
+        gpClients_array[0] = kmalloc(sizeof(Client), GFP_KERNEL);
+        if(gpClients_array[0] == NULL)
+            err("usb_probe failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
+
+    
+        init_client(gpClients_array[0], 555, 128, 100, test_channels);
+        
+        printk("<1>USB_AD : ad_probe successful!\n");
         return 0;
 
 error:
         if (dev)
                 /* this frees allocated memory */
                 kref_put(&dev->kref, ad_delete);
+        printk("<1>USB_AD : ad_probe failed\n");
+        if(retval == 0)
+            retval = -ENODEV;
         return retval;
 }
 
@@ -699,6 +921,7 @@ static void ad_disconnect(struct usb_interface *interface)
 {
         struct usb_ad *dev;
         int minor = interface->minor;
+        printk("<1>USB_AD : ad_disconnect executed\n");
 
         dev = usb_get_intfdata(interface);
         usb_set_intfdata(interface, NULL);
@@ -716,17 +939,18 @@ static void ad_disconnect(struct usb_interface *interface)
         /* decrement our usage count */
         kref_put(&dev->kref, ad_delete);
 
-        dev_info(&interface->dev, "USB Skeleton #%d now disconnected", minor);
+        dev_info(&interface->dev, "USB_AD #%d now disconnected\n", minor);
 }
 
 static void ad_draw_down(struct usb_ad *dev)
 {
-        int time;
-
+        printk("<1>USB_AD : ad_draw_down executed\n");
+        /*int time;
+        printk("<1>USB_AD : ad_draw_down executed\n");
         time = usb_wait_anchor_empty_timeout(&dev->submitted, 1000);
         if (!time)
                 usb_kill_anchored_urbs(&dev->submitted);
-        usb_kill_urb(dev->bulk_in_urb);
+        usb_kill_urb(dev->bulk_in_urb);*/
 }
 
 static int ad_suspend(struct usb_interface *intf, pm_message_t message)
@@ -780,25 +1004,11 @@ static struct usb_driver ad_driver = {
 static int __init usb_ad_init(void)
 {
         int result;
-        unsigned char test_channels[USB_AD_CHANNELS_NUM] = {1,0,0,0,0,0,0};
         printk("<1>USB_AD : usb_ad_init executed\n");
         /* register this driver with the USB subsystem */
         result = usb_register(&ad_driver);
         if (result)
-                err("usb_register failed. Error number %d", result);
-        
-        /* alokuj i zeruj pamiec dla tablicy wskaznikow na klientow */
-        gpClients_array = kzalloc(sizeof(Client*) * USB_AD_MAX_CLIENTS_NUM, GFP_KERNEL);
-        if(gpClients_array == NULL)
-            err("usb_register failed. Error number %d", USB_AD_ERROR_ALLOCATION);
-            
-        /* alokuj pamiec dla testowego klienta */
-        gpClients_array[0] = kmalloc(sizeof(Client), GFP_KERNEL);
-        if(gpClients_array[0] == NULL)
-            err("usb_register failed. Error number %d", USB_AD_ERROR_ALLOCATION);
-
-    
-        init_client(gpClients_array[0], 555, 128, 100, test_channels);
+                err("usb_register failed. Error number %d\n", result);
             
         printk("<1>USB_AD : usb_ad_init successful\n");
         return result;
@@ -806,7 +1016,18 @@ static int __init usb_ad_init(void)
 
 static void __exit usb_ad_exit(void)
 {
+        int i;
         printk("<1>USB_AD : usb_ad_exit executed\n");
+        /* usuniecie struktur klientow */
+        if(gpClients_array) {
+                for(i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
+                        if(gpClients_array[i]) {
+                                kfree(gpClients_array[i]);
+                                printk("<1>USB_AD : usb_ad_exit removed a client\n");
+                        }
+                kfree(gpClients_array);
+                printk("<1>USB_AD : usb_ad_exit removed the Clients array\n");
+        }
         /* deregister this driver with the USB subsystem */
         usb_deregister(&ad_driver);
 }

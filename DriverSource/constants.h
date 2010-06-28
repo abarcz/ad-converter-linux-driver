@@ -14,6 +14,9 @@
 #define USB_AD_CLIENT_BUFFER_MAX_SIZE 1024  //w bajtach
 #define USB_AD_MAX_CLIENTS_NUM 100          //ile programow moze naraz podlaczyc
                                             //sie do sterownika
+#define USB_AD_BOOT_CONF 1                  //id podstawowej, nieuzywanej konfiguracji
+#define USB_AD_ACTIVE_CONF 2                //id wlasciwej konfiguracji urzadzenia
+#define USB_AD_MAX_MSG_WAIT 250             //w jiffies
 
 
 #endif
