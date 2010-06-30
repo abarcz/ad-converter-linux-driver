@@ -29,10 +29,28 @@
 #define USB_AD_BOOT_CONF 1                  //id podstawowej, nieuzywanej konfiguracji
 #define USB_AD_ACTIVE_CONF 2                //id wlasciwej konfiguracji urzadzenia
 #define USB_AD_MAX_MSG_WAIT 500             //w jiffies
-#define USB_AD_WAIT_LOOPS_AFTER_WARNING 7    /* ilosc petli, jaka odczeka
-                                                 * sterownik po zaznaczeniu flagi
-                                                 * warning przed odlaczeniem
-                                                 * klienta */
+#define USB_AD_WAIT_LOOPS_AFTER_WARNING 7   /* ilosc petli, jaka odczeka
+                                             * sterownik po zaznaczeniu flagi
+                                             * warning przed odlaczeniem
+                                             * klienta 
+                                             */
+#define USB_AD_FQ_H 127                     //starszy bajt czestotliwosci
+#define USB_AD_FQ_L 127                     //mlodszy bajt czestotliwosci
+#define USB_AD_FQ_DIV 0                     //podzial czestotliwosci (mozliwe wartosci: 00,01,10,11)
 
+/* zwraca czestotliwosc z jaka przetwornik w rzeczywistosci probkuje (na wszystkich kanalach) */
+int usb_ad_fq(void) {
+        int res = USB_AD_FQ_H * 128 + USB_AD_FQ_L;
+
+        /* podzial czestotliwosci */
+        if (USB_AD_FQ_DIV & 0)
+            return res;
+        if (USB_AD_FQ_DIV & 1)
+            return res / 2;
+        if (USB_AD_FQ_DIV & 2)
+            return res / 4;
+        //if (USB_AD_FQ_DIV & 3)
+        return res / 8;
+}
 
 #endif

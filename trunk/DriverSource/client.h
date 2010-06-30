@@ -11,8 +11,7 @@ struct Client {
         int buffer_size;                            //wielkosc bufora (jednorazowej paczki) - ilosc probek
         unsigned char channels[USB_AD_CHANNELS_NUM];    //ktore kanaly program chce probkowac
         int channels_count;                         //ile kanalow chce probkowac
-        int buffer_full_number;                     //ktory bufor jest gotowy do odczytu (1/2/NA)
-        struct Client_buffer first_buf;            
+        struct Client_buffer first_buf;
         struct Client_buffer second_buf;
         wait_queue_head_t queue;
         bool warning;                               //ostrzezenie - klient nie nadaza z odbieraniem
@@ -30,19 +29,23 @@ void remove_client(Client *client);
  */
 int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int size);
 
+/* wypisuje na ekran zawartosc buforow klienta, rzedami */
+int print_client_buffers(Client *client);
+
 /**** poczatek pliku .c ****/  
 int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsigned char channels[USB_AD_CHANNELS_NUM]) 
 {
         int channels_count,i,ret_val;
         int byte_buffer_size;
+        int avg_divisor = 1;
         printk("<1>USB_AD : entered init_client\n");
-        if(client == NULL)
+        if (client == NULL)
                 return USB_AD_ERROR_NULL;
-        if(requested_fq <= 0)
+        if ((requested_fq <= 0) || (requested_fq > usb_ad_fq()))
                 return USB_AD_ERROR_VALUE;
         channels_count = 0;             //ilosc kanalow, ktore chce czytac klient
-        for(i = 0; i < USB_AD_CHANNELS_NUM; i++) {
-                if(channels[i])
+        for (i = 0; i < USB_AD_CHANNELS_NUM; i++) {
+                if (channels[i])
                         channels_count++;
         }
         printk("<1>USB_AD : init_client pid = %d requested_fq = %d buffer_size = %d channels_count = %d\n", 
@@ -52,24 +55,23 @@ int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsi
             channels_count);
         client->channels_count = channels_count;
         byte_buffer_size = buffer_size * channels_count * 2;
-        if((byte_buffer_size <= 0 )|| (byte_buffer_size >= USB_AD_CLIENT_BUFFER_MAX_SIZE))
+        if ((byte_buffer_size <= 0 )|| (byte_buffer_size >= USB_AD_CLIENT_BUFFER_MAX_SIZE))
                 return USB_AD_ERROR_VALUE;
         //Stworzenie kolejki 
         init_waitqueue_head(&client->queue);
-        //:TODO: obliczanie zaleznosci czestotliwosci klienta od czestotliwosci probkowania, zamiast avg_divisor == 1
-        ret_val = buffer_init(&(client->first_buf), channels_count * 2, buffer_size, 1);
-        if(ret_val != 0)
+        avg_divisor =  (int) (usb_ad_fq() / requested_fq);
+        ret_val = buffer_init(&(client->first_buf), channels_count * 2, buffer_size, avg_divisor);
+        if (ret_val != 0)
                 return ret_val;
-        ret_val = buffer_init(&(client->second_buf), channels_count * 2, buffer_size, 1);
-        if(ret_val != 0)
+        ret_val = buffer_init(&(client->second_buf), channels_count * 2, buffer_size, avg_divisor);
+        if (ret_val != 0)
                 return ret_val;
         
         client->pid = pid;
         client->requested_fq = requested_fq;
         client->buffer_size = buffer_size;
-        for(i = 0; i < USB_AD_CHANNELS_NUM; i++)
+        for (i = 0; i < USB_AD_CHANNELS_NUM; i++)
                 client->channels[i] = channels[i];
-        client->buffer_full_number = -1;
         client->warning = 0;
         client->loops_after_warn_count = 0;
         printk("<1>USB_AD : init_client successfully completed\n");
@@ -79,7 +81,7 @@ int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsi
 
 void remove_client(Client *client)
 {
-    if(client)
+    if (client)
         kfree(client);
 }
 
@@ -112,6 +114,29 @@ int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int
     }
     return 0;
 }
-    
+
+int print_client_buffers(Client *client) {
+        int i, j;
+        int row_size;
+        unsigned char *buf;
+        if ((!client) || (!client->first_buf.buf) || (!client->second_buf.buf))
+                return USB_AD_ERROR_NULL;
+        printk("<1>USB_AD : printing buffers for client with PID = %d\n", client->pid);
+        row_size = client->first_buf.row_size;
+        buf = client->first_buf.buf;
+        for (i = 0; i < client->buffer_size; i++) {
+                for (j = 0; j < row_size; j++)
+                        printk("%d ", buf[i * row_size + j]);
+                printk("\n");
+        }
+        printk("\n");
+        buf = client->second_buf.buf;
+        for (i = 0; i < client->buffer_size; i++) {
+                for (j = 0; j < row_size; j++)
+                        printk("%d ", buf[i * row_size + j]);
+                printk("\n");
+        }
+        return 0;
+}
 #endif
     

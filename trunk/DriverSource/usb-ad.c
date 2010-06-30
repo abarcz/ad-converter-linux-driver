@@ -70,20 +70,20 @@ static void ad_delete(struct kref *kref)
         struct usb_ad *dev = to_ad_dev(kref);
         int i;
         printk("<1>USB_AD : usb_ad_delete executed\n");
-        if(!dev) {
+        if (!dev) {
             printk("<1>USB_AD : delete : no device!\n");
             return;
         }
         usb_free_urb(dev->bulk_in_urb);
         usb_put_dev(dev->udev);
-        if(dev->bulk_in_buffer)
+        if (dev->bulk_in_buffer)
             kfree(dev->bulk_in_buffer);
-        if(dev)
+        if (dev)
             kfree(dev);
         /* usuniecie struktur klientow */
-        if(gpClients_array) {
-                for(i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
-                        if(gpClients_array[i]) {
+        if (gpClients_array) {
+                for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
+                        if (gpClients_array[i]) {
                                 kfree(gpClients_array[i]);
                                 gpClients_array[i] = NULL;
                                 printk("<1>USB_AD : usb_ad_exit removed a client\n");
@@ -136,8 +136,6 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
         Client *client;
         unsigned char *temp_buffer;
 
-        unsigned char *debug_buf;
-
         dev = urb->context;
 
         if (!dev) {
@@ -159,15 +157,15 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                 dev->bulk_in_filled = urb->actual_length;
                 if (dev->already_printed < 5) {
                     //dev->bulk_in_buffer[dev->bulk_in_size - 1] = '\0';
-                    printk("<1>USB_AD_read_completion received %c %d %d %d\n",
-                        dev->bulk_in_buffer[0],
-                        (int)dev->bulk_in_buffer[1],
-                        (int)dev->bulk_in_buffer[2],
-                        (int)dev->bulk_in_buffer[3]);
-                    if(dev->bulk_in_buffer[0] != 'D')
+                    if (dev->bulk_in_buffer[0] != 'D')
                             goto finish;
+                    printk("<1>USB_AD_read_completion received %c ",
+                        dev->bulk_in_buffer[0]);
+                    for (i = 1; i < dev->bulk_in_filled; i++)
+                        printk("%d ", (int)dev->bulk_in_buffer[i]);
+                    printk("<1>\n");
                     temp_buffer = kzalloc(dev->bulk_in_filled, GFP_ATOMIC);
-                    if(!temp_buffer)
+                    if (!temp_buffer)
                             goto finish;
                     for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i++) {
                             client = gpClients_array[i];
@@ -198,8 +196,10 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                                 client->channels_count * 2);
                                                             if (write_res < 0)
                                                                     printk("<1>USB_AD rclback : error writing to sec_buf %d\n", write_res);
-                                                            else if (write_res == 1)
-                                                                    printk("<1>USB_AD rclback : SECOND buf full\n");//wake_up(&client->queue);
+                                                            else if (write_res == 1) {
+                                                                    printk("<1>USB_AD rclback : SECOND buf full\n");
+                                                                    //wake_up(&client->queue);
+                                                            }
                                                     }
                                             } else {
                                                     //printk("<1>USB_AD rclback: choosing for first_buf\n");
@@ -212,8 +212,10 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                         client->channels_count * 2);
                                                     if (write_res < 0)
                                                                     printk("<1>USB_AD rclback : error writing to first_buf %d\n", write_res);
-                                                    else if (write_res == 1)
-                                                            printk("<1>USB_AD rclback : FIRST buf full\n");//wake_up(&client->queue);
+                                                    else if (write_res == 1) {
+                                                            printk("<1>USB_AD rclback : FIRST buf full\n");
+                                                            //wake_up(&client->queue);
+                                                    }
                                             }
                                     }
                             }
@@ -222,18 +224,9 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                 }
                 if (dev->already_printed == 5) {
                         client = gpClients_array[0];
-                        if(!client)
+                        if (!client)
                             goto finish;
-                        debug_buf = client->first_buf.buf;
-                        printk("<1>USB_AD : Started flushing first buffer internal organs...\n");
-                        for (i = 0; i < 10 * 2; i++)
-                            printk("%d ", (int)debug_buf[i]);
-                        printk("<1>\nUSB_AD : Finished flushing first buffer internal organs...\n");
-            debug_buf = client->second_buf.buf;
-                        printk("<1>USB_AD : Started flushing second buffer internal organs...\n");
-                        for (i = 0; i < 10 * 2; i++)
-                            printk("%d ", (int)debug_buf[i]);
-                        printk("<1>\nUSB_AD : Finished flushing second buffer internal organs...\n");
+                        print_client_buffers(client);
                         dev->already_printed++;
                 }
         }
@@ -243,7 +236,7 @@ finish:
 
         complete(&dev->bulk_in_completion);
 
-        if(dev->running == 1) {
+        if (dev->running == 1) {
                 //printk("<1>USB_AD_read_completion entered loop\n");
                 ad_do_read_io(dev, count);
         }
@@ -309,17 +302,17 @@ static int ad_open(struct inode *inode, struct file *file)
 
         /* if the device isn't running yet, make it run */
         buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
-        if(buffer == NULL) {
+        if (buffer == NULL) {
                     printk("<1>USB_AD_open failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
                     dev->open_count--;
                     mutex_unlock(&dev->io_mutex);
                     return retval;
         }
         buffer[0] = (char) 0;
-        if(dev->running == 0) {
+        if (dev->running == 0) {
                 retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                if(retval != 0) {
+                if (retval != 0) {
                     printk("<1>USB_AD : usb_ad_open error couldn't send(1) %d\n", retval);
                     kfree(buffer);
                     dev->open_count--;
@@ -329,7 +322,7 @@ static int ad_open(struct inode *inode, struct file *file)
                 memset(buffer, 0, buff_len);
                 retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                if(retval != 0) {
+                if (retval != 0) {
                     printk("<1>USB_AD : usb_ad_open error couldn't rcv(1) %d\n", retval);
                     kfree(buffer);
                     dev->open_count--;
@@ -340,22 +333,22 @@ static int ad_open(struct inode *inode, struct file *file)
                 printk("<1>USB_AD_open received %s\n", buffer);
                 memset(buffer, 0, buff_len);
                 buffer[0] = (char) 1;
-                /* set fq */
-                buffer[1] = (char) 127;
-                buffer[2] = (char) 127;
-                buffer[3] = (char) 0;
-                /* set channels */
+                /* ustawienie czestotliwosci */
+                buffer[1] = (char) USB_AD_FQ_L;
+                buffer[2] = (char) USB_AD_FQ_H;
+                buffer[3] = (char) USB_AD_FQ_DIV;
+                /* ustawienie probkowanych kanalow */
                 buffer[4] = (char) 0;
                 buffer[5] = (char) 1;
                 buffer[6] = (char) 2;
                 buffer[7] = (char) 3;
                 buffer[8] = (char) 4;
-                buffer[9] = (char) 5;
-                buffer[10] = (char) 6;
-                buffer[11] = (char) 32;
+                buffer[9] = (char) 8;
+                buffer[10] = (char) 9;
+                buffer[11] = (char) 32;         //konczy liste kanalow, musi byc > 15
                 retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                if(retval != 0) {
+                if (retval != 0) {
                     printk("<1>USB_AD : usb_ad_open error couldn't send(2) %d\n", retval);
                     kfree(buffer);
                     dev->open_count--;
@@ -365,7 +358,7 @@ static int ad_open(struct inode *inode, struct file *file)
                 memset(buffer, 0, buff_len);
                 retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                if(retval != 0) {
+                if (retval != 0) {
                     printk("<1>USB_AD : usb_ad_open error couldn't rcv(2) %d\n", retval);
                     mutex_unlock(&dev->io_mutex);
                     dev->open_count--;
@@ -380,7 +373,7 @@ static int ad_open(struct inode *inode, struct file *file)
                 buffer[0] = (char) 2;
                 retval = usb_bulk_msg(dev->udev, usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                if(retval != 0) {
+                if (retval != 0) {
                     printk("<1>USB_AD : usb_ad_open error couldn't send(3) %d\n", retval);
                     kfree(buffer);
                     dev->open_count--;
@@ -396,7 +389,7 @@ static int ad_open(struct inode *inode, struct file *file)
         mutex_unlock(&dev->io_mutex);
 
 exit:
-        if(retval)
+        if (retval)
             printk("<1>USB_AD : usb_ad_open exit with error: %d\n", retval);
         return retval;
 }
@@ -420,9 +413,9 @@ static int ad_release(struct inode *inode, struct file *file)
         /* allow the device to be autosuspended */
         mutex_lock(&dev->io_mutex);
 
-        if(gpClients_array)
+        if (gpClients_array)
             for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i++)
-                if(gpClients_array[i])
+                if (gpClients_array[i])
                     printk("<1>USB_AD : release client with PID = %d warning state : %d, number of warnings: %d\n",
                         gpClients_array[i]->pid,
                         gpClients_array[i]->warning,
@@ -431,7 +424,7 @@ static int ad_release(struct inode *inode, struct file *file)
                 printk("<1>USB_AD : usb_ad_release ostatni gasi swiatlo..\n");
                 /* ostatni gasi swiatlo */
                 buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
-                if(buffer == NULL) {
+                if (buffer == NULL) {
                         retval = USB_AD_ERROR_ALLOCATION;
                         printk("<1>USB_AD_release failed(1). Error number %d\n", USB_AD_ERROR_ALLOCATION);
                         mutex_unlock(&dev->io_mutex);
@@ -444,7 +437,7 @@ static int ad_release(struct inode *inode, struct file *file)
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
                 /* instrukcja zostala przeslana, mozemy zakonczyc odbieranie */
                 dev->running = 0;
-                if(retval != 0) {
+                if (retval != 0) {
                         printk("<1>USB_AD_release failed(2). Error number %d\n", USB_AD_ERROR_ALLOCATION);
                         mutex_unlock(&dev->io_mutex);
                         kref_put(&dev->kref, ad_delete);
@@ -452,7 +445,7 @@ static int ad_release(struct inode *inode, struct file *file)
                 }
                 retval = usb_bulk_msg(dev->udev, usb_rcvbulkpipe(dev->udev, dev->bulk_in_endpointAddr),
                             buffer, buff_len, &actual_len, USB_AD_MAX_MSG_WAIT);
-                /*if(retval != 0) {
+                /*if (retval != 0) {
                         printk("<1>USB_AD_release failed(3). Error number %d\n", USB_AD_ERROR_ALLOCATION);
                         mutex_unlock(&dev->io_mutex);
                         kref_put(&dev->kref, ad_delete);
@@ -498,262 +491,15 @@ static int ad_flush(struct file *file, fl_owner_t id)
 static ssize_t ad_read(struct file *file, char *buffer, size_t count,
                          loff_t *ppos)
 {
-        struct usb_ad *dev;
-        int rv;
-        bool ongoing_io;
-
-        dev = (struct usb_ad *)file->private_data;
-
-        /* if we cannot read at all, return EOF */
-        if (!dev->bulk_in_urb || !count)
-                return 0;
-
-        /* no concurrent readers */
-        rv = mutex_lock_interruptible(&dev->io_mutex);
-        if (rv < 0)
-                return rv;
-
-        if (!dev->interface) {          /* disconnect() was called */
-                rv = -ENODEV;
-                goto exit;
-        }
-
-        /* if IO is under way, we must not touch things */
-retry:
-        spin_lock_irq(&dev->err_lock);
-        ongoing_io = dev->ongoing_read;
-        spin_unlock_irq(&dev->err_lock);
-
-        if (ongoing_io) {
-                /* nonblocking IO shall not wait */
-                if (file->f_flags & O_NONBLOCK) {
-                        rv = -EAGAIN;
-                        goto exit;
-                }
-                /*
-                 * IO may take forever
-                 * hence wait in an interruptible state
-                 */
-                rv = wait_for_completion_interruptible(&dev->bulk_in_completion);
-                if (rv < 0)
-                        goto exit;
-                /*
-                 * by waiting we also semiprocessed the urb
-                 * we must finish now
-                 */
-                dev->bulk_in_copied = 0;
-                dev->processed_urb = 1;
-        }
-
-        if (!dev->processed_urb) {
-                /*
-                 * the URB hasn't been processed
-                 * do it now
-                 */
-                wait_for_completion(&dev->bulk_in_completion);
-                dev->bulk_in_copied = 0;
-                dev->processed_urb = 1;
-        }
-
-        /* errors must be reported */
-        rv = dev->errors;
-        if (rv < 0) {
-                /* any error is reported once */
-                dev->errors = 0;
-                /* to preserve notifications about reset */
-                rv = (rv == -EPIPE) ? rv : -EIO;
-                /* no data to deliver */
-                dev->bulk_in_filled = 0;
-                /* report it */
-                goto exit;
-        }
-
-        /*
-         * if the buffer is filled we may satisfy the read
-         * else we need to start IO
-         */
-
-        if (dev->bulk_in_filled) {
-                /* we had read data */
-                size_t available = dev->bulk_in_filled - dev->bulk_in_copied;
-                size_t chunk = min(available, count);
-
-                if (!available) {
-                        /*
-                         * all data has been used
-                         * actual IO needs to be done
-                         */
-                        rv = ad_do_read_io(dev, count);
-                        if (rv < 0)
-                                goto exit;
-                        else
-                                goto retry;
-                }
-                /*
-                 * data is available
-                 * chunk tells us how much shall be copied
-                 */
-
-                if (copy_to_user(buffer,
-                                 dev->bulk_in_buffer + dev->bulk_in_copied,
-                                 chunk))
-                        rv = -EFAULT;
-                else
-                        rv = chunk;
-
-                dev->bulk_in_copied += chunk;
-
-                /*
-                 * if we are asked for more than we have,
-                 * we start IO but don't wait
-                 */
-                if (available < count)
-                        ad_do_read_io(dev, count - chunk);
-        } else {
-                /* no data in the buffer */
-                rv = ad_do_read_io(dev, count);
-                if (rv < 0)
-                        goto exit;
-                else if (!(file->f_flags & O_NONBLOCK))
-                        goto retry;
-                rv = -EAGAIN;
-        }
-exit:
-        mutex_unlock(&dev->io_mutex);
-        return rv;
-}
-
-static void ad_write_bulk_callback(struct urb *urb) //completion handler. called in interrupt context!
-{
-        struct usb_ad *dev;
-
-        dev = urb->context;
-
-        /* sync/async unlink faults aren't errors */
-        if (urb->status) {
-                if (!(urb->status == -ENOENT ||
-                    urb->status == -ECONNRESET ||
-                    urb->status == -ESHUTDOWN))
-                        err("%s - nonzero write bulk status received: %d",
-                            __func__, urb->status);
-
-                spin_lock(&dev->err_lock);
-                dev->errors = urb->status;
-                spin_unlock(&dev->err_lock);
-        }
-
-        /* free up our allocated buffer */
-        usb_buffer_free(urb->dev, urb->transfer_buffer_length,
-                        urb->transfer_buffer, urb->transfer_dma);
-        up(&dev->limit_sem);
+        printk("<1>USB_AD : AD_READ!!!!!!!!!!\n");
+        return -ENODEV;
 }
 
 static ssize_t ad_write(struct file *file, const char *user_buffer,
                           size_t count, loff_t *ppos)
 {
-        struct usb_ad *dev;
-        int retval = 0;
-        struct urb *urb = NULL;
-        char *buf = NULL;
-        size_t writesize = min(count, (size_t)USB_AD_MAX_TRANSFER );
-
-        dev = (struct usb_ad *)file->private_data;
-
-        /* verify that we actually have some data to write */
-        if (count == 0)
-                goto exit;
-
-        /*
-         * limit the number of URBs in flight to stop a user from using up all
-         * RAM
-         */
-        if (!(file->f_flags & O_NONBLOCK)) {
-                if (down_interruptible(&dev->limit_sem)) {
-                        retval = -ERESTARTSYS;
-                        goto exit;
-                }
-        } else {
-                if (down_trylock(&dev->limit_sem)) {
-                        retval = -EAGAIN;
-                        goto exit;
-                }
-        }
-
-        spin_lock_irq(&dev->err_lock);
-        retval = dev->errors;
-        if (retval < 0) {
-                /* any error is reported once */
-                dev->errors = 0;
-                /* to preserve notifications about reset */
-                retval = (retval == -EPIPE) ? retval : -EIO;
-        }
-        spin_unlock_irq(&dev->err_lock);
-        if (retval < 0)
-                goto error;
-
-        /* create a urb, and a buffer for it, and copy the data to the urb */
-        urb = usb_alloc_urb(0, GFP_KERNEL);
-        if (!urb) {
-                retval = -ENOMEM;
-                goto error;
-        }
-
-        buf = usb_buffer_alloc(dev->udev, writesize, GFP_KERNEL,
-                               &urb->transfer_dma);
-        if (!buf) {
-                retval = -ENOMEM;
-                goto error;
-        }
-
-        if (copy_from_user(buf, user_buffer, writesize)) {
-                retval = -EFAULT;
-                goto error;
-        }
-
-        /* this lock makes sure we don't submit URBs to gone devices */
-        mutex_lock(&dev->io_mutex);
-        if (!dev->interface) {          /* disconnect() was called */
-                mutex_unlock(&dev->io_mutex);
-                retval = -ENODEV;
-                goto error;
-        }
-
-        /* initialize the urb properly */
-        usb_fill_bulk_urb(urb, dev->udev,
-                          usb_sndbulkpipe(dev->udev, dev->bulk_out_endpointAddr),
-                          buf, writesize, ad_write_bulk_callback, dev);
-        urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
-        usb_anchor_urb(urb, &dev->submitted);
-
-        /* send the data out the bulk port */
-        retval = usb_submit_urb(urb, GFP_KERNEL);
-        mutex_unlock(&dev->io_mutex);
-        if (retval) {
-                err("%s - failed submitting write urb, error %d", __func__,
-                    retval);
-                goto error_unanchor;
-        }
-
-        /*
-         * release our reference to this urb, the USB core will eventually free
-         * it entirely
-         */
-        usb_free_urb(urb);
-
-
-        return writesize;
-
-error_unanchor:
-        usb_unanchor_urb(urb);
-error:
-        if (urb) {
-                usb_buffer_free(dev->udev, writesize, buf, urb->transfer_dma);
-                usb_free_urb(urb);
-        }
-        up(&dev->limit_sem);
-
-exit:
-        return retval;
+        printk("<1>USB_AD : WRITE!!!!!!!!!\n");
+        return -ENODEV;
 }
 
 /*
@@ -781,7 +527,7 @@ if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) {
 pid = ((int*)ioctl_param)[1];
 //dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
 for (i = 0;i < USB_AD_MAX_CLIENTS_NUM;i++)
-        if(gpClients_array[i] != NULL)
+        if (gpClients_array[i] != NULL)
                 if (gpClients_array[i]->pid == pid) {
                         new = 0;
                         break;
@@ -798,7 +544,7 @@ switch (ioctl_num) {
                         for (j = 0;j < USB_AD_MAX_CLIENTS_NUM; j++)
                                 if (gpClients_array[j] == NULL)
                                         break;
-                        if(j == USB_AD_MAX_CLIENTS_NUM - 1)
+                        if (j == USB_AD_MAX_CLIENTS_NUM - 1)
                                 return -EFAULT;
                         gpClients_array[j] = kmalloc(sizeof(Client),GFP_KERNEL);
                         if (gpClients_array[j] == NULL)
@@ -829,15 +575,13 @@ switch (ioctl_num) {
                 if (access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels) != 0 )
                         return -EFAULT;
                 //sprawdzic czy jest co wyslac jak nie to zawiesic
-                wait_event(gpClients_array[i]->queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
-                //wait_event(queue,(gpClients_array[i]->buffer_full_number == 1 || gpClients_array[i]->buffer_full_number == 2));
+                wait_event(gpClients_array[i]->queue, (gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
+                //wait_event(queue,(gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
                 //sprawdzenie ktory bufor mamy wyslac
-                switch (gpClients_array[i]->buffer_full_number) {
-                        case 1:
-                                return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);
-                        case 2:
-                                return copy_to_user(gpClients_array[i]->second_buf.buf,(char *)ioctl_param,gpClients_array[i]->second_buf.size);
-                        }
+                if (gpClients_array[i]->first_buf.full)
+                        return copy_to_user(gpClients_array[i]->first_buf.buf,(char *)ioctl_param,gpClients_array[i]->first_buf.size);
+                if (gpClients_array[i]->second_buf.full)
+                        return copy_to_user(gpClients_array[i]->second_buf.buf,(char *)ioctl_param,gpClients_array[i]->second_buf.size);
                 break;
         default: printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
         }
@@ -851,8 +595,8 @@ return 0;
 
 static const struct file_operations ad_fops = {
         .owner =        THIS_MODULE,
-        //.read =         ad_read,
-        //.write =        ad_write
+        .read =         ad_read,
+        .write =        ad_write,
         .ioctl =        ad_ioctl,
         .open =         ad_open,
         .release =      ad_release,
@@ -879,7 +623,7 @@ static int ad_probe(struct usb_interface *interface,
         int i;
         int retval = -ENOMEM;
 
-        unsigned char test_channels[USB_AD_CHANNELS_NUM] = {0,1,0,0,0,0,0};
+        unsigned char test_channels[USB_AD_CHANNELS_NUM] = {1,0,0,0,0,0,1};
 
         printk("<1>USB_AD : ad_probe executed\n");
         /* allocate memory for our device state and initialize it */
@@ -904,7 +648,7 @@ static int ad_probe(struct usb_interface *interface,
             dev->udev->actconfig->desc.bConfigurationValue);*/
 
         /* zmiana konfiguracji na wlasciwa (i 'reset' fcji probe) */
-        if(dev->udev->actconfig->desc.bConfigurationValue == USB_AD_BOOT_CONF) {
+        if (dev->udev->actconfig->desc.bConfigurationValue == USB_AD_BOOT_CONF) {
                 retval = usb_driver_set_configuration(dev->udev, USB_AD_ACTIVE_CONF);
                 retval = retval ? retval : -ENODEV;
                 goto error;
@@ -966,16 +710,16 @@ static int ad_probe(struct usb_interface *interface,
 
         /* alokuj i zeruj pamiec dla tablicy wskaznikow na klientow */
         gpClients_array = kzalloc(sizeof(Client*) * USB_AD_MAX_CLIENTS_NUM, GFP_KERNEL);
-        if(gpClients_array == NULL)
+        if (gpClients_array == NULL)
             err("usb_probe failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
 
         /* alokuj pamiec dla testowego klienta */
         gpClients_array[0] = kmalloc(sizeof(Client), GFP_KERNEL);
-        if(gpClients_array[0] == NULL)
+        if (gpClients_array[0] == NULL)
             err("usb_probe failed. Error number %d\n", USB_AD_ERROR_ALLOCATION);
 
 
-        init_client(gpClients_array[0], 555, 128, 10, test_channels);
+        init_client(gpClients_array[0], 555, usb_ad_fq(), 10, test_channels);
 
         printk("<1>USB_AD : ad_probe successful!\n");
         return 0;
@@ -985,7 +729,7 @@ error:
                 /* this frees allocated memory */
                 kref_put(&dev->kref, ad_delete);
         printk("<1>USB_AD : ad_probe failed\n");
-        if(retval == 0)
+        if (retval == 0)
             retval = -ENODEV;
         return retval;
 }
@@ -1093,9 +837,9 @@ static void __exit usb_ad_exit(void)
         int i;
         printk("<1>USB_AD : usb_ad_exit executed\n");
         /* usuniecie struktur klientow */
-        if(gpClients_array) {
-                for(i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
-                        if(gpClients_array[i]) {
+        if (gpClients_array) {
+                for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
+                        if (gpClients_array[i]) {
                                 kfree(gpClients_array[i]);
                                 gpClients_array[i] = NULL;
                                 printk("<1>USB_AD : usb_ad_exit removed a client\n");
