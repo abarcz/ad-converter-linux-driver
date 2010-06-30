@@ -29,10 +29,10 @@
 #define USB_AD_BOOT_CONF 1                  //id podstawowej, nieuzywanej konfiguracji
 #define USB_AD_ACTIVE_CONF 2                //id wlasciwej konfiguracji urzadzenia
 #define USB_AD_MAX_MSG_WAIT 500             //w jiffies
-#define USB_AD_WAIT_LOOPS_AFTER_WARNING 2000    /* ilosc petli, jaka odczeka
+#define USB_AD_WAIT_LOOPS_AFTER_WARNING 7    /* ilosc petli, jaka odczeka
                                                  * sterownik po zaznaczeniu flagi
                                                  * warning przed odlaczeniem
-                                                 * klienta */ 
+                                                 * klienta */
 
 
 #endif

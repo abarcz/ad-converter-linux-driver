@@ -28,7 +28,7 @@ void remove_client(Client *client);
 /* z pelnego ciagu bajtow (source) wybiera wartosci odpowiadajace zadanym kanalom, wpisuje do dest
  * size - rozmiar bufora source
  */
-int choose_bytes(Client *client, char *source, char *dest, int size);
+int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int size);
 
 /**** poczatek pliku .c ****/  
 int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsigned char channels[USB_AD_CHANNELS_NUM]) 
@@ -45,6 +45,11 @@ int init_client(Client *client, int pid, int requested_fq, int buffer_size, unsi
                 if(channels[i])
                         channels_count++;
         }
+        printk("<1>USB_AD : init_client pid = %d requested_fq = %d buffer_size = %d channels_count = %d\n", 
+            pid,
+            requested_fq,
+            buffer_size,
+            channels_count);
         client->channels_count = channels_count;
         byte_buffer_size = buffer_size * channels_count * 2;
         if((byte_buffer_size <= 0 )|| (byte_buffer_size >= USB_AD_CLIENT_BUFFER_MAX_SIZE))
@@ -78,7 +83,7 @@ void remove_client(Client *client)
         kfree(client);
 }
 
-int choose_bytes(Client *client, char *source, char *dest, int size)
+int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int size)
 {
     int i;
     int pos_source = 2;

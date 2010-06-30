@@ -10,16 +10,16 @@
 /* bufor nalezacy do klienta, acykliczny */
 typedef struct Client_buffer Client_buffer;
 struct Client_buffer {
-        int row_size;                       //wielkosc pojedynczego pola bufora, w bajtach
-        int row_count;                      //ilosc pol
-        int size;                           //wielkosc bufora = row_size * row_count
-        char *buf;                          //bufor
-        long curr_pos;                      //aktualna pozycja w buforze
+        int row_size;                       //wielkosc pojedynczego wiersza bufora, w bajtach
+        int row_count;                      //ilosc wierszy
+        int size;                           //wielkosc bufora w bajtach = row_size * row_count
+        unsigned char *buf;                 //bufor
+        long curr_pos;                      //aktualna pozycja w buforze (numer wiersza)
         int curr_pos_times_added;           //do usredniania kilku wynikow
-                                            //ile razy zostala dosumowana wartosc do biezacego pola
-                                            
-        int avg_divisor;                    //z ilu wartosci usredniamy
-        unsigned char full;                 //zerowane po odczycie
+                                            //ile razy zostaly dosumowane dane do biezacego wiersza
+
+        int avg_divisor;                    //z ilu porcji danych usredniamy
+        unsigned char full;                 //bufor pelny, zerowane po odczycie (buffer_copy_to_user)
 };
 
 /* inicjalizacja nowo utworzonego bufora klienta */
@@ -28,13 +28,13 @@ int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor
 /* zapis do bufora niecyklicznego
    zwraca 1, gdy zapis sie powiodl, a bufor zostal zapelniony
    zwraca 0, gdy zapis sie powiodl, a bufor nie zostal jeszcze zapelniony
-*/   
-int buffer_write(Client_buffer *buf, char *data, int size);
+*/
+int buffer_write(Client_buffer *buf, unsigned char *data, int size);
 
 /* kopiuje cala zawartosc bufora do tablicy */
-int buffer_copy_to_user(Client_buffer *buf, char *data, int size);
+int buffer_copy_to_user(Client_buffer *buf, unsigned char *data, int size);
 
-/**** poczatek pliku .c ****/  
+/**** poczatek pliku .c ****/
 /* inicjalizacja nowo utworzonego bufora klienta */
 int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor)
 {
@@ -43,6 +43,7 @@ int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor
                 return USB_AD_ERROR_NULL;
         if((row_size <= 0) || (row_count <= 0) || (avg_divisor <= 0))
                 return USB_AD_ERROR_VALUE;
+        printk("<1>USB_AD buffer_init row_size = %d, row_count = %d, avg_divisor = %d\n", row_size, row_count, avg_divisor);
         buffer_size = row_size * row_count;
         buf->buf = kmalloc(buffer_size, GFP_KERNEL);
         if(buf->buf == NULL)                //nie udalo sie zaalokowac pamieci dla bufora
@@ -56,14 +57,14 @@ int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor
         buf->curr_pos = 0L;
         buf->full = 0;
         return 0;
-}   
+}
 
 /* zapis do bufora niecyklicznego
    zwraca 1, gdy zapis sie powiodl, a bufor zostal zapelniony
    zwraca 0, gdy zapis sie powiodl, a bufor nie zostal jeszcze zapelniony
-*/   
-int buffer_write(Client_buffer *buf, char *data, int size) {
-        if((buf == NULL) || (buf->buf == NULL))
+*/
+int buffer_write(Client_buffer *buf, unsigned char *data, int size) {
+        if((buf == NULL) || (buf->buf == NULL) || (data == NULL))
                 return USB_AD_ERROR_NULL;
         if(buf->full)                       //bufor pelny, nie mozna pisac
                 return USB_AD_ERROR_FULL;
@@ -71,7 +72,7 @@ int buffer_write(Client_buffer *buf, char *data, int size) {
                 return USB_AD_ERROR_SIZE;
         if(buf->curr_pos >= buf->row_count) //nie powinno nigdy sie wydarzyc
                 return USB_AD_ERROR_UNKNOWN;
-        
+
         /* blok usredniania wartosci */
         if(buf->avg_divisor == 1) {
                 memcpy(buf->buf + buf->curr_pos * buf->row_size, data, size);
@@ -86,6 +87,9 @@ int buffer_write(Client_buffer *buf, char *data, int size) {
                         buf->curr_pos++;
                 }
         }
+        printk("<1>USB_AD buffer_write buffer cpos: %d, size: %d\n",
+                    buf->curr_pos,
+                    (int)buf->row_count);
         if(buf->curr_pos == buf->row_count) {//zapelnilismy bufor
                 printk("<1>USB_AD buffer_write buffer full cpos: %d, size: %d\n",
                     buf->curr_pos,
@@ -97,8 +101,8 @@ int buffer_write(Client_buffer *buf, char *data, int size) {
 }
 
 /* kopiuje cala zawartosc bufora do tablicy */
-int buffer_copy_to_user(Client_buffer *buf, char *data, int size) {
-        if((buf == NULL) || (buf->buf == NULL))
+int buffer_copy_to_user(Client_buffer *buf, unsigned char *data, int size) {
+        if((buf == NULL) || (buf->buf == NULL) || (data == NULL))
                 return USB_AD_ERROR_NULL;
         if(size != buf->size)               //rozmiar danych sie nie zgadza
                 return USB_AD_ERROR_SIZE;
