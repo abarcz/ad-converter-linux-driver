@@ -11,15 +11,12 @@
 
 int main()
 {
-        int pid = getpid();
-        int ret_val,i;
-        char buffer[BUFFER_SIZE];
         //Opening the device
         printf("Ready to open\n");
         fflush(stdout);
 
         int usb_ad = open("/dev/USB_AD0", O_RDWR);
-        if(usb_ad == -1) {
+        if (usb_ad == -1) {
                 printf("Cannot open device...\n");
                 fflush(stdout);
                 exit(1);
@@ -27,7 +24,7 @@ int main()
         printf("Opened device\n");
         fflush(stdout);
 
-        sleep(2);
+        sleep(7);
         close(usb_ad);
         printf("Closed device\n");
         return 0;

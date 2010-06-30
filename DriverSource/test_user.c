@@ -22,7 +22,7 @@ int main()
         fflush(stdout);
              
         int usb_ad = open("/dev/USB_AD0", O_RDWR);
-        if(usb_ad == -1) {
+        if (usb_ad == -1) {
                 printf("Cannot open device...\n");
                 fflush(stdout);
                 exit(1);
