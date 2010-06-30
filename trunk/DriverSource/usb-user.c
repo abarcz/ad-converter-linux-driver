@@ -5,9 +5,33 @@
 #include <fcntl.h>      //open, O_RDWR
 #include <stdlib.h>     //exit
 #include <unistd.h>     //getpid
+//#include <conio.h>      //kbhit
 #include <sys/ioctl.h>
+#include <sys/select.h>
+//#include <termios.h>
 #include "usb-ioctl.h"
 //Kazdy IOCLT musi miec taki poczatek w buforze
+int kbhit()
+{
+    struct timeval tv = { 0L, 0L };
+    fd_set fds;
+    FD_SET(0, &fds);
+    return select(1, &fds, NULL, NULL, &tv);
+}
+
+int getch()
+{
+    int r;
+    unsigned char c;
+    if ((r = read(0, &c, sizeof(c))) < 0) {
+        return r;
+    } else {
+        return c;
+    }
+}
+
+
+
 void set_beginning(char *bufor, int pid)
 {
 ((int *)bufor)[0]=USB_AD_IOCTL_MAGIC_NUMBER;  
@@ -40,7 +64,7 @@ printf("Proba otwarcia urzadzenia...\n");
 int usb_ad = open("/dev/USB_AD0", O_RDWR);
 if (usb_ad == -1) {
         printf("Nie powiodla sie\n");
-        exit(1);
+        //exit(1);
         }
 printf("Powiodla sie\n");
 if (argc == 10){         
@@ -76,36 +100,36 @@ else{
         for (i = 0; i < 32; i++){
                 if(str[i]=='1'){
                         ((int *)buffer)[4] = 1;
-                        printf("DBG bede probkowac kanal 1\n");
+                        //printf("DBG bede probkowac kanal 1\n");
                         }
                 if(str[i]=='2'){
                         ((int *)buffer)[5] = 1;
-                        printf("DBG bede probkowac kanal 2\n");
+                        //printf("DBG bede probkowac kanal 2\n");
                        
                         }
                 if(str[i]=='3'){
                         ((int *)buffer)[6] = 1;
-                        printf("DBG bede probkowac kanal 3\n");
+                        //printf("DBG bede probkowac kanal 3\n");
                        
                         }
                 if(str[i]=='4'){
                         ((int *)buffer)[7] = 1;
-                        printf("DBG bede probkowac kanal 4\n");
+                        //printf("DBG bede probkowac kanal 4\n");
                       
                         }
                 if(str[i]=='5'){
                         ((int *)buffer)[8] = 1;
-                        printf("DBG bede probkowac kanal 5\n");
+                      //  printf("DBG bede probkowac kanal 5\n");
                      
                         }
                 if(str[i]=='6'){
                         ((int *)buffer)[9] = 1;
-                        printf("DBG bede probkowac kanal 6\n");
+                    //    printf("DBG bede probkowac kanal 6\n");
                     
                         }
                 if(str[i]=='7'){
                         ((int *)buffer)[10] = 1;
-                        printf("DBG bede probkowac kanal 7\n");
+                  //      printf("DBG bede probkowac kanal 7\n");
                    
                         }
 
@@ -133,13 +157,23 @@ for (i = 0; i < 7; i++)
                 channel_count++;
 block_size = ((int *)buffer)[3];
 //
+char c[10];
+//set_conio_terminal_mode();
+//while(!kbhit()){
+//        printf("test\n\r");
+        //if (kbhit())break;
+//        }
+//while(getch()!=10)printf("ii\n");
+//fflush(stdin);
+//fflush(stdout);
+//reset_terminal_mode();
 if (ret_val > -1){
         printf("Wysyłam prosby o dane\n");
-        while(1){
+        while(!kbhit()){
                 set_beginning(buffer, pid);
                 ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
                 printf("ioctl odpowiedx: %d\n", ret_val);
-                printf("Zawartosc bufora [1bajt,2bajt\n]");
+                printf("Zawartosc bufora [1bajt,2bajt] nacisnij enter aby przerwac probkowanie\n");
                 for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                         printf("%d,%d  ",
                                 buffer[i],
@@ -152,6 +186,10 @@ if (ret_val > -1){
                         }
                 }
         }
+//wyczyszczenie bufora zaznkow
+while(getch()!=10)
+        /*DONOTHING*/;
+
 
 sleep(2);
 close(usb_ad);
