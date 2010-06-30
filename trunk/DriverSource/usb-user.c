@@ -12,6 +12,15 @@ void set_beginning(char *bufor, int pid)
 {
 ((int *)bufor)[0]=USB_AD_IOCTL_MAGIC_NUMBER;  
 ((int *)bufor)[1]=pid;
+((int *)bufor)[2]=0;
+((int *)bufor)[3]=0;
+((int *)bufor)[4]=0;
+((int *)bufor)[5]=0;
+((int *)bufor)[6]=0;
+((int *)bufor)[7]=0;
+((int *)bufor)[8]=0;
+((int *)bufor)[9]=0;
+((int *)bufor)[10]=0;
 }
 
 int main(int argc, char **argv) { 
@@ -20,6 +29,8 @@ int ret_val,i,j=0;
 int channel_count=0;
 int block_size=0;
 char buffer[BUFFER_SIZE];
+char str[32];
+char pom[7];
 //Opening the device
 //ROTFL for(i = 0;i < argc; i++)printf("%d\n",atoi(argv[i]));
 
@@ -55,7 +66,51 @@ if (argc == 10){
         //((int *)buffer)[10]=argc[9];  
         }
 else{
-        printf("Podaj parametry probkowania\n");
+        printf("Podaj parametry probkowania\nPodaj czestotliwosc:\n");
+        set_beginning(buffer, pid);
+        scanf("%d",&((int *)buffer)[2]);
+        printf("Podaj ilosc probek zwracanych przez sterownik:\n");
+        scanf("%d",&((int *)buffer)[3]);
+        printf("Podaj numery kanalow (1-7) z ktorych bedza wysylane probki:\n");
+        scanf("%s",str);
+        for (i = 0; i < 32; i++){
+                if(str[i]=='1'){
+                        ((int *)buffer)[4] = 1;
+                        printf("DBG bede probkowac kanal 1\n");
+                        }
+                if(str[i]=='2'){
+                        ((int *)buffer)[5] = 1;
+                        printf("DBG bede probkowac kanal 2\n");
+                       
+                        }
+                if(str[i]=='3'){
+                        ((int *)buffer)[6] = 1;
+                        printf("DBG bede probkowac kanal 3\n");
+                       
+                        }
+                if(str[i]=='4'){
+                        ((int *)buffer)[7] = 1;
+                        printf("DBG bede probkowac kanal 4\n");
+                      
+                        }
+                if(str[i]=='5'){
+                        ((int *)buffer)[8] = 1;
+                        printf("DBG bede probkowac kanal 5\n");
+                     
+                        }
+                if(str[i]=='6'){
+                        ((int *)buffer)[9] = 1;
+                        printf("DBG bede probkowac kanal 6\n");
+                    
+                        }
+                if(str[i]=='7'){
+                        ((int *)buffer)[10] = 1;
+                        printf("DBG bede probkowac kanal 7\n");
+                   
+                        }
+
+                        
+                }
         //TODO: Reczne wpisywanie wewnatrz programu klienckiego
         }
 
