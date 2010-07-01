@@ -5,9 +5,11 @@
 #include <fcntl.h>      //open, O_RDWR
 #include <stdlib.h>     //exit
 #include <unistd.h>     //getpid
+//#include <conio.h>      //kbhit
 #include <sys/ioctl.h>
 #include <sys/select.h>
-#include "constants.h"
+//#include <termios.h>
+#include "usb-ioctl.h"
 //Kazdy IOCLT musi miec taki poczatek w buforze
 int kbhit()
 {
@@ -107,7 +109,7 @@ int get_data(char *buffer, int pid, int usb_ad, int block_size, int channel_coun
         int i,j,ret_val;
         set_beginning(buffer, pid);
         ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
-        if (ret_val == -USB_AD_CLIENT_TO_SLOW)
+        if (ret_val == -TO_SLOW)
                 printf("Nie nadazasz przyspiesz\n");
         for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                 printf("%d,%d  ",
