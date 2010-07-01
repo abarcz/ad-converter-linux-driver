@@ -39,18 +39,17 @@
 #define USB_AD_FQ_DIV 0                     //podzial czestotliwosci (mozliwe wartosci: 00,01,10,11)
 
 /* zwraca czestotliwosc z jaka przetwornik w rzeczywistosci probkuje (na wszystkich kanalach) */
-int usb_ad_fq(void) {
-        int res = USB_AD_FQ_H * 128 + USB_AD_FQ_L;
-
+unsigned int usb_ad_fq(void) {
+        unsigned int res = USB_AD_FQ_H * 128 + USB_AD_FQ_L;
         /* podzial czestotliwosci */
-        if (USB_AD_FQ_DIV & 0)
-            return res;
+        if ((USB_AD_FQ_DIV & 3) == 3)
+            return res / 8;
         if (USB_AD_FQ_DIV & 1)
             return res / 2;
         if (USB_AD_FQ_DIV & 2)
             return res / 4;
-        //if (USB_AD_FQ_DIV & 3)
-        return res / 8;
+        //if (USB_AD_FQ_DIV & 0)
+        return res;
 }
 
 #endif
