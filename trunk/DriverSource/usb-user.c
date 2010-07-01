@@ -60,28 +60,28 @@ void params(char *buffer,int pid){
         printf("Podaj ilosc probek zwracanych przez sterownik:\n");
         scanf("%d",&((unsigned int *)buffer)[3]);
         //((int*)buffer)[3] = 10;
-        printf("Podaj numery kanalow (1-7) z ktorych bedza wysylane probki:\n");
+        printf("Podaj numery kanalow (0,1,2,3,4,8,9) z ktorych bedza wysylane probki:\n");
         scanf("%s",str);
         for (i = 0; i < 32; i++){
-                if(str[i]=='1'){
+                if(str[i]=='0'){
                         ((int *)buffer)[4] = 1;
                         }
-                if(str[i]=='2'){
+                if(str[i]=='1'){
                         ((int *)buffer)[5] = 1;
                         }
-                if(str[i]=='3'){
+                if(str[i]=='2'){
                         ((int *)buffer)[6] = 1;
                         }
-                if(str[i]=='4'){
+                if(str[i]=='3'){
                         ((int *)buffer)[7] = 1;
                         }
-                if(str[i]=='5'){
+                if(str[i]=='4'){
                         ((int *)buffer)[8] = 1;
                         }
-                if(str[i]=='6'){
+                if(str[i]=='8'){
                         ((int *)buffer)[9] = 1;
                         }
-                if(str[i]=='7'){
+                if(str[i]=='9'){
                         ((int *)buffer)[10] = 1;
                         }
                 }
