@@ -4,9 +4,9 @@
 /*
  *Bo tak?
  */
-#define MAJOR_NUM 100
+#define USB_AD_MAJOR_NUM 100
 #define USB_AD_IOCTL_MAGIC_NUMBER 474747
-#define TO_SLOW 200
+#define USB_AD_CLIENT_TO_SLOW 200
 
 /*
  *Ustawiamy co i z jaka czestotliwoscia ma probkowac dany proces
@@ -14,7 +14,7 @@
  *{magic,pid,fq,buff_size,czy chan1,czy chan2,...}
  *zwraca true fq czyli maxfq/n n-co ile probek usredniamy
  */
-#define IOCTL_SET_PARAMS _IOR(MAJOR_NUM,0, int*)
+#define IOCTL_SET_PARAMS _IOR(USB_AD_MAJOR_NUM,0, int*)
 
 /*
  *Gwoxdx programu 
@@ -23,7 +23,7 @@
  *potem jako 2 int jest pid
  *zwraca sukces ie 0 albo kod błędu
  */
-#define IOCTL_GET_DATA _IOWR(MAJOR_NUM,1, char*)
+#define IOCTL_GET_DATA _IOWR(USB_AD_MAJOR_NUM,1, char*)
 
 
 

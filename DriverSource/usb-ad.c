@@ -698,7 +698,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             printk("<1>USB_AD : usb_ad_ioctl copied first buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
                             if (to_slow == 1)
-                                    return -TO_SLOW;
+                                    return -USB_AD_CLIENT_TO_SLOW;
                             return retval;
                     }
                     if (gpClients_array[i]->second_buf.full) {
@@ -708,7 +708,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             printk("<1>USB_AD : usb_ad_ioctl copied second buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
                             if (to_slow == 1)
-                                    return -TO_SLOW;
+                                    return -USB_AD_CLIENT_TO_SLOW;
                             return retval;
                     }
                     printk("<1>USB_AD : ad_ioctl GET DATA OK\n");
