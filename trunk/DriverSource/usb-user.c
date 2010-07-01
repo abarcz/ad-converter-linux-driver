@@ -109,7 +109,7 @@ int get_data(char *buffer, int pid, int usb_ad, int block_size, int channel_coun
         int i,j,ret_val;
         set_beginning(buffer, pid);
         ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
-        if (ret_val == -USB_AD_CLIENT_TO_SLOW)
+        if (ret_val == -USB_AD_CLIENT_TOO_SLOW)
                 printf("Nie nadazasz przyspiesz\n");
         for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                 printf("%d,%d  ",

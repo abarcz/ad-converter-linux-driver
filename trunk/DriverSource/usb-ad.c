@@ -1,14 +1,14 @@
 /*
- * USB Skeleton driver - 2.2
+ * USB PIC18F4550 A/D Converter driver
  *
- * Copyright (C) 2001-2004 Greg Kroah-Hartman (greg@kroah.com)
+ * Authors: Aleksy Barcz, Grzegorz Rz¹ca
+ *
+ * Heavily based on: USB Skeleton driver - 2.2 
+ * by Greg Kroah-Hartman (greg@kroah.com)
  *
  *      This program is free software; you can redistribute it and/or
  *      modify it under the terms of the GNU General Public License as
  *      published by the Free Software Foundation, version 2.
- *
- * This driver is based on the 2.6.3 version of drivers/usb/usb-skeleton.c
- * but has been rewritten to be easier to read and use.
  *
  */
 
@@ -309,6 +309,8 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                             client = gpClients_array[i];
                             if (client) {
                                     //printk("<1>USB_AD rclback entered client pid : %d\n", client->pid);
+									if(!client->ready_for_input)
+											continue;
                                     if (client->warning) {
                                             /* jesli klient zostal wczesniej ostrzezony */
                                             if (client->loops_after_warn_count <
@@ -542,14 +544,12 @@ static int ad_flush(struct file *file, fl_owner_t id)
 static ssize_t ad_read(struct file *file, char *buffer, size_t count,
                          loff_t *ppos)
 {
-        printk("<1>USB_AD : AD_READ!!!!!!!!!!\n");
         return -ENODEV;
 }
 
 static ssize_t ad_write(struct file *file, const char *user_buffer,
                           size_t count, loff_t *ppos)
 {
-        printk("<1>USB_AD : WRITE!!!!!!!!!\n");
         return -ENODEV;
 }
 
@@ -564,7 +564,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         //zmienne
         int pid;
         int i,j;
-        int to_slow = 0;
+        int too_slow = 0;
         int new = 1;
         int retval = 0;
         unsigned char pom[USB_AD_CHANNELS_NUM];
@@ -610,7 +610,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         switch (ioctl_num) {
             case IOCTL_SET_PARAMS:
                     printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS\n");
-                    //czy wskaxnik jest ok
+                    //czy wskaznik jest ok
                     if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) == 0) {
                             printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS access not ok\n");
                             mutex_unlock(&dev->io_mutex);
@@ -632,11 +632,13 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                     mutex_unlock(&dev->io_mutex);
                                     return -EFAULT;
                             }
+							gpClients_array[j]->ready_for_input = 0;
                             if (init_client(gpClients_array[j],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
                                     printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS couldn't init client\n");
                                     mutex_unlock(&dev->io_mutex);
                                     return -EFAULT;
                             }
+							gpClients_array[j]->ready_for_input = 1;
                     } else {
                             //Wstepna implementacja: Zabijamy go i tworzymy nowego
                             remove_client(gpClients_array[i]);
@@ -646,10 +648,12 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                     mutex_unlock(&dev->io_mutex);
                                     return -EFAULT;
                             }
+							gpClients_array[j]->ready_for_input = 0;
                             if (init_client(gpClients_array[i],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
                                     mutex_unlock(&dev->io_mutex);
                                     return -EFAULT;
                             }
+							gpClients_array[j]->ready_for_input = 1;
                     }
                     ad_initialize(inode);
                     printk("<1>USB_AD : ad_ioctl SET PARAMS OK\n");
@@ -662,7 +666,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             return -EFAULT;
                     }
 
-                    //czy wskaxnik jest ok
+                    //czy wskaznik jest ok
                     if (new == 1) {
                             printk("<1>USB_AD: Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane");
                             mutex_unlock(&dev->io_mutex);
@@ -676,7 +680,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     }
                     //sprawdzamy czy przypadkiem nie jestesmy za wolni
                     if (gpClients_array[i]-> warning == true)
-                            to_slow = 1;
+                            too_slow = 1;
                         //return -TO_SLOW;
                     //sprawdzic czy jest co wyslac jak nie to zawiesic
                     mutex_unlock(&dev->io_mutex);
@@ -697,8 +701,8 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                 (char *)ioctl_param,gpClients_array[i]->first_buf.size);
                             printk("<1>USB_AD : usb_ad_ioctl copied first buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
-                            if (to_slow == 1)
-                                    return -USB_AD_CLIENT_TO_SLOW;
+                            if (too_slow == 1)
+                                    return -USB_AD_CLIENT_TOO_SLOW;
                             return retval;
                     }
                     if (gpClients_array[i]->second_buf.full) {
@@ -707,8 +711,8 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                 (char *)ioctl_param,gpClients_array[i]->second_buf.size);
                             printk("<1>USB_AD : usb_ad_ioctl copied second buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
-                            if (to_slow == 1)
-                                    return -USB_AD_CLIENT_TO_SLOW;
+                            if (too_slow == 1)
+                                    return -USB_AD_CLIENT_TOO_SLOW;
                             return retval;
                     }
                     printk("<1>USB_AD : ad_ioctl GET DATA OK\n");
@@ -720,7 +724,6 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         return 0;
 }
 //--------------------------------------------------------------------IOCTL_end
-
 
 static const struct file_operations ad_fops = {
         .owner =        THIS_MODULE,

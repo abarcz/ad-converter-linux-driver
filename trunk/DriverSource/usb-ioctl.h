@@ -6,7 +6,7 @@
  */
 #define USB_AD_MAJOR_NUM 100
 #define USB_AD_IOCTL_MAGIC_NUMBER 474747
-#define USB_AD_CLIENT_TO_SLOW 200
+#define USB_AD_CLIENT_TOO_SLOW 200
 
 /*
  *Ustawiamy co i z jaka czestotliwoscia ma probkowac dany proces
