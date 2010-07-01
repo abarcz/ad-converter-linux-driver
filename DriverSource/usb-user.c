@@ -55,6 +55,8 @@ int block_size=0;
 char buffer[BUFFER_SIZE];
 char str[32];
 char pom[7];
+
+int debcount = 0;
 //Opening the device
 //ROTFL for(i = 0;i < argc; i++)printf("%d\n",atoi(argv[i]));
 
@@ -92,9 +94,11 @@ if (argc == 10){
 else{
         printf("Podaj parametry probkowania\nPodaj czestotliwosc:\n");
         set_beginning(buffer, pid);
-        scanf("%d",&((int *)buffer)[2]);
+        //scanf("%d",&((int *)buffer)[2]);
+        ((unsigned int*)buffer)[2] = 1638;
         printf("Podaj ilosc probek zwracanych przez sterownik:\n");
-        scanf("%d",&((int *)buffer)[3]);
+        //scanf("%d",&((int *)buffer)[3]);
+        ((int*)buffer)[3] = 10;
         printf("Podaj numery kanalow (1-7) z ktorych bedza wysylane probki:\n");
         scanf("%s",str);
         for (i = 0; i < 32; i++){
@@ -167,12 +171,13 @@ char c[10];
 //fflush(stdin);
 //fflush(stdout);
 //reset_terminal_mode();
+
 if (ret_val > -1){
         printf("Wysyłam prosby o dane\n");
-        while(!kbhit()){
+        while((!kbhit())){
                 set_beginning(buffer, pid);
                 ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
-                printf("ioctl odpowiedx: %d\n", ret_val);
+                printf("ioctl odpowiedx: %d debcount: %d\n", ret_val, debcount);
                 printf("Zawartosc bufora [1bajt,2bajt] nacisnij enter aby przerwac probkowanie\n");
                 for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                         printf("%d,%d  ",
@@ -183,15 +188,16 @@ if (ret_val > -1){
                                 printf("\n");
                                 j = 0;
                                 }
-                        }
                 }
+                //debcount++;
         }
+}
 //wyczyszczenie bufora zaznkow
 while(getch()!=10)
         /*DONOTHING*/;
 
 
-sleep(2);
+//sleep(2);
 close(usb_ad);
 printf("Urzadzenie zamkniete\n");
 return 0;
