@@ -564,7 +564,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         //zmienne
         int pid;
         int i,j;
-        //int channels = 0;
+        int to_slow = 0;
         int new = 1;
         int retval = 0;
         unsigned char pom[USB_AD_CHANNELS_NUM];
@@ -674,6 +674,10 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             mutex_unlock(&dev->io_mutex);
                             return -EFAULT;
                     }
+                    //sprawdzamy czy przypadkiem nie jestesmy za wolni
+                    if (gpClients_array[i]-> warning == true)
+                            to_slow = 1;
+                        //return -TO_SLOW;
                     //sprawdzic czy jest co wyslac jak nie to zawiesic
                     mutex_unlock(&dev->io_mutex);
                     printk("<1>USB_AD : usb_ad_ioctl going to sleep for PID %d\n", pid);
@@ -693,6 +697,8 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                 (char *)ioctl_param,gpClients_array[i]->first_buf.size);
                             printk("<1>USB_AD : usb_ad_ioctl copied first buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
+                            if (to_slow == 1)
+                                    return -TO_SLOW;
                             return retval;
                     }
                     if (gpClients_array[i]->second_buf.full) {
@@ -701,6 +707,8 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                 (char *)ioctl_param,gpClients_array[i]->second_buf.size);
                             printk("<1>USB_AD : usb_ad_ioctl copied second buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
+                            if (to_slow == 1)
+                                    return -TO_SLOW;
                             return retval;
                     }
                     printk("<1>USB_AD : ad_ioctl GET DATA OK\n");

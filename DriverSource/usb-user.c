@@ -109,7 +109,8 @@ int get_data(char *buffer, int pid, int usb_ad, int block_size, int channel_coun
         int i,j,ret_val;
         set_beginning(buffer, pid);
         ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
-        
+        if (ret_val == -TO_SLOW)
+                printf("Nie nadazasz przyspiesz\n");
         for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                 printf("%d,%d  ",
                         buffer[i],
@@ -179,7 +180,7 @@ int main(int argc, char **argv) {
         int dialog = 1;
         while(loop == 1){
                 while(dialog == 1){
-                        printf("Co teraz?\n1-probkuj dalej\n2-podaj nowe parametry\n3-zakoncz prace programu\n");
+                        printf("Co teraz?\n1-probkuj dalej(DEBUG - odciecie od sterownika)\n2-podaj nowe parametry\n3-zakoncz prace programu\n");
                         scanf("%d",((int *)str));
                         if(str[0] == 1 || str[0] == 2 || str[0] == 3)
                                 dialog = 0;
@@ -192,7 +193,14 @@ int main(int argc, char **argv) {
                         }
                 if (str[0] == 2){
                         params(buffer,pid);
-                        param_send(buffer,pid);
+                        param_send(buffer,usb_ad);
+                        for (i = 0; i < 7; i++)
+                                if (((int *)buffer)[i+4] == 1)
+                                        channel_count++;
+                        block_size = ((int *)buffer)[3];
+                        while((!kbhit()))
+                                ret_val = get_data(buffer,pid,usb_ad,block_size,channel_count);
+                        while(getch()!=10)/*DONOTHING*/;
                         }
                 dialog = 1;
                 if (str[0] == 3){
