@@ -2,10 +2,9 @@
 #define USB_AD_CONSTANTS
 
 /**** podstawowe define'y urzadzenia usb ****/
-/* Define these values to match your devices */
 #define USB_AD_VENDOR_ID      0xa5a5        //hex(42405)
 #define USB_AD_PRODUCT_ID     0x01          //hex(1)
-/* Get a minor range for your devices from the usb maintainer */
+
 #define USB_AD_MINOR_BASE       192         
 #define USB_AD_MAX_TRANSFER     (PAGE_SIZE - 512)
 /* USB_AD_MAX_TRANSFER  is chosen so that the VM is not stressed by

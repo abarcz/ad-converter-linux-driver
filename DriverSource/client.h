@@ -16,6 +16,7 @@ struct Client {
         wait_queue_head_t queue;
         bool warning;                               //ostrzezenie - klient nie nadaza z odbieraniem
         int loops_after_warn_count;                 //ile petli minelo od ostrzezenia klienta
+		int ready_for_input;						//czy jest gotowy na przyjmowanie danych
 };
 
 int round_div(const unsigned int a, const unsigned int b);
@@ -59,6 +60,7 @@ int init_client(Client *client, int pid, const unsigned int requested_fq, const 
                 return USB_AD_ERROR_NULL;
         if ((requested_fq <= 0) || (requested_fq > usb_ad_fq()))
                 return USB_AD_ERROR_VALUE;
+		client->read_for_input = 0;
         channels_count = 0;             //ilosc kanalow, ktore chce czytac klient
         for (i = 0; i < USB_AD_CHANNELS_NUM; i++) {
                 if (channels[i])
