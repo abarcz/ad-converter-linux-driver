@@ -65,9 +65,8 @@ static struct usb_driver ad_driver;
 static void ad_draw_down(struct usb_ad *dev);
 static void ad_read_bulk_callback(struct urb *urb);  //completion handler. in interrupt context!
 
-static void ad_delete(struct kref *kref)
+static void ad_delete_internal(struct usb_ad *dev) 
 {
-        struct usb_ad *dev = to_ad_dev(kref);
         int i;
         printk("<1>USB_AD : usb_ad_delete executed\n");
         if (!dev) {
@@ -87,12 +86,18 @@ static void ad_delete(struct kref *kref)
                                 wake_up(&gpClients_array[i]->queue);
                                 kfree(gpClients_array[i]);
                                 gpClients_array[i] = NULL;
-                                printk("<1>USB_AD : usb_ad_exit removed a client\n");
+                                printk("<1>USB_AD : usb_ad_delete removed a client\n");
                         }
                 kfree(gpClients_array);
                 gpClients_array = NULL;
-                printk("<1>USB_AD : usb_ad_exit removed the Clients array\n");
+                printk("<1>USB_AD : usb_ad_delete removed the Clients array\n");
         }
+}
+
+static void ad_delete(struct kref *kref)
+{
+        struct usb_ad *dev = to_ad_dev(kref);
+        ad_delete_internal(dev);
 }
 
 static int ad_do_read_io(struct usb_ad *dev, size_t count)
@@ -284,6 +289,12 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                 dev->bulk_in_filled = urb->actual_length;
                 //if (dev->already_printed < 20) {
                     //dev->bulk_in_buffer[dev->bulk_in_size - 1] = '\0';
+                    if (dev->bulk_in_buffer[0] == 'E') {
+                            printk("<1>USB_AD : E:OVERRUN received, exiting.....\n");
+                            ad_delete_internal(dev);
+                            printk("<1>USB_AD : E:OVERRUN deleted device\n");
+                            return;
+                    }
                     if (dev->bulk_in_buffer[0] != 'D')
                             goto finish;
                     /*printk("<1>USB_AD_read_completion received %c ",
@@ -587,6 +598,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         }
         pid = ((int*)ioctl_param)[1];
         //dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
+        printk("<1>USB_AD : usb_ad_ioctl entering mutex for PID %d\n", pid);
         mutex_lock(&dev->io_mutex);
         for (i = 0;i < USB_AD_MAX_CLIENTS_NUM;i++)
                 if(gpClients_array[i] != NULL)
@@ -643,7 +655,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     printk("<1>USB_AD : ad_ioctl SET PARAMS OK\n");
                     break;
             case IOCTL_GET_DATA:
-                    printk("<1>USB_AD : usb_ad_ioctl GET_DATA\n");
+                    printk("<1>USB_AD : usb_ad_ioctl GET_DATA for PID %d\n", pid);
                     if(!dev->open_count) {
                             printk("<1>USB_AD: Urzadzenie nie jest otwarte");
                             mutex_unlock(&dev->io_mutex);
@@ -664,20 +676,30 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     }
                     //sprawdzic czy jest co wyslac jak nie to zawiesic
                     mutex_unlock(&dev->io_mutex);
+                    printk("<1>USB_AD : usb_ad_ioctl going to sleep for PID %d\n", pid);
                     wait_event(gpClients_array[i]->queue, (gpClients_array[i]->first_buf.full) ||
                         (gpClients_array[i]->second_buf.full));
+                    printk("<1>USB_AD : usb_ad_ioctl awoken for PID %d\n", pid);
+                    if(!dev)
+                            return -ENODEV;
                     mutex_lock(&dev->io_mutex);
-                    //wait_event(queue,(gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
+                    printk("<1>USB_AD : usb_ad_ioctl passed the mutex after wakeup for PID %d\n", pid);
+                    if((!gpClients_array) || (!gpClients_array[i]))
+                            return -ENODEV;
                     //sprawdzenie ktory bufor mamy wyslac
                     if (gpClients_array[i]->first_buf.full) {
+                            printk("<1>USB_AD : usb_ad_ioctl going to copy first buf for PID %d\n", pid);
                             retval = buffer_copy_to_user(&(gpClients_array[i]->first_buf),
                                 (char *)ioctl_param,gpClients_array[i]->first_buf.size);
+                            printk("<1>USB_AD : usb_ad_ioctl copied first buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
                             return retval;
                     }
                     if (gpClients_array[i]->second_buf.full) {
+                            printk("<1>USB_AD : usb_ad_ioctl going to copy second buf for PID %d\n", pid);
                             retval = buffer_copy_to_user(&(gpClients_array[i]->second_buf),
                                 (char *)ioctl_param,gpClients_array[i]->second_buf.size);
+                            printk("<1>USB_AD : usb_ad_ioctl copied second buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
                             return retval;
                     }
@@ -939,6 +961,7 @@ static void __exit usb_ad_exit(void)
         if (gpClients_array) {
                 for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
                         if (gpClients_array[i]) {
+                                wake_up(&gpClients_array[i]->queue);
                                 kfree(gpClients_array[i]);
                                 gpClients_array[i] = NULL;
                                 printk("<1>USB_AD : usb_ad_exit removed a client\n");
