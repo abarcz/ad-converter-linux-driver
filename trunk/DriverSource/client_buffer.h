@@ -103,6 +103,7 @@ int buffer_write(Client_buffer *buf, unsigned char *data, int size) {
 /* kopiuje cala zawartosc bufora do tablicy */
 int buffer_copy_to_user(Client_buffer *buf, unsigned char *data, int size) {
         int ret_val = 0;
+        printk("<1>USB_AD buffer_copy_to_user\n");
         if ((buf == NULL) || (buf->buf == NULL) || (data == NULL))
                 return USB_AD_ERROR_NULL;
         if (size != buf->size)              //rozmiar danych sie nie zgadza
