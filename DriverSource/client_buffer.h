@@ -87,13 +87,13 @@ int buffer_write(Client_buffer *buf, unsigned char *data, int size) {
                         buf->curr_pos++;
                 }
         }
-        printk("<1>USB_AD buffer_write buffer cpos: %d, size: %d\n",
+        /*printk("<1>USB_AD buffer_write buffer cpos: %d, size: %d\n",
                     buf->curr_pos,
-                    (int)buf->row_count);
+                    (int)buf->row_count);*/
         if (buf->curr_pos == buf->row_count) {      //zapelnilismy bufor
-                printk("<1>USB_AD buffer_write buffer full cpos: %d, size: %d\n",
+                /*printk("<1>USB_AD buffer_write buffer full cpos: %d, size: %d\n",
                     buf->curr_pos,
-                    (int)buf->row_count);
+                    (int)buf->row_count);*/
                 buf->full = 1;
                 return 1;
         }

@@ -84,6 +84,7 @@ static void ad_delete(struct kref *kref)
         if (gpClients_array) {
                 for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
                         if (gpClients_array[i]) {
+                                wake_up(&gpClients_array[i]->queue);
                                 kfree(gpClients_array[i]);
                                 gpClients_array[i] = NULL;
                                 printk("<1>USB_AD : usb_ad_exit removed a client\n");
@@ -127,6 +128,7 @@ static int ad_do_read_io(struct usb_ad *dev, size_t count)
         return rv;
 }
 
+/* puszcza w ruch urzadzenie */
 static int ad_initialize(struct inode *inode)
 {
         struct usb_ad *dev;
@@ -156,7 +158,7 @@ static int ad_initialize(struct inode *inode)
                 return retval;
         }
 
-        
+
         /* if the device isn't running yet, make it run */
         buffer = kzalloc(sizeof(char) * buff_len, GFP_KERNEL);
         if (buffer == NULL) {
@@ -295,7 +297,7 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                     for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i++) {
                             client = gpClients_array[i];
                             if (client) {
-                                    printk("<1>USB_AD rclback entered client pid : %d\n", client->pid);
+                                    //printk("<1>USB_AD rclback entered client pid : %d\n", client->pid);
                                     if (client->warning) {
                                             /* jesli klient zostal wczesniej ostrzezony */
                                             if (client->loops_after_warn_count <
@@ -323,7 +325,7 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                             if (write_res < 0)
                                                                     printk("<1>USB_AD rclback : error writing to sec_buf %d\n", write_res);
                                                             else if (write_res == 1) {
-                                                                    printk("<1>USB_AD rclback : SECOND buf full\n");
+                                                                    //printk("<1>USB_AD rclback : SECOND buf full\n");
                                                                     wake_up(&client->queue);
                                                             }
                                                     }
@@ -339,7 +341,7 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                     if (write_res < 0)
                                                                     printk("<1>USB_AD rclback : error writing to first_buf %d\n", write_res);
                                                     else if (write_res == 1) {
-                                                            printk("<1>USB_AD rclback : FIRST buf full\n");
+                                                            //printk("<1>USB_AD rclback : FIRST buf full\n");
                                                             wake_up(&client->queue);
                                                     }
                                             }
@@ -423,7 +425,7 @@ static int ad_open(struct inode *inode, struct file *file)
         /* save our object in the file's private structure */
         file->private_data = dev;
 
-        
+
         mutex_unlock(&dev->io_mutex);
 
 exit:
@@ -541,8 +543,8 @@ static ssize_t ad_write(struct file *file, const char *user_buffer,
 }
 
 /*
- *IOCTL
- *Funkcja obs³uguj¹ca ioctle
+ * IOCTL
+ * Funkcja obslugujaca ioctle
  *
  *
  */
@@ -551,14 +553,14 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         //zmienne
         int pid;
         int i,j;
-        int channels = 0;
+        //int channels = 0;
         int new = 1;
         int retval = 0;
         unsigned char pom[USB_AD_CHANNELS_NUM];
         struct usb_ad *dev;
         struct usb_interface *interface;
         int subminor;
-        printk("<1>USB_AD : usb_ad_ioctl executed\n");
+        //printk("<1>USB_AD : usb_ad_ioctl executed\n");
 
         subminor = iminor(inode);
 
@@ -578,11 +580,11 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
 
         //sprawdzenie czy to nasz
         if (access_ok(VERIFY_READ,(char *)ioctl_param,2 * sizeof(int) ) == 0)
-                return -EFAULT;  
+                return -EFAULT;
         if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) {
                 printk("<1>USB_AD: Nie nasz IOCTL\n");
                 return -EIO;
-                }
+        }
         pid = ((int*)ioctl_param)[1];
         //dorwanie klienta {czy tworzymy nowego czy staremu zmieniamy parametry probkowania}
         mutex_lock(&dev->io_mutex);
@@ -594,87 +596,98 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                         }
         //wybranie tego co mamy klientowi zrobic
         switch (ioctl_num) {
-                case IOCTL_SET_PARAMS:
-                        printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS\n");
-                        //czy wskaxnik jest ok
-                        if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) == 0) {
-                                mutex_unlock(&dev->io_mutex);
-                                return -EFAULT;
-                                }
-                        for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
-                                pom[j] = ((unsigned int *)ioctl_param)[j + 4];
-                        if (new == 1) {
-                                for (j = 0;j < USB_AD_MAX_CLIENTS_NUM; j++)
-                                        if (gpClients_array[j] == NULL)
-                                                break;
-                                if(j == USB_AD_MAX_CLIENTS_NUM - 1) {
-                                        mutex_unlock(&dev->io_mutex);
-                                        return -EFAULT;
-                                        }
-                                gpClients_array[j] = kmalloc(sizeof(Client),GFP_KERNEL);
-                                if (gpClients_array[j] == NULL) {
-                                        mutex_unlock(&dev->io_mutex);
-                                        return -EFAULT;
-                                        }
-                                if (init_client(gpClients_array[j],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
-                                        mutex_unlock(&dev->io_mutex);
-                                        return -EFAULT;        
-                                        }
-                                }
-                        else {
-                                //Wstepna implementacja: Zabijamy go i tworzymy nowego 
-                                remove_client(gpClients_array[i]);
-                                //tworzenie nowego
-                                gpClients_array[i] = kmalloc(sizeof(Client),GFP_KERNEL);
-                                if (gpClients_array[i] == NULL) {
-                                        mutex_unlock(&dev->io_mutex);
-                                        return -EFAULT;
-                                        }
-                                if (init_client(gpClients_array[i],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
-                                        mutex_unlock(&dev->io_mutex);
-                                        return -EFAULT;   
-                                        }
-                                }
-                        ad_initialize(inode);
-                        printk("<1>USB_AD : ad_ioctl SET PARAMS OK\n");
-                        break;
-                case IOCTL_GET_DATA:
-                        printk("<1>USB_AD : usb_ad_ioctl GET_DATA\n");
-                        //czy wskaxnik jest ok
-                        if (new == 1) {
-                                printk("<1>USB_AD: Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane");
-                                mutex_unlock(&dev->io_mutex);
-                                return -EFAULT;
-                                }
-                        for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
-                                if (gpClients_array[i]->channels[j] == 1)
-                                        channels++;
-                        if (access_ok(VERIFY_WRITE,(char *)ioctl_param,gpClients_array[i]->buffer_size*channels) == 0 ) {
-                                printk("<1>USB_AD : usb_ad_ioctl GET_DATA not access ok\n");
-                                mutex_unlock(&dev->io_mutex);
-                                return -EFAULT;
-                                }
-                        //sprawdzic czy jest co wyslac jak nie to zawiesic
-                        wait_event(gpClients_array[i]->queue, (gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
-                        //wait_event(queue,(gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
-                        //sprawdzenie ktory bufor mamy wyslac
-                        if (gpClients_array[i]->first_buf.full) {
-                                retval = buffer_copy_to_user(&(gpClients_array[i]->first_buf),(char *)ioctl_param,gpClients_array[i]->first_buf.size);
-                                mutex_unlock(&dev->io_mutex);
-                                return retval;
-                                }
-                        if (gpClients_array[i]->second_buf.full) {
-                                retval = buffer_copy_to_user(&(gpClients_array[i]->second_buf),(char *)ioctl_param,gpClients_array[i]->second_buf.size);
-                                mutex_unlock(&dev->io_mutex);
-                                return retval;
-                                }
-                        printk("<1>USB_AD : ad_ioctl GET DATA OK\n");
-                        break;
-                default: printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
-                }
-        mutex_unlock(&dev->io_mutex);
+            case IOCTL_SET_PARAMS:
+                    printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS\n");
+                    //czy wskaxnik jest ok
+                    if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) == 0) {
+                            printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS access not ok\n");
+                            mutex_unlock(&dev->io_mutex);
+                            return -EFAULT;
+                    }
+                    for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
+                            pom[j] = ((unsigned int *)ioctl_param)[j + 4];
+                    if (new == 1) {
+                            for (j = 0;j < USB_AD_MAX_CLIENTS_NUM; j++)
+                                    if (gpClients_array[j] == NULL)
+                                            break;
+                            if(j == USB_AD_MAX_CLIENTS_NUM) {
+                                    printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS reached max nr of clients\n");
+                                    mutex_unlock(&dev->io_mutex);
+                                    return -EFAULT;
+                            }
+                            gpClients_array[j] = kmalloc(sizeof(Client),GFP_KERNEL);
+                            if (gpClients_array[j] == NULL) {
+                                    mutex_unlock(&dev->io_mutex);
+                                    return -EFAULT;
+                            }
+                            if (init_client(gpClients_array[j],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
+                                    printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS couldn't init client\n");
+                                    mutex_unlock(&dev->io_mutex);
+                                    return -EFAULT;
+                            }
+                    } else {
+                            //Wstepna implementacja: Zabijamy go i tworzymy nowego
+                            remove_client(gpClients_array[i]);
+                            //tworzenie nowego
+                            gpClients_array[i] = kmalloc(sizeof(Client),GFP_KERNEL);
+                            if (gpClients_array[i] == NULL) {
+                                    mutex_unlock(&dev->io_mutex);
+                                    return -EFAULT;
+                            }
+                            if (init_client(gpClients_array[i],pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
+                                    mutex_unlock(&dev->io_mutex);
+                                    return -EFAULT;
+                            }
+                    }
+                    ad_initialize(inode);
+                    printk("<1>USB_AD : ad_ioctl SET PARAMS OK\n");
+                    break;
+            case IOCTL_GET_DATA:
+                    printk("<1>USB_AD : usb_ad_ioctl GET_DATA\n");
+                    if(!dev->open_count) {
+                            printk("<1>USB_AD: Urzadzenie nie jest otwarte");
+                            mutex_unlock(&dev->io_mutex);
+                            return -EFAULT;
+                    }
 
-return 0;
+                    //czy wskaxnik jest ok
+                    if (new == 1) {
+                            printk("<1>USB_AD: Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane");
+                            mutex_unlock(&dev->io_mutex);
+                            return -EFAULT;
+                    }
+                    if (access_ok(VERIFY_WRITE,(char *)ioctl_param,
+                        gpClients_array[i]->buffer_size * gpClients_array[i]->channels_count) == 0 ) {
+                            printk("<1>USB_AD : usb_ad_ioctl GET_DATA not access ok\n");
+                            mutex_unlock(&dev->io_mutex);
+                            return -EFAULT;
+                    }
+                    //sprawdzic czy jest co wyslac jak nie to zawiesic
+                    mutex_unlock(&dev->io_mutex);
+                    wait_event(gpClients_array[i]->queue, (gpClients_array[i]->first_buf.full) ||
+                        (gpClients_array[i]->second_buf.full));
+                    mutex_lock(&dev->io_mutex);
+                    //wait_event(queue,(gpClients_array[i]->first_buf.full) || (gpClients_array[i]->second_buf.full));
+                    //sprawdzenie ktory bufor mamy wyslac
+                    if (gpClients_array[i]->first_buf.full) {
+                            retval = buffer_copy_to_user(&(gpClients_array[i]->first_buf),
+                                (char *)ioctl_param,gpClients_array[i]->first_buf.size);
+                            mutex_unlock(&dev->io_mutex);
+                            return retval;
+                    }
+                    if (gpClients_array[i]->second_buf.full) {
+                            retval = buffer_copy_to_user(&(gpClients_array[i]->second_buf),
+                                (char *)ioctl_param,gpClients_array[i]->second_buf.size);
+                            mutex_unlock(&dev->io_mutex);
+                            return retval;
+                    }
+                    printk("<1>USB_AD : ad_ioctl GET DATA OK\n");
+                    break;
+            default:
+                    printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
+        }
+        mutex_unlock(&dev->io_mutex);
+        return 0;
 }
 //--------------------------------------------------------------------IOCTL_end
 
@@ -709,7 +722,7 @@ static int ad_probe(struct usb_interface *interface,
         int i;
         int retval = -ENOMEM;
 
-        unsigned char test_channels[USB_AD_CHANNELS_NUM] = {1,0,0,0,0,0,1};
+        //unsigned char test_channels[USB_AD_CHANNELS_NUM] = {1,0,0,0,0,0,1};
 
         printk("<1>USB_AD : ad_probe executed\n");
         /* allocate memory for our device state and initialize it */
@@ -806,7 +819,7 @@ static int ad_probe(struct usb_interface *interface,
 
 
         init_client(gpClients_array[0], 555, usb_ad_fq(), 10, test_channels);
-*/
+        */
         printk("<1>USB_AD : ad_probe successful!\n");
         return 0;
 

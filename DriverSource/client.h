@@ -18,9 +18,9 @@ struct Client {
         int loops_after_warn_count;                 //ile petli minelo od ostrzezenia klienta
 };
 
-int double_round(long a, long b);
+int round_div(const unsigned int a, const unsigned int b);
 /* inicjalizacja nowo utworzonej struktury klienta */
-int init_client(Client *client, int pid, unsigned int requested_fq, int buffer_size, unsigned char channels[USB_AD_CHANNELS_NUM]);
+int init_client(Client *client, int pid, const unsigned int requested_fq, const int buffer_size, const unsigned char channels[USB_AD_CHANNELS_NUM]);
 
 /* usuwa klienta wraz z zawartoscia */
 void remove_client(Client *client);
@@ -28,22 +28,28 @@ void remove_client(Client *client);
 /* z pelnego ciagu bajtow (source) wybiera wartosci odpowiadajace zadanym kanalom, wpisuje do dest
  * size - rozmiar bufora source
  */
-int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int size);
+int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, const int size);
 
 /* wypisuje na ekran zawartosc buforow klienta, rzedami */
 int print_client_buffers(Client *client);
 
 /**** poczatek pliku .c ****/  
-int double_round(long a, long b) {
-        int ret_val = 0;
-        if (a/b - (int)a/b >= 0.5)
-                ret_val = (int)a/b + 1;
-        else
-                ret_val = (int)a/b;
-        return ret_val;
-}
+int round_div(const unsigned int a, const unsigned int b) {
+        long amult, div; 
+        unsigned int lsnum, retval;
 
-int init_client(Client *client, int pid, unsigned int requested_fq, int buffer_size, unsigned char channels[USB_AD_CHANNELS_NUM]) 
+        amult = a * 10;
+        div = amult / b;
+        lsnum = div % 10;
+        div = div / 10;
+        if (lsnum >= 5)
+            retval = (unsigned int) div + 1;
+        else
+            retval = (unsigned int) div;
+        return retval;
+} 
+
+int init_client(Client *client, int pid, const unsigned int requested_fq, const int buffer_size, const unsigned char channels[USB_AD_CHANNELS_NUM])
 {
         int channels_count,i,ret_val;
         int byte_buffer_size;
@@ -69,7 +75,8 @@ int init_client(Client *client, int pid, unsigned int requested_fq, int buffer_s
                 return USB_AD_ERROR_VALUE;
         //Stworzenie kolejki 
         init_waitqueue_head(&client->queue);
-        avg_divisor =  (int)(usb_ad_fq() / requested_fq);
+        avg_divisor =  round_div(usb_ad_fq(), requested_fq);
+        printk("<1>USB_AD : init_client usb_fq : %d req_fq: %d avg_divisor : %d\n", usb_ad_fq(), requested_fq, avg_divisor);
         ret_val = buffer_init(&(client->first_buf), channels_count * 2, buffer_size, avg_divisor);
         if (ret_val != 0)
                 return ret_val;
@@ -95,7 +102,7 @@ void remove_client(Client *client)
         kfree(client);
 }
 
-int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, int size)
+int choose_bytes(Client *client, unsigned char *source, unsigned char *dest, const int size)
 {
     int i;
     int pos_source = 2;
