@@ -1,0 +1,1529 @@
+ USB_AD : init_client pid = 11014 requested_fq = 8000 buffer_size = 10 channels_count = 1
+[ 4900.764127] USB_AD : init_client usb_fq : 16383 req_fq: 8000 avg_divisor : 2
+[ 4900.764193] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4900.764259] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4900.764325] USB_AD : init_client successfully completed
+[ 4900.764385] USB_AD : usb_ad_initialize executed
+[ 4900.764443] USB_AD : ad_ioctl SET PARAMS OK
+[ 4901.259671] USB_AD : usb_ad_open executed
+[ 4901.260586] USB_AD : open number of clients is: 24 device running: 1
+[ 4901.262374] USB_AD : usb_ad_ioctl SET_PARAMS for PID: 11015
+[ 4901.262441] USB_AD : entered init_client
+[ 4901.262498] USB_AD : init_client pid = 11015 requested_fq = 8000 buffer_size = 10 channels_count = 1
+[ 4901.262590] USB_AD : init_client usb_fq : 16383 req_fq: 8000 avg_divisor : 2
+[ 4901.262656] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4901.262723] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4901.262788] USB_AD : init_client successfully completed
+[ 4901.262848] USB_AD : usb_ad_initialize executed
+[ 4901.262907] USB_AD : ad_ioctl SET PARAMS OK
+[ 4901.696782] USB_AD : usb_ad_open executed
+[ 4901.696850] USB_AD : open number of clients is: 25 device running: 1
+[ 4901.697518] USB_AD : usb_ad_ioctl SET_PARAMS for PID: 11016
+[ 4901.697586] USB_AD : entered init_client
+[ 4901.697645] USB_AD : init_client pid = 11016 requested_fq = 8000 buffer_size = 10 channels_count = 1
+[ 4901.697737] USB_AD : init_client usb_fq : 16383 req_fq: 8000 avg_divisor : 2
+[ 4901.697804] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4901.697871] USB_AD buffer_init row_size = 2, row_count = 10, avg_divisor = 2
+[ 4901.697937] USB_AD : init_client successfully completed
+[ 4901.697998] USB_AD : usb_ad_initialize executed
+[ 4901.698058] USB_AD : ad_ioctl SET PARAMS OK
+[ 4946.039693] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.039789] USB_AD_read_completion other error -84
+[ 4946.040690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.040781] USB_AD_read_completion other error -84
+[ 4946.041689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.041780] USB_AD_read_completion other error -84
+[ 4946.042688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.042779] USB_AD_read_completion other error -84
+[ 4946.043688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.043779] USB_AD_read_completion other error -84
+[ 4946.044691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.044782] USB_AD_read_completion other error -84
+[ 4946.045688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.045777] USB_AD_read_completion other error -84
+[ 4946.046688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.046778] USB_AD_read_completion other error -84
+[ 4946.047688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.047779] USB_AD_read_completion other error -84
+[ 4946.048692] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.048782] USB_AD_read_completion other error -84
+[ 4946.049690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.049781] USB_AD_read_completion other error -84
+[ 4946.050688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.050778] USB_AD_read_completion other error -84
+[ 4946.051687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.051778] USB_AD_read_completion other error -84
+[ 4946.052690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.052779] USB_AD_read_completion other error -84
+[ 4946.053689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.053780] USB_AD_read_completion other error -84
+[ 4946.054688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.054780] USB_AD_read_completion other error -84
+[ 4946.055689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.055780] USB_AD_read_completion other error -84
+[ 4946.056690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.056780] USB_AD_read_completion other error -84
+[ 4946.057687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.057776] USB_AD_read_completion other error -84
+[ 4946.058688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.058779] USB_AD_read_completion other error -84
+[ 4946.059689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.059779] USB_AD_read_completion other error -84
+[ 4946.060689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.060780] USB_AD_read_completion other error -84
+[ 4946.061689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.061780] USB_AD_read_completion other error -84
+[ 4946.062689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.062780] USB_AD_read_completion other error -84
+[ 4946.063687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.063777] USB_AD_read_completion other error -84
+[ 4946.064688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.064778] USB_AD_read_completion other error -84
+[ 4946.065689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.065780] USB_AD_read_completion other error -84
+[ 4946.066691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.066781] USB_AD_read_completion other error -84
+[ 4946.067689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.067779] USB_AD_read_completion other error -84
+[ 4946.068690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.068781] USB_AD_read_completion other error -84
+[ 4946.069689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.069779] USB_AD_read_completion other error -84
+[ 4946.070688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.070780] USB_AD_read_completion other error -84
+[ 4946.071687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.071777] USB_AD_read_completion other error -84
+[ 4946.072690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.072781] USB_AD_read_completion other error -84
+[ 4946.073690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.073782] USB_AD_read_completion other error -84
+[ 4946.074689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.074779] USB_AD_read_completion other error -84
+[ 4946.075687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.075778] USB_AD_read_completion other error -84
+[ 4946.076690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.076780] USB_AD_read_completion other error -84
+[ 4946.077689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.077780] USB_AD_read_completion other error -84
+[ 4946.078687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.079540] USB_AD_read_completion other error -84
+[ 4946.080689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.080780] USB_AD_read_completion other error -84
+[ 4946.081690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.081781] USB_AD_read_completion other error -84
+[ 4946.082688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.082778] USB_AD_read_completion other error -84
+[ 4946.083690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.083781] USB_AD_read_completion other error -84
+[ 4946.084690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.084781] USB_AD_read_completion other error -84
+[ 4946.085689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.085780] USB_AD_read_completion other error -84
+[ 4946.086687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.086776] USB_AD_read_completion other error -84
+[ 4946.087689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.087781] USB_AD_read_completion other error -84
+[ 4946.088689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.088780] USB_AD_read_completion other error -84
+[ 4946.089689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.089780] USB_AD_read_completion other error -84
+[ 4946.090689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.090780] USB_AD_read_completion other error -84
+[ 4946.091688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.091779] USB_AD_read_completion other error -84
+[ 4946.092690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.092781] USB_AD_read_completion other error -84
+[ 4946.093689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.093779] USB_AD_read_completion other error -84
+[ 4946.094689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.094780] USB_AD_read_completion other error -84
+[ 4946.095689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.095780] USB_AD_read_completion other error -84
+[ 4946.096691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.096782] USB_AD_read_completion other error -84
+[ 4946.097689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.097780] USB_AD_read_completion other error -84
+[ 4946.098689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.098780] USB_AD_read_completion other error -84
+[ 4946.099688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.099778] USB_AD_read_completion other error -84
+[ 4946.100689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.100779] USB_AD_read_completion other error -84
+[ 4946.101689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.101779] USB_AD_read_completion other error -84
+[ 4946.102688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.102779] USB_AD_read_completion other error -84
+[ 4946.103688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.103779] USB_AD_read_completion other error -84
+[ 4946.104689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.104780] USB_AD_read_completion other error -84
+[ 4946.105688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.105777] USB_AD_read_completion other error -84
+[ 4946.106688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.106779] USB_AD_read_completion other error -84
+[ 4946.107690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.107781] USB_AD_read_completion other error -84
+[ 4946.108690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.108780] USB_AD_read_completion other error -84
+[ 4946.109690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.109780] USB_AD_read_completion other error -84
+[ 4946.110689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.110779] USB_AD_read_completion other error -84
+[ 4946.111687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.111778] USB_AD_read_completion other error -84
+[ 4946.112689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.112779] USB_AD_read_completion other error -84
+[ 4946.113689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.113780] USB_AD_read_completion other error -84
+[ 4946.114688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.114779] USB_AD_read_completion other error -84
+[ 4946.115688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.115779] USB_AD_read_completion other error -84
+[ 4946.116691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.116782] USB_AD_read_completion other error -84
+[ 4946.117689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.117780] USB_AD_read_completion other error -84
+[ 4946.118689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.118780] USB_AD_read_completion other error -84
+[ 4946.119687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.119776] USB_AD_read_completion other error -84
+[ 4946.120690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.120781] USB_AD_read_completion other error -84
+[ 4946.121689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.121779] USB_AD_read_completion other error -84
+[ 4946.122690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.122780] USB_AD_read_completion other error -84
+[ 4946.123689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.123780] USB_AD_read_completion other error -84
+[ 4946.124690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.124780] USB_AD_read_completion other error -84
+[ 4946.125689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.125780] USB_AD_read_completion other error -84
+[ 4946.126687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.126777] USB_AD_read_completion other error -84
+[ 4946.127689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.127780] USB_AD_read_completion other error -84
+[ 4946.128689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.128781] USB_AD_read_completion other error -84
+[ 4946.129689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.129780] USB_AD_read_completion other error -84
+[ 4946.130689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.130780] USB_AD_read_completion other error -84
+[ 4946.131687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.131776] USB_AD_read_completion other error -84
+[ 4946.132690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.132781] USB_AD_read_completion other error -84
+[ 4946.133689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.133781] USB_AD_read_completion other error -84
+[ 4946.134690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.134781] USB_AD_read_completion other error -84
+[ 4946.135688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.135780] USB_AD_read_completion other error -84
+[ 4946.136690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.136781] USB_AD_read_completion other error -84
+[ 4946.137691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.137782] USB_AD_read_completion other error -84
+[ 4946.138688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.138777] USB_AD_read_completion other error -84
+[ 4946.139690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.140005] USB_AD_read_completion other error -84
+[ 4946.141690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.141780] USB_AD_read_completion other error -84
+[ 4946.142690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.142780] USB_AD_read_completion other error -84
+[ 4946.143689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.143780] USB_AD_read_completion other error -84
+[ 4946.144692] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.144784] USB_AD_read_completion other error -84
+[ 4946.145689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.145781] USB_AD_read_completion other error -84
+[ 4946.146688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.146778] USB_AD_read_completion other error -84
+[ 4946.147688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.147778] USB_AD_read_completion other error -84
+[ 4946.148690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.148780] USB_AD_read_completion other error -84
+[ 4946.149689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.149780] USB_AD_read_completion other error -84
+[ 4946.150688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.150779] USB_AD_read_completion other error -84
+[ 4946.151690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.151781] USB_AD_read_completion other error -84
+[ 4946.152690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.152781] USB_AD_read_completion other error -84
+[ 4946.153689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.153780] USB_AD_read_completion other error -84
+[ 4946.154689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.154780] USB_AD_read_completion other error -84
+[ 4946.155687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.155776] USB_AD_read_completion other error -84
+[ 4946.156688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.156779] USB_AD_read_completion other error -84
+[ 4946.157687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.157776] USB_AD_read_completion other error -84
+[ 4946.158686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.158776] USB_AD_read_completion other error -84
+[ 4946.159686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.159776] USB_AD_read_completion other error -84
+[ 4946.160688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.160779] USB_AD_read_completion other error -84
+[ 4946.161687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.161777] USB_AD_read_completion other error -84
+[ 4946.162686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.162776] USB_AD_read_completion other error -84
+[ 4946.163686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.163776] USB_AD_read_completion other error -84
+[ 4946.164688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.164780] USB_AD_read_completion other error -84
+[ 4946.165689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.165779] USB_AD_read_completion other error -84
+[ 4946.166687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.166777] USB_AD_read_completion other error -84
+[ 4946.167687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.167776] USB_AD_read_completion other error -84
+[ 4946.168688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.168777] USB_AD_read_completion other error -84
+[ 4946.169687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.169776] USB_AD_read_completion other error -84
+[ 4946.170687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.170776] USB_AD_read_completion other error -84
+[ 4946.171686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.171775] USB_AD_read_completion other error -84
+[ 4946.172688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.172777] USB_AD_read_completion other error -84
+[ 4946.173687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.173776] USB_AD_read_completion other error -84
+[ 4946.174686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.174775] USB_AD_read_completion other error -84
+[ 4946.175686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.175775] USB_AD_read_completion other error -84
+[ 4946.176688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.176777] USB_AD_read_completion other error -84
+[ 4946.177687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.177776] USB_AD_read_completion other error -84
+[ 4946.178687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.178776] USB_AD_read_completion other error -84
+[ 4946.179686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.179775] USB_AD_read_completion other error -84
+[ 4946.180688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.180777] USB_AD_read_completion other error -84
+[ 4946.181686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.181777] USB_AD_read_completion other error -84
+[ 4946.182687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.182777] USB_AD_read_completion other error -84
+[ 4946.183686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.183775] USB_AD_read_completion other error -84
+[ 4946.184688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.184777] USB_AD_read_completion other error -84
+[ 4946.185687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.185776] USB_AD_read_completion other error -84
+[ 4946.186689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.186781] USB_AD_read_completion other error -84
+[ 4946.187686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.187776] USB_AD_read_completion other error -84
+[ 4946.188688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.188780] USB_AD_read_completion other error -84
+[ 4946.189687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.189779] USB_AD_read_completion other error -84
+[ 4946.190687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.190778] USB_AD_read_completion other error -84
+[ 4946.191686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.191777] USB_AD_read_completion other error -84
+[ 4946.192688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.192779] USB_AD_read_completion other error -84
+[ 4946.193688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.193779] USB_AD_read_completion other error -84
+[ 4946.194687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.194777] USB_AD_read_completion other error -84
+[ 4946.195687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.195778] USB_AD_read_completion other error -84
+[ 4946.196688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.196780] USB_AD_read_completion other error -84
+[ 4946.197688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.197779] USB_AD_read_completion other error -84
+[ 4946.198687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.198778] USB_AD_read_completion other error -84
+[ 4946.199687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.199778] USB_AD_read_completion other error -84
+[ 4946.200690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.201543] USB_AD_read_completion other error -84
+[ 4946.202688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.202779] USB_AD_read_completion other error -84
+[ 4946.203690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.203781] USB_AD_read_completion other error -84
+[ 4946.204690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.204780] USB_AD_read_completion other error -84
+[ 4946.205690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.205780] USB_AD_read_completion other error -84
+[ 4946.206688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.206778] USB_AD_read_completion other error -84
+[ 4946.207687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.207776] USB_AD_read_completion other error -84
+[ 4946.208691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.208781] USB_AD_read_completion other error -84
+[ 4946.209690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.209780] USB_AD_read_completion other error -84
+[ 4946.210689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.210779] USB_AD_read_completion other error -84
+[ 4946.211688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.211778] USB_AD_read_completion other error -84
+[ 4946.212690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.212780] USB_AD_read_completion other error -84
+[ 4946.213689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.213780] USB_AD_read_completion other error -84
+[ 4946.214689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.214780] USB_AD_read_completion other error -84
+[ 4946.215688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.215778] USB_AD_read_completion other error -84
+[ 4946.216689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.216780] USB_AD_read_completion other error -84
+[ 4946.217688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.217779] USB_AD_read_completion other error -84
+[ 4946.218690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.218781] USB_AD_read_completion other error -84
+[ 4946.219689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.219780] USB_AD_read_completion other error -84
+[ 4946.220689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.220779] USB_AD_read_completion other error -84
+[ 4946.221689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.221780] USB_AD_read_completion other error -84
+[ 4946.222687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.222777] USB_AD_read_completion other error -84
+[ 4946.223688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.223779] USB_AD_read_completion other error -84
+[ 4946.224690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.224781] USB_AD_read_completion other error -84
+[ 4946.225690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.225780] USB_AD_read_completion other error -84
+[ 4946.226690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.226780] USB_AD_read_completion other error -84
+[ 4946.227688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.227778] USB_AD_read_completion other error -84
+[ 4946.228690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.228780] USB_AD_read_completion other error -84
+[ 4946.229688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.229778] USB_AD_read_completion other error -84
+[ 4946.230688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.230778] USB_AD_read_completion other error -84
+[ 4946.231687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.231777] USB_AD_read_completion other error -84
+[ 4946.232691] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.232781] USB_AD_read_completion other error -84
+[ 4946.233688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.233777] USB_AD_read_completion other error -84
+[ 4946.234688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.234778] USB_AD_read_completion other error -84
+[ 4946.235688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.235777] USB_AD_read_completion other error -84
+[ 4946.236689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.236780] USB_AD_read_completion other error -84
+[ 4946.237689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.237779] USB_AD_read_completion other error -84
+[ 4946.238689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.238779] USB_AD_read_completion other error -84
+[ 4946.239688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.239778] USB_AD_read_completion other error -84
+[ 4946.240688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.240769] USB_AD_read_completion other error -84
+[ 4946.241688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.241769] USB_AD_read_completion other error -84
+[ 4946.242688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.242769] USB_AD_read_completion other error -84
+[ 4946.243685] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.243766] USB_AD_read_completion other error -84
+[ 4946.244688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.244769] USB_AD_read_completion other error -84
+[ 4946.245688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.245769] USB_AD_read_completion other error -84
+[ 4946.246686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.246767] USB_AD_read_completion other error -84
+[ 4946.247687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.247769] USB_AD_read_completion other error -84
+[ 4946.248688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.248769] USB_AD_read_completion other error -84
+[ 4946.249687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.249768] USB_AD_read_completion other error -84
+[ 4946.250687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.250768] USB_AD_read_completion other error -84
+[ 4946.251687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.251768] USB_AD_read_completion other error -84
+[ 4946.252690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.252770] USB_AD_read_completion other error -84
+[ 4946.253688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.253770] USB_AD_read_completion other error -84
+[ 4946.254687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.254768] USB_AD_read_completion other error -84
+[ 4946.255686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.255767] USB_AD_read_completion other error -84
+[ 4946.256688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.256770] USB_AD_read_completion other error -84
+[ 4946.257689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.257769] USB_AD_read_completion other error -84
+[ 4946.258686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.258767] USB_AD_read_completion other error -84
+[ 4946.259687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.259769] USB_AD_read_completion other error -84
+[ 4946.260689] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.260770] USB_AD_read_completion other error -84
+[ 4946.261688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.262491] USB_AD_read_completion other error -84
+[ 4946.262687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.262767] USB_AD_read_completion other error -84
+[ 4946.263686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.263767] USB_AD_read_completion other error -84
+[ 4946.264688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.264770] USB_AD_read_completion other error -84
+[ 4946.265688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.265770] USB_AD_read_completion other error -84
+[ 4946.266687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.266768] USB_AD_read_completion other error -84
+[ 4946.267685] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.267766] USB_AD_read_completion other error -84
+[ 4946.268690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.268771] USB_AD_read_completion other error -84
+[ 4946.269688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.269769] USB_AD_read_completion other error -84
+[ 4946.270687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.270768] USB_AD_read_completion other error -84
+[ 4946.271687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.271768] USB_AD_read_completion other error -84
+[ 4946.272690] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.272771] USB_AD_read_completion other error -84
+[ 4946.273688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.273769] USB_AD_read_completion other error -84
+[ 4946.274688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.274770] USB_AD_read_completion other error -84
+[ 4946.275686] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.275768] USB_AD_read_completion other error -84
+[ 4946.276688] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.276769] USB_AD_read_completion other error -84
+[ 4946.277687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.277768] USB_AD_read_completion other error -84
+[ 4946.278687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.278768] USB_AD_read_completion other error -84
+[ 4946.279687] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.279768] USB_AD_read_completion other error -84
+[ 4946.280106] usb_ad: ad_read_bulk_callback - nonzero read bulk status received: -84
+[ 4946.280187] USB_AD_read_completion other error -84
+[ 4946.280272] usb 2-1: USB disconnect, address 5
+[ 4946.280688] USB_AD_read_completion other error -108
+[ 4946.280743] usb_ad: ad_do_read_io - failed submitting read urb, error -19
+[ 4946.281033] USB_AD : ad_disconnect executed
+[ 4946.281162] USB_AD 2-1:2.0: USB_AD #192 now disconnected
+[ 4947.512016] usb 2-1: new full speed USB device using uhci_hcd and address 6
+[ 4947.708873] usb 2-1: configuration #1 chosen from 2 choices
+[ 4947.717546] USB_AD : ad_probe executed
+[ 4947.717625] USB_AD : usb_ad_delete executed
+[ 4947.717687] USB_AD : usb_ad_delete removed a client
+[ 4947.717752] USB_AD : usb_ad_delete removed a client
+[ 4947.717821] USB_AD : usb_ad_delete removed a client
+[ 4947.717891] USB_AD : usb_ad_delete removed a client
+[ 4947.717964] USB_AD : usb_ad_delete removed a client
+[ 4947.718031] USB_AD : usb_ad_delete removed a client
+[ 4947.718097] USB_AD : usb_ad_delete removed a client
+[ 4947.718166] USB_AD : usb_ad_delete removed a client
+[ 4947.718234] USB_AD : usb_ad_delete removed a client
+[ 4947.718301] USB_AD : usb_ad_delete removed a client
+[ 4947.718368] USB_AD : usb_ad_delete removed a client
+[ 4947.718435] USB_AD : usb_ad_delete removed a client
+[ 4947.718505] USB_AD : usb_ad_delete removed a client
+[ 4947.718550] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.718556] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.718565] *pde = 00000000 
+[ 4947.718570] Oops: 0002 [#1] SMP 
+[ 4947.718575] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.718645] 
+[ 4947.718648] Pid: 11004, comm: usb Not tainted (2.6.27-9-generic #1)
+[ 4947.718651] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.718656] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.718659] EAX: 00000058 EBX: e88a7f30 ECX: 00000002 EDX: 00000100
+[ 4947.718662] ESI: 00000246 EDI: 00000002 EBP: e88a7ee4 ESP: e88a7ee4
+[ 4947.718665]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.718669] Process usb (pid: 11004, ti=e88a6000 task=eb1d6480 task.ti=e88a6000)
+[ 4947.718671] Stack: e88a7ef4 c037e5c1 e88a7f30 00000058 e88a7f08 c0147664 00000030 e88a7f30 
+[ 4947.718678]        00000000 e88a7f5c f8def28b e88a7f24 e88a7f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.718685]        f51eea1c 00000000 c02a0347 00000000 eb1d6480 c01474b0 e88a7f3c e88a7f3c 
+[ 4947.718691] Call Trace:
+[ 4947.718694]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.718701]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.718706]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.718714]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.718718]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.718724]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.718731]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.718736]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.718741]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.718747]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.718751]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.718756]  =======================
+[ 4947.718758] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.718791] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e88a7ee4
+[ 4947.718799] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.718895] USB_AD : ad_flush executed
+[ 4947.718898] USB_AD : ad_flush open count is : 25
+[ 4947.718901] USB_AD : usb_ad_release executed
+[ 4947.718904] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.718908] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.718911] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.718914] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.718918] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.718921] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.718925] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.718928] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.718932] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.718935] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.718939] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.718942] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.719719] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.719724] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.719732] *pde = 00000000 
+[ 4947.719736] Oops: 0002 [#2] SMP 
+[ 4947.719739] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.719808] 
+[ 4947.719811] Pid: 10992, comm: usb10 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.719814] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.719819] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.719822] EAX: 00000058 EBX: e888bf30 ECX: 00000002 EDX: 00000100
+[ 4947.719825] ESI: 00000246 EDI: 00000002 EBP: e888bee4 ESP: e888bee4
+[ 4947.719828]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.719831] Process usb10 (pid: 10992, ti=e888a000 task=f51e57f0 task.ti=e888a000)
+[ 4947.719834] Stack: e888bef4 c037e5c1 e888bf30 00000058 e888bf08 c0147664 00000000 e888bf30 
+[ 4947.719840]        00000000 e888bf5c f8def28b e888bf24 e888bf20 c037d4e0 c0046401 eb264ca0 
+[ 4947.719847]        f51eea1c 00000000 c02a0347 00000000 f51e57f0 c01474b0 e888bf3c e888bf3c 
+[ 4947.719853] Call Trace:
+[ 4947.719856]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.719862]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.719866]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.719873]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.719878]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.719883]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.719890]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.719895]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.719900]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.719905]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.719909]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.719914]  =======================
+[ 4947.719916] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.719949] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e888bee4
+[ 4947.719956] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.720040] USB_AD : ad_flush executed
+[ 4947.720042] USB_AD : ad_flush open count is : 24
+[ 4947.720045] USB_AD : usb_ad_release executed
+[ 4947.720049] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.720052] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.720056] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.720059] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.720062] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.720066] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.720069] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.720072] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.720076] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.720079] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.720083] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.720086] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.720144] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.720148] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.720154] *pde = 00000000 
+[ 4947.720157] Oops: 0002 [#3] SMP 
+[ 4947.720160] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.720227] 
+[ 4947.720230] Pid: 10993, comm: usb3 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.720233] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.720237] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.720240] EAX: 00000058 EBX: ed9b3f30 ECX: 00000002 EDX: 00000100
+[ 4947.720243] ESI: 00000246 EDI: 00000002 EBP: ed9b3ee4 ESP: ed9b3ee4
+[ 4947.720246]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.720249] Process usb3 (pid: 10993, ti=ed9b2000 task=f51e3ed0 task.ti=ed9b2000)
+[ 4947.720251] Stack: ed9b3ef4 c037e5c1 ed9b3f30 00000058 ed9b3f08 c0147664 00000004 ed9b3f30 
+[ 4947.720258]        00000000 ed9b3f5c f8def28b ed9b3f24 ed9b3f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.720265]        f51eea1c 00000000 c02a0347 00000000 f51e3ed0 c01474b0 ed9b3f3c ed9b3f3c 
+[ 4947.720271] Call Trace:
+[ 4947.720273]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.720279]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.720283]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.720289]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.720294]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.720299]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.720305]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.720310]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.720314]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.720319]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.720323]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.720328]  =======================
+[ 4947.720330] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.720363] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:ed9b3ee4
+[ 4947.720369] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.720446] USB_AD : ad_flush executed
+[ 4947.720449] USB_AD : ad_flush open count is : 23
+[ 4947.720451] USB_AD : usb_ad_release executed
+[ 4947.720454] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.720458] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.720461] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.720464] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.720468] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.720471] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.720475] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.720478] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.720481] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.720485] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.720488] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.720491] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.720548] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.720552] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.720558] *pde = 00000000 
+[ 4947.720561] Oops: 0002 [#4] SMP 
+[ 4947.720564] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.720631] 
+[ 4947.720634] Pid: 10995, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.720637] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.720641] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.720644] EAX: 00000058 EBX: e885bf30 ECX: 00000002 EDX: 00000100
+[ 4947.720647] ESI: 00000246 EDI: 00000002 EBP: e885bee4 ESP: e885bee4
+[ 4947.720650]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.720653] Process usb (pid: 10995, ti=e885a000 task=f51e4b60 task.ti=e885a000)
+[ 4947.720655] Stack: e885bef4 c037e5c1 e885bf30 00000058 e885bf08 c0147664 0000000c e885bf30 
+[ 4947.720662]        00000000 e885bf5c f8def28b e885bf24 e885bf20 c037d4e0 c0046401 eb264ca0 
+[ 4947.720668]        f51eea1c 00000000 c02a0347 00000000 f51e4b60 c01474b0 e885bf3c e885bf3c 
+[ 4947.720675] Call Trace:
+[ 4947.720677]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.720682]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.720687]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.720693]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.720697]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.720702]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.720708]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.720713]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.720717]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.720722]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.720726]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.720731]  =======================
+[ 4947.720733] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.720765] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e885bee4
+[ 4947.720772] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.720849] USB_AD : ad_flush executed
+[ 4947.720852] USB_AD : ad_flush open count is : 22
+[ 4947.720855] USB_AD : usb_ad_release executed
+[ 4947.720858] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.720861] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.720864] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.720868] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.720871] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.720874] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.720878] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.720881] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.720884] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.720888] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.720891] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.720894] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.720946] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.720950] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.720957] *pde = 00000000 
+[ 4947.720960] Oops: 0002 [#5] SMP 
+[ 4947.720962] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.721029] 
+[ 4947.721032] Pid: 10994, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.721035] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.721040] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.721042] EAX: 00000058 EBX: e8875f30 ECX: 00000002 EDX: 00000100
+[ 4947.721045] ESI: 00000246 EDI: 00000002 EBP: e8875ee4 ESP: e8875ee4
+[ 4947.721048]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.721051] Process usb2 (pid: 10994, ti=e8874000 task=f51e0c90 task.ti=e8874000)
+[ 4947.721054] Stack: e8875ef4 c037e5c1 e8875f30 00000058 e8875f08 c0147664 00000008 e8875f30 
+[ 4947.721061]        00000000 e8875f5c f8def28b e8875f24 e8875f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.721067]        f51eea1c 00000000 c02a0347 00000000 f51e0c90 c01474b0 e8875f3c e8875f3c 
+[ 4947.721073] Call Trace:
+[ 4947.721076]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.721081]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.721085]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.721091]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.721096]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.721101]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.721107]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.721112]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.721116]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.721121]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.721125]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.721130]  =======================
+[ 4947.721132] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.721164] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e8875ee4
+[ 4947.721171] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.721237] USB_AD : ad_flush executed
+[ 4947.721239] USB_AD : ad_flush open count is : 21
+[ 4947.721242] USB_AD : usb_ad_release executed
+[ 4947.721245] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.721248] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.721251] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.721255] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.721258] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.721262] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.721265] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.721268] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.721272] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.721275] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.721278] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.721282] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.721322] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.721326] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.721332] *pde = 00000000 
+[ 4947.721335] Oops: 0002 [#6] SMP 
+[ 4947.721338] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.721404] 
+[ 4947.721407] Pid: 11001, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.721410] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.721414] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.721417] EAX: 00000058 EBX: efad5f30 ECX: 00000002 EDX: 00000100
+[ 4947.721420] ESI: 00000246 EDI: 00000002 EBP: efad5ee4 ESP: efad5ee4
+[ 4947.721423]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.721426] Process usb (pid: 11001, ti=efad4000 task=f5110000 task.ti=efad4000)
+[ 4947.721429] Stack: efad5ef4 c037e5c1 efad5f30 00000058 efad5f08 c0147664 00000024 efad5f30 
+[ 4947.721435]        00000000 efad5f5c f8def28b efad5f24 efad5f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.721442]        f51eea1c 00000000 c02a0347 00000000 f5110000 c01474b0 efad5f3c efad5f3c 
+[ 4947.721448] Call Trace:
+[ 4947.721450]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.721456]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.721460]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.721466]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.721470]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.721476]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.721482]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.721487]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.721491]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.721496]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.721500]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.721505]  =======================
+[ 4947.721507] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.721539] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:efad5ee4
+[ 4947.721546] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.721619] USB_AD : ad_flush executed
+[ 4947.721621] USB_AD : ad_flush open count is : 20
+[ 4947.721624] USB_AD : usb_ad_release executed
+[ 4947.721627] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.721630] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.721634] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.721637] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.721640] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.721644] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.721647] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.721650] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.721654] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.721657] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.721660] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.721664] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.721705] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.721709] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.721715] *pde = 00000000 
+[ 4947.721718] Oops: 0002 [#7] SMP 
+[ 4947.721721] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.721787] 
+[ 4947.721790] Pid: 11000, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.721793] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.721797] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.721800] EAX: 00000058 EBX: efb03f30 ECX: 00000002 EDX: 00000100
+[ 4947.721803] ESI: 00000246 EDI: 00000002 EBP: efb03ee4 ESP: efb03ee4
+[ 4947.721806]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.721809] Process usb (pid: 11000, ti=efb02000 task=f5110c90 task.ti=efb02000)
+[ 4947.721811] Stack: efb03ef4 c037e5c1 efb03f30 00000058 efb03f08 c0147664 00000020 efb03f30 
+[ 4947.721818]        00000000 efb03f5c f8def28b efb03f24 efb03f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.721824]        f51eea1c 00000000 c02a0347 00000000 f5110c90 c01474b0 efb03f3c efb03f3c 
+[ 4947.721831] Call Trace:
+[ 4947.721833]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.721838]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.721843]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.721849]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.721853]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.721858]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.721864]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.721868]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.721873]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.721878]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.721882]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.721887]  =======================
+[ 4947.721889] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.721921] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:efb03ee4
+[ 4947.721928] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.721998] USB_AD : ad_flush executed
+[ 4947.722001] USB_AD : ad_flush open count is : 19
+[ 4947.722003] USB_AD : usb_ad_release executed
+[ 4947.722006] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.722009] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.722013] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.722016] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.722020] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.722023] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.722026] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.722030] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.722033] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.722036] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.722040] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.722043] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.722089] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.722093] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.722099] *pde = 00000000 
+[ 4947.722102] Oops: 0002 [#8] SMP 
+[ 4947.722105] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.722172] 
+[ 4947.722174] Pid: 10997, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.722177] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.722182] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.722184] EAX: 00000058 EBX: ef7d3f30 ECX: 00000002 EDX: 00000100
+[ 4947.722187] ESI: 00000246 EDI: 00000002 EBP: ef7d3ee4 ESP: ef7d3ee4
+[ 4947.722190]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.722193] Process usb (pid: 10997, ti=ef7d2000 task=f51e6480 task.ti=ef7d2000)
+[ 4947.722195] Stack: ef7d3ef4 c037e5c1 ef7d3f30 00000058 ef7d3f08 c0147664 00000014 ef7d3f30 
+[ 4947.722202]        00000000 ef7d3f5c f8def28b ef7d3f24 ef7d3f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.722209]        f51eea1c 00000000 c02a0347 00000000 f51e6480 c01474b0 ef7d3f3c ef7d3f3c 
+[ 4947.722215] Call Trace:
+[ 4947.722217]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.722222]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.722227]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.722233]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.722237]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.722242]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.722248]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.722253]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.722257]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.722262]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.722267]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.722271]  =======================
+[ 4947.722273] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.722306] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:ef7d3ee4
+[ 4947.722312] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.722379] USB_AD : ad_flush executed
+[ 4947.722382] USB_AD : ad_flush open count is : 18
+[ 4947.722384] USB_AD : usb_ad_release executed
+[ 4947.722387] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.722391] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.722395] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.722398] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.722401] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.722405] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.722408] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.722412] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.722415] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.722418] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.722422] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.722425] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.722465] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.722469] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.722475] *pde = 00000000 
+[ 4947.722478] Oops: 0002 [#9] SMP 
+[ 4947.722481] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.722548] 
+[ 4947.722550] Pid: 10996, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.722553] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.722558] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.722560] EAX: 00000058 EBX: e8891f30 ECX: 00000002 EDX: 00000100
+[ 4947.722563] ESI: 00000246 EDI: 00000002 EBP: e8891ee4 ESP: e8891ee4
+[ 4947.722566]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.722569] Process usb (pid: 10996, ti=e8890000 task=f51e3240 task.ti=e8890000)
+[ 4947.722571] Stack: e8891ef4 c037e5c1 e8891f30 00000058 e8891f08 c0147664 00000010 e8891f30 
+[ 4947.722578]        00000000 e8891f5c f8def28b e8891f24 e8891f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.722585]        f51eea1c 00000000 c02a0347 00000000 f51e3240 c01474b0 e8891f3c e8891f3c 
+[ 4947.722591] Call Trace:
+[ 4947.722593]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.722598]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.722603]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.722609]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.722613]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.722618]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.722625]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.722630]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.722634]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.722639]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.722643]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.722648]  =======================
+[ 4947.722650] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.722682] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e8891ee4
+[ 4947.722689] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.722766] USB_AD : ad_flush executed
+[ 4947.722769] USB_AD : ad_flush open count is : 17
+[ 4947.722771] USB_AD : usb_ad_release executed
+[ 4947.722774] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.722778] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.722781] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.722785] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.722788] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.722791] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.722795] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.722798] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.722801] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.722805] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.722808] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.722811] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.722851] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.722856] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.722862] *pde = 00000000 
+[ 4947.722865] Oops: 0002 [#10] SMP 
+[ 4947.722867] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.722934] 
+[ 4947.722937] Pid: 10999, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.722940] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.722944] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.722947] EAX: 00000058 EBX: efa81f30 ECX: 00000002 EDX: 00000100
+[ 4947.722950] ESI: 00000246 EDI: 00000002 EBP: efa81ee4 ESP: efa81ee4
+[ 4947.722953]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.722956] Process usb (pid: 10999, ti=efa80000 task=f51e1920 task.ti=efa80000)
+[ 4947.722958] Stack: efa81ef4 c037e5c1 efa81f30 00000058 efa81f08 c0147664 0000001c efa81f30 
+[ 4947.722965]        00000000 efa81f5c f8def28b efa81f24 efa81f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.722971]        f51eea1c 00000000 c02a0347 00000000 f51e1920 c01474b0 efa81f3c efa81f3c 
+[ 4947.722977] Call Trace:
+[ 4947.722980]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.722985]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.722989]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.722995]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.722999]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.723004]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.723011]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.723015]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.723020]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.723025]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.723029]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.723034]  =======================
+[ 4947.723036] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.723068] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:efa81ee4
+[ 4947.723075] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.723145] USB_AD : ad_flush executed
+[ 4947.723148] USB_AD : ad_flush open count is : 16
+[ 4947.723151] USB_AD : usb_ad_release executed
+[ 4947.723153] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.723157] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.723160] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.723163] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.723167] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.723170] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.723174] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.723177] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.723180] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.723184] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.723187] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.723190] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.723230] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.723235] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.723240] *pde = 00000000 
+[ 4947.723244] Oops: 0002 [#11] SMP 
+[ 4947.723246] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.723313] 
+[ 4947.723316] Pid: 10998, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.723319] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.723323] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.723326] EAX: 00000058 EBX: efab7f30 ECX: 00000002 EDX: 00000100
+[ 4947.723329] ESI: 00000246 EDI: 00000002 EBP: efab7ee4 ESP: efab7ee4
+[ 4947.723332]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.723335] Process usb (pid: 10998, ti=efab6000 task=f51e7110 task.ti=efab6000)
+[ 4947.723337] Stack: efab7ef4 c037e5c1 efab7f30 00000058 efab7f08 c0147664 00000018 efab7f30 
+[ 4947.723344]        00000000 efab7f5c f8def28b efab7f24 efab7f20 c037d4e0 c0046401 eb264ca0 
+[ 4947.723351]        f51eea1c 00000000 c02a0347 00000000 f51e7110 c01474b0 efab7f3c efab7f3c 
+[ 4947.723357] Call Trace:
+[ 4947.723359]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.723364]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.723369]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.723375]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.723379]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.723384]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.723390]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.723395]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.723399]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.723404]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.723409]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.723414]  =======================
+[ 4947.723415] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.723448] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:efab7ee4
+[ 4947.723455] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.723520] USB_AD : ad_flush executed
+[ 4947.723522] USB_AD : ad_flush open count is : 15
+[ 4947.723525] USB_AD : usb_ad_release executed
+[ 4947.723528] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.723531] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.723535] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.723538] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.723541] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.723545] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.723548] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.723551] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.723554] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.723558] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.723561] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.723565] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.723602] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.723606] IP: [<c011af28>] __ticket_spin_lock+0x8/0x20
+[ 4947.723612] *pde = 00000000 
+[ 4947.723614] Oops: 0002 [#12] SMP 
+[ 4947.723617] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.723684] 
+[ 4947.723687] Pid: 11002, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.723690] EIP: 0060:[<c011af28>] EFLAGS: 00010046 CPU: 1
+[ 4947.723694] EIP is at __ticket_spin_lock+0x8/0x20
+[ 4947.723697] EAX: 00000058 EBX: e887ff30 ECX: 00000002 EDX: 00000100
+[ 4947.723700] ESI: 00000246 EDI: 00000002 EBP: e887fee4 ESP: e887fee4
+[ 4947.723702]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.723705] Process usb (pid: 11002, ti=e887e000 task=f404cb60 task.ti=e887e000)
+[ 4947.723708] Stack: e887fef4 c037e5c1 e887ff30 00000058 e887ff08 c0147664 00000028 e887ff30 
+[ 4947.723715]        00000000 e887ff5c f8def28b e887ff24 e887ff20 c037d4e0 c0046401 eb264ca0 
+[ 4947.723721]        f51eea1c 00000000 c02a0347 00000000 f404cb60 c01474b0 e887ff3c e887ff3c 
+[ 4947.723727] Call Trace:
+[ 4947.723729]  [<c037e5c1>] ? _spin_lock_irqsave+0x31/0x40
+[ 4947.723735]  [<c0147664>] ? prepare_to_wait+0x24/0x70
+[ 4947.723739]  [<f8def28b>] ? ad_ioctl+0x18b/0x7d0 [usb_ad]
+[ 4947.723745]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.723750]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.723754]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.723761]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.723765]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.723770]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.723775]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.723779]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.723785]  =======================
+[ 4947.723787] Code: 00 00 00 55 8b 10 89 e5 5d 89 d0 c1 f8 08 29 d0 25 ff 00 00 00 83 e8 01 0f 9f c0 0f b6 c0 c3 8d 74 26 00 55 ba 00 01 00 00 89 e5 <f0> 66 0f c1 10 38 f2 74 06 f3 90 8a 10 eb f6 5d c3 8d b4 26 00 
+[ 4947.723819] EIP: [<c011af28>] __ticket_spin_lock+0x8/0x20 SS:ESP 0068:e887fee4
+[ 4947.723826] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.723898] USB_AD : ad_flush executed
+[ 4947.723901] USB_AD : ad_flush open count is : 14
+[ 4947.723903] USB_AD : usb_ad_release executed
+[ 4947.723906] USB_AD : release client with PID = 11005 warning state : 0, number of warnings: 0
+[ 4947.723910] USB_AD : release client with PID = 11006 warning state : 0, number of warnings: 0
+[ 4947.723913] USB_AD : release client with PID = 11007 warning state : 0, number of warnings: 0
+[ 4947.723916] USB_AD : release client with PID = 11008 warning state : 0, number of warnings: 0
+[ 4947.723920] USB_AD : release client with PID = 11009 warning state : 0, number of warnings: 0
+[ 4947.723923] USB_AD : release client with PID = 11010 warning state : 0, number of warnings: 0
+[ 4947.723926] USB_AD : release client with PID = 11011 warning state : 0, number of warnings: 0
+[ 4947.723930] USB_AD : release client with PID = 11012 warning state : 0, number of warnings: 0
+[ 4947.723933] USB_AD : release client with PID = 11013 warning state : 0, number of warnings: 0
+[ 4947.723936] USB_AD : release client with PID = 11014 warning state : 0, number of warnings: 0
+[ 4947.723939] USB_AD : release client with PID = 11015 warning state : 0, number of warnings: 0
+[ 4947.723943] USB_AD : release client with PID = 11016 warning state : 0, number of warnings: 0
+[ 4947.767396] USB_AD : usb_ad_delete removed a client
+[ 4947.767463] USB_AD : usb_ad_delete removed a client
+[ 4947.767527] USB_AD : usb_ad_delete removed a client
+[ 4947.767590] USB_AD : usb_ad_delete removed a client
+[ 4947.767654] USB_AD : usb_ad_delete removed a client
+[ 4947.767714] USB_AD : usb_ad_delete removed a client
+[ 4947.767776] USB_AD : usb_ad_delete removed a client
+[ 4947.767838] USB_AD : usb_ad_delete removed a client
+[ 4947.767901] USB_AD : usb_ad_delete removed a client
+[ 4947.767962] USB_AD : usb_ad_delete removed a client
+[ 4947.768040] USB_AD : usb_ad_delete removed a client
+[ 4947.768103] USB_AD : usb_ad_delete removed a client
+[ 4947.768162] USB_AD : usb_ad_delete removed the Clients array
+[ 4947.768224] USB_AD : ad_probe failed
+[ 4947.768296] BUG: unable to handle kernel NULL pointer dereference at 00000058
+[ 4947.768411] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.768502] *pde = 00000000 
+[ 4947.768583] Oops: 0000 [#13] SMP 
+[ 4947.768685] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.771510] 
+[ 4947.771560] Pid: 11014, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.771627] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 0
+[ 4947.771692] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.771752] EAX: e8856000 EBX: 00000058 ECX: 00008f01 EDX: 00000000
+[ 4947.771816] ESI: e8857f30 EDI: 00000000 EBP: e8857f5c ESP: e8857f10
+[ 4947.771880]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.771942] Process usb2 (pid: 11014, ti=e8856000 task=f43d6480 task.ti=e8856000)
+[ 4947.772009] Stack: e8857f24 e8857f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.772025]        00000000 f43d6480 c01474b0 e8857f3c e8857f3c 00000002 f641ef84 e8857f5c 
+[ 4947.772025]        f8defca0 f4398cc0 bfd5cd8a e8857f78 c01beef1 bfd5cd8a c0046401 00000000 
+[ 4947.772025] Call Trace:
+[ 4947.772025]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.772025]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.772025]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.772025]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.772025]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.772025]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.772025]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.772025]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.772025]  =======================
+[ 4947.772025] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.772025] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:e8857f10
+[ 4947.775757] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.775821] BUG: unable to handle kernel NULL pointer dereference at 00000050
+[ 4947.775937] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.776025] *pde = 00000000 
+[ 4947.776102] Oops: 0000 [#14] SMP 
+[ 4947.776202] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.776502] 
+[ 4947.776502] Pid: 11012, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.776502] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.776502] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.776502] EAX: eb268000 EBX: 00000050 ECX: 00009001 EDX: 00000000
+[ 4947.776502] ESI: eb269f30 EDI: 00000000 EBP: eb269f5c ESP: eb269f10
+[ 4947.776502]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.776502] Process usb2 (pid: 11012, ti=eb268000 task=f6b28000 task.ti=eb268000)
+[ 4947.776502] Stack: eb269f24 eb269f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.776502]        00000000 f6b28000 c01474b0 eb269f3c eb269f3c 00000002 f641ef84 eb269f5c 
+[ 4947.776502]        f8defca0 f52bc300 bfe836ba eb269f78 c01beef1 bfe836ba c0046401 00000000 
+[ 4947.776502] Call Trace:
+[ 4947.776502]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.776502]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.776502]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.776502]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.776502]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.776502]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.776502]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.776502]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.776502]  =======================
+[ 4947.776502] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.776502] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb269f10
+[ 4947.783982] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.784046] BUG: unable to handle kernel NULL pointer dereference at 00000054
+[ 4947.784161] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.784248] *pde = 00000000 
+[ 4947.784324] Oops: 0000 [#15] SMP 
+[ 4947.784425] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.787231] 
+[ 4947.787280] Pid: 11013, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.787345] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 0
+[ 4947.787407] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.787466] EAX: eb30c000 EBX: 00000054 ECX: 00009101 EDX: 00000000
+[ 4947.787529] ESI: eb30df30 EDI: 00000000 EBP: eb30df5c ESP: eb30df10
+[ 4947.787591]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.787652] Process usb2 (pid: 11013, ti=eb30c000 task=f6b2a5b0 task.ti=eb30c000)
+[ 4947.787718] Stack: eb30df24 eb30df20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.788002]        00000000 f6b2a5b0 c01474b0 eb30df3c eb30df3c 00000002 f641ef84 eb30df5c 
+[ 4947.788002]        f8defca0 efd81e40 bfb44b7a eb30df78 c01beef1 bfb44b7a c0046401 00000000 
+[ 4947.788002] Call Trace:
+[ 4947.788002]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.788002]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.788002]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.788002]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.788002]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.788002]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.788002]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.788002]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.788002]  =======================
+[ 4947.788002] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.788002] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb30df10
+[ 4947.791454] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.791516] BUG: unable to handle kernel NULL pointer dereference at 0000004c
+[ 4947.791629] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.791717] *pde = 00000000 
+[ 4947.791793] Oops: 0000 [#16] SMP 
+[ 4947.791894] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.792502] 
+[ 4947.792502] Pid: 11011, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.792502] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.792502] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.792502] EAX: eb212000 EBX: 0000004c ECX: 00009201 EDX: 00000000
+[ 4947.792502] ESI: eb213f30 EDI: 00000000 EBP: eb213f5c ESP: eb213f10
+[ 4947.792502]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.792502] Process usb (pid: 11011, ti=eb212000 task=eb1d7110 task.ti=eb212000)
+[ 4947.792502] Stack: eb213f24 eb213f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.792502]        00000000 eb1d7110 c01474b0 eb213f3c eb213f3c 00000002 f641ef84 eb213f5c 
+[ 4947.792502]        f8defca0 f50629c0 bf9ae1ea eb213f78 c01beef1 bf9ae1ea c0046401 00000000 
+[ 4947.792502] Call Trace:
+[ 4947.792502]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.792502]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.792502]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.792502]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.792502]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.792502]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.792502]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.792502]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.792502]  =======================
+[ 4947.792502] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.792502] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb213f10
+[ 4947.798931] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.798992] BUG: unable to handle kernel NULL pointer dereference at 00000034
+[ 4947.799106] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.799192] *pde = 00000000 
+[ 4947.799269] Oops: 0000 [#17] SMP 
+[ 4947.799369] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.800002] 
+[ 4947.800002] Pid: 11005, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.800002] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 0
+[ 4947.800002] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.800002] EAX: eb146000 EBX: 00000034 ECX: 00009301 EDX: 00000000
+[ 4947.800002] ESI: eb147f30 EDI: 00000000 EBP: eb147f5c ESP: eb147f10
+[ 4947.800002]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.800002] Process usb (pid: 11005, ti=eb146000 task=eb1d3ed0 task.ti=eb146000)
+[ 4947.800002] Stack: eb147f24 eb147f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.800002]        00000000 eb1d3ed0 c01474b0 eb147f3c eb147f3c 00000002 f641ef84 eb147f5c 
+[ 4947.800002]        f8defca0 f4309540 bfbfa42a eb147f78 c01beef1 bfbfa42a c0046401 00000000 
+[ 4947.800002] Call Trace:
+[ 4947.800002]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.800002]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.800002]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.800002]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.800002]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.800002]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.800002]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.800002]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.800002]  =======================
+[ 4947.800002] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.800002] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb147f10
+[ 4947.806398] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.806459] BUG: unable to handle kernel NULL pointer dereference at 00000048
+[ 4947.806573] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.806659] *pde = 00000000 
+[ 4947.806736] Oops: 0000 [#18] SMP 
+[ 4947.806836] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.808501] 
+[ 4947.808501] Pid: 11010, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.808501] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.808501] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.808501] EAX: eb0ae000 EBX: 00000048 ECX: 00009401 EDX: 00000000
+[ 4947.808501] ESI: eb0aff30 EDI: 00000000 EBP: eb0aff5c ESP: eb0aff10
+[ 4947.808501]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.808501] Process usb (pid: 11010, ti=eb0ae000 task=eb1d57f0 task.ti=eb0ae000)
+[ 4947.808501] Stack: eb0aff24 eb0aff20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.808501]        00000000 eb1d57f0 c01474b0 eb0aff3c eb0aff3c 00000002 f641ef84 eb0aff5c 
+[ 4947.808501]        f8defca0 f50623c0 bf81904a eb0aff78 c01beef1 bf81904a c0046401 00000000 
+[ 4947.808501] Call Trace:
+[ 4947.808501]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.808501]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.808501]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.808501]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.808501]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.808501]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.808501]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.808501]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.808501]  =======================
+[ 4947.808501] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.808501] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb0aff10
+[ 4947.814619] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.814681] BUG: unable to handle kernel NULL pointer dereference at 0000002c
+[ 4947.814795] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.814881] *pde = 00000000 
+[ 4947.814957] Oops: 0000 [#19] SMP 
+[ 4947.815058] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.816002] 
+[ 4947.816002] Pid: 11003, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.816002] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 0
+[ 4947.816002] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.816002] EAX: efaf6000 EBX: 0000002c ECX: 00009501 EDX: 00000000
+[ 4947.816002] ESI: efaf7f30 EDI: 00000000 EBP: efaf7f5c ESP: efaf7f10
+[ 4947.816002]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.816002] Process usb (pid: 11003, ti=efaf6000 task=eb1d4b60 task.ti=efaf6000)
+[ 4947.816002] Stack: efaf7f24 efaf7f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.816002]        00000000 eb1d4b60 c01474b0 efaf7f3c efaf7f3c 00000002 f641ef84 efaf7f5c 
+[ 4947.816002]        f8defca0 f5282d80 bf84107a efaf7f78 c01beef1 bf84107a c0046401 00000000 
+[ 4947.816002] Call Trace:
+[ 4947.816002]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.816002]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.816002]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.816002]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.816002]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.816002]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.816002]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.816002]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.816002]  =======================
+[ 4947.816002] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.816002] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:efaf7f10
+[ 4947.822086] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.822149] BUG: unable to handle kernel NULL pointer dereference at 00000040
+[ 4947.822262] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.822349] *pde = 00000000 
+[ 4947.822425] Oops: 0000 [#20] SMP 
+[ 4947.822526] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.824501] 
+[ 4947.824501] Pid: 11008, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.824501] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.824501] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.824501] EAX: ed964000 EBX: 00000040 ECX: 00009601 EDX: 00000000
+[ 4947.824501] ESI: ed965f30 EDI: 00000000 EBP: ed965f5c ESP: ed965f10
+[ 4947.824501]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.824501] Process usb (pid: 11008, ti=ed964000 task=eb1d0000 task.ti=ed964000)
+[ 4947.824501] Stack: ed965f24 ed965f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.824501]        00000000 eb1d0000 c01474b0 ed965f3c ed965f3c 00000002 f641ef84 ed965f5c 
+[ 4947.824501]        f8defca0 f5158480 bfd00d3a ed965f78 c01beef1 bfd00d3a c0046401 00000000 
+[ 4947.824501] Call Trace:
+[ 4947.824501]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.824501]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.824501]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.824501]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.824501]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.824501]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.824501]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.824501]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.824501]  =======================
+[ 4947.824501] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.824501] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:ed965f10
+[ 4947.829558] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.829620] BUG: unable to handle kernel NULL pointer dereference at 0000005c
+[ 4947.829734] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.829821] *pde = 00000000 
+[ 4947.829897] Oops: 0000 [#21] SMP 
+[ 4947.829997] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.832002] 
+[ 4947.832002] Pid: 11015, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.832002] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 0
+[ 4947.832002] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.832002] EAX: efbe4000 EBX: 0000005c ECX: c2209701 EDX: 00000000
+[ 4947.832002] ESI: efbe5f30 EDI: 00000000 EBP: efbe5f5c ESP: efbe5f10
+[ 4947.832002]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.832002] Process usb2 (pid: 11015, ti=efbe4000 task=f43d25b0 task.ti=efbe4000)
+[ 4947.832002] Stack: efbe5f24 efbe5f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.832002]        00000000 f43d25b0 c01474b0 efbe5f3c efbe5f3c 00000002 f641ef84 efbe5f5c 
+[ 4947.832002]        f8defca0 f43986c0 bffb9fea efbe5f78 c01beef1 bffb9fea c0046401 00000000 
+[ 4947.832002] Call Trace:
+[ 4947.832002]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.832002]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.832002]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.832002]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.832002]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.832002]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.832002]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.832002]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.832002]  =======================
+[ 4947.832002] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.832002] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:efbe5f10
+[ 4947.837026] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.837158] USB_AD : ad_flush executed
+[ 4947.837214] USB_AD : ad_flush open count is : 13
+[ 4947.837273] USB_AD : usb_ad_release executed
+[ 4947.838117] USB_AD : ad_flush executed
+[ 4947.838174] USB_AD : ad_flush open count is : 13
+[ 4947.838231] USB_AD : usb_ad_release executed
+[ 4947.838376] USB_AD : ad_flush executed
+[ 4947.838432] USB_AD : ad_flush open count is : 12
+[ 4947.838489] USB_AD : usb_ad_release executed
+[ 4947.838619] USB_AD : ad_flush executed
+[ 4947.838675] USB_AD : ad_flush open count is : 11
+[ 4947.838733] USB_AD : usb_ad_release executed
+[ 4947.838865] USB_AD : ad_flush executed
+[ 4947.838921] USB_AD : ad_flush open count is : 10
+[ 4947.838978] USB_AD : usb_ad_release executed
+[ 4947.839101] USB_AD : ad_flush executed
+[ 4947.839157] USB_AD : ad_flush open count is : 9
+[ 4947.839214] USB_AD : usb_ad_release executed
+[ 4947.839342] USB_AD : ad_flush executed
+[ 4947.839397] USB_AD : ad_flush open count is : 7
+[ 4947.839455] USB_AD : usb_ad_release executed
+[ 4947.839578] USB_AD : ad_flush executed
+[ 4947.839646] USB_AD : ad_flush open count is : 6
+[ 4947.839714] USB_AD : usb_ad_release executed
+[ 4947.839856] BUG: unable to handle kernel NULL pointer dereference at 00000060
+[ 4947.839973] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.840063] *pde = 00000000 
+[ 4947.840140] Oops: 0000 [#22] SMP 
+[ 4947.840241] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.840501] 
+[ 4947.840501] Pid: 11016, comm: usb2 Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.840501] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.840501] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.840501] EAX: e888e000 EBX: 00000060 ECX: 0000a201 EDX: 00000000
+[ 4947.840501] ESI: e888ff30 EDI: 00000000 EBP: e888ff5c ESP: e888ff10
+[ 4947.840501]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.840501] Process usb2 (pid: 11016, ti=e888e000 task=f43d3ed0 task.ti=e888e000)
+[ 4947.840501] Stack: e888ff24 e888ff20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.840501]        00000000 f43d3ed0 c01474b0 e888ff3c e888ff3c 00000002 f641ef84 e888ff5c 
+[ 4947.840501]        f8defca0 ede59780 bfc42c7a e888ff78 c01beef1 bfc42c7a c0046401 00000000 
+[ 4947.840501] Call Trace:
+[ 4947.840501]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.840501]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.840501]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.840501]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.840501]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.840501]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.840501]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.840501]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.840501]  =======================
+[ 4947.840501] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.840501] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:e888ff10
+[ 4947.847287] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.850451] BUG: unable to handle kernel NULL pointer dereference at 0000003c
+[ 4947.850576] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.850671] *pde = 00000000 
+[ 4947.850748] Oops: 0000 [#23] SMP 
+[ 4947.850846] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.852508] 
+[ 4947.852508] Pid: 11007, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.852508] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.852508] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.852508] EAX: eb0c6000 EBX: 0000003c ECX: 0000c001 EDX: 00000000
+[ 4947.852508] ESI: eb0c7f30 EDI: 00000000 EBP: eb0c7f5c ESP: eb0c7f10
+[ 4947.852508]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.852508] Process usb (pid: 11007, ti=eb0c6000 task=eb1d1920 task.ti=eb0c6000)
+[ 4947.852508] Stack: eb0c7f24 eb0c7f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.852508]        00000000 eb1d1920 c01474b0 eb0c7f3c eb0c7f3c 00000002 f641ef84 eb0c7f5c 
+[ 4947.852508]        f8defca0 edb88cc0 bffbafea eb0c7f78 c01beef1 bffbafea c0046401 00000000 
+[ 4947.852508] Call Trace:
+[ 4947.852508]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.852508]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.852508]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.852508]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.852508]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.852508]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.852508]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.852508]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.852508]  =======================
+[ 4947.852508] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.852508] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb0c7f10
+[ 4947.857094] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.857215] USB_AD : ad_flush executed
+[ 4947.857267] USB_AD : ad_flush open count is : 5
+[ 4947.857319] USB_AD : usb_ad_release executed
+[ 4947.857473] BUG: unable to handle kernel NULL pointer dereference at 00000038
+[ 4947.857575] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.857652] *pde = 00000000 
+[ 4947.857721] Oops: 0000 [#24] SMP 
+[ 4947.857811] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.860278] 
+[ 4947.860323] Pid: 11006, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.860380] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.860456] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.860508] EAX: edb78000 EBX: 00000038 ECX: 0000c101 EDX: 00000000
+[ 4947.860564] ESI: edb79f30 EDI: 00000000 EBP: edb79f5c ESP: edb79f10
+[ 4947.860620]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.860674] Process usb (pid: 11006, ti=edb78000 task=eb1d0c90 task.ti=edb78000)
+[ 4947.860733] Stack: edb79f24 edb79f20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.860998]        00000000 eb1d0c90 c01474b0 edb79f3c edb79f3c 00000002 f641ef84 edb79f5c 
+[ 4947.861090]        f8defca0 f4309840 bf82085a edb79f78 c01beef1 bf82085a c0046401 00000000 
+[ 4947.861090] Call Trace:
+[ 4947.861090]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.861090]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.861090]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.861090]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.861090]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.861090]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.861090]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.861090]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.861090]  =======================
+[ 4947.861090] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.861090] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:edb79f10
+[ 4947.864063] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.864178] USB_AD : ad_flush executed
+[ 4947.864231] USB_AD : ad_flush open count is : 4
+[ 4947.864285] USB_AD : usb_ad_release executed
+[ 4947.864385] BUG: unable to handle kernel NULL pointer dereference at 00000044
+[ 4947.864491] IP: [<f8def279>] :usb_ad:ad_ioctl+0x179/0x7d0
+[ 4947.864603] *pde = 00000000 
+[ 4947.864671] Oops: 0000 [#25] SMP 
+[ 4947.864760] Modules linked in: usb_ad nls_iso8859_1 vfat fat i915 drm binfmt_misc bridge stp bnep sco rfcomm l2cap bluetooth ppdev lp acpi_cpufreq cpufreq_userspace cpufreq_stats cpufreq_powersave cpufreq_ondemand freq_table cpufreq_conservative wmi video output sbs sbshc pci_slot container ac iptable_filter ip_tables x_tables snd_hda_intel snd_pcm_oss snd_mixer_oss snd_pcm snd_seq_dummy snd_seq_oss snd_seq_midi snd_rawmidi snd_seq_midi_event parport_pc snd_seq parport snd_timer snd_seq_device snd button iTCO_wdt evdev pcspkr iTCO_vendor_support soundcore shpchp intel_agp agpgart snd_page_alloc pci_hotplug battery sd_mod crc_t10dif squashfs loop aufs exportfs nls_cp437 isofs usbhid hid sr_mod cdrom ata_generic sg ata_piix usb_storage libusual pata_acpi libata scsi_mod ehci_hcd dock uhci_hcd r8169 usbcore thermal processor fan fbcon tileblit font bitblit softcursor fuse [last unloaded: usb_ad]
+[ 4947.867924] 
+[ 4947.867967] Pid: 11009, comm: usb Tainted: G      D   (2.6.27-9-generic #1)
+[ 4947.868028] EIP: 0060:[<f8def279>] EFLAGS: 00010286 CPU: 1
+[ 4947.868083] EIP is at ad_ioctl+0x179/0x7d0 [usb_ad]
+[ 4947.868135] EAX: eb0dc000 EBX: 00000044 ECX: 0000c201 EDX: 00000000
+[ 4947.868191] ESI: eb0ddf30 EDI: 00000000 EBP: eb0ddf5c ESP: eb0ddf10
+[ 4947.868247]  DS: 007b ES: 007b FS: 00d8 GS: 0033 SS: 0068
+[ 4947.868301] Process usb (pid: 11009, ti=eb0dc000 task=eb1d3240 task.ti=eb0dc000)
+[ 4947.868359] Stack: eb0ddf24 eb0ddf20 c037d4e0 c0046401 eb264ca0 f51eea1c 00000000 c02a0347 
+[ 4947.868524]        00000000 eb1d3240 c01474b0 eb0ddf3c eb0ddf3c 00000002 f641ef84 eb0ddf5c 
+[ 4947.868524]        f8defca0 f5062840 bfa70aaa eb0ddf78 c01beef1 bfa70aaa c0046401 00000000 
+[ 4947.868524] Call Trace:
+[ 4947.868524]  [<c037d4e0>] ? mutex_lock+0x10/0x20
+[ 4947.868524]  [<c02a0347>] ? tty_write_unlock+0x37/0x40
+[ 4947.868524]  [<c01474b0>] ? autoremove_wake_function+0x0/0x50
+[ 4947.868524]  [<c01beef1>] ? vfs_ioctl+0x81/0x90
+[ 4947.868524]  [<c01bf086>] ? do_vfs_ioctl+0x66/0x1f0
+[ 4947.868524]  [<c02147d8>] ? cap_file_ioctl+0x8/0x10
+[ 4947.868524]  [<c01bf27b>] ? sys_ioctl+0x6b/0x70
+[ 4947.868524]  [<c0103f7b>] ? sysenter_do_call+0x12/0x2f
+[ 4947.868524]  =======================
+[ 4947.868524] Code: c7 45 d4 00 00 00 00 8d 75 d4 c7 45 dc b0 74 14 c0 89 45 e0 89 45 e4 eb 12 90 80 78 54 00 75 2b e8 ad d3 58 c7 8b 15 00 3b df f8 <8b> 04 1a b9 02 00 00 00 89 f2 83 c0 58 e8 b5 83 35 c7 a1 00 3b 
+[ 4947.868524] EIP: [<f8def279>] ad_ioctl+0x179/0x7d0 [usb_ad] SS:ESP 0068:eb0ddf10
+[ 4947.871641] ---[ end trace 1b908fe80079f5ac ]---
+[ 4947.871745] USB_AD : ad_flush executed
+[ 4947.871796] USB_AD : ad_flush open count is : 3
+[ 4947.871847] USB_AD : usb_ad_release executed
+[ 4947.881989] USB_AD : ad_flush executed
+[ 4947.882041] USB_AD : ad_flush open count is : 2
+[ 4947.882092] USB_AD : usb_ad_release executed
+[ 4947.894584] USB_AD : ad_flush executed
+[ 4947.894647] USB_AD : ad_flush open count is : 1
+[ 4947.894719] USB_AD : ad_draw_down executed
+[ 4947.894785] USB_AD : usb_ad_release executed
+[ 4947.894837] USB_AD : usb_ad_delete executed
+[ 4947.896775] USB_AD : ad_probe executed
+[ 4947.896832] USB_AD : ad_probe bulk in size is: 64
+[ 4947.896982] USB_AD 2-1:2.0: USB AD device now attached to USB_AD-192
+[ 4947.897043] USB_AD : ad_probe successful!
