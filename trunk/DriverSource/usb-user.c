@@ -11,6 +11,9 @@
 //#include <termios.h>
 #include "usb-ioctl.h"
 #include <string.h>
+#include <errno.h>
+
+extern int errno;
 //Kazdy IOCLT musi miec taki poczatek w buforze
 int kbhit()
 {
@@ -54,6 +57,7 @@ void set_beginning(char *bufor, int pid)
 void params(char *buffer,int pid){
         char str[32];
         int i;
+        memset(&str, 0, 32);
         memset(buffer, 0, BUFFER_SIZE);
         printf("Podaj parametry probkowania\nPodaj czestotliwosc:\n");
         set_beginning(buffer, pid);
@@ -111,10 +115,12 @@ int get_data(char *buffer, int pid, int usb_ad, int block_size, int channel_coun
         int i,j,ret_val;
         set_beginning(buffer, pid);
         ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
-        if (ret_val == -USB_AD_CLIENT_TOO_SLOW)
+        if(ret_val != 0)
+                printf("retval : %d errno : %d\n", ret_val, errno);
+        if (errno == USB_AD_CLIENT_TOO_SLOW)
                 printf("Nie nadazasz przyspiesz\n");
         if (ret_val != 0)
-                return -1;
+                return ret_val;
         for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                 printf("%d,%d  ",
                         buffer[i],
@@ -174,10 +180,14 @@ int main(int argc, char **argv) {
         
         if (ret_val > -1){
                 printf("Wysyłam prosby o dane\n");
-                while((!kbhit())){
+                while ((!kbhit())) {
                         ret_val = get_data(buffer,pid,usb_ad,block_size,channel_count);
+                        if ((ret_val != 0) && (errno != USB_AD_CLIENT_TOO_SLOW)) {
+                                        printf("Blad, wychodze\n");
+                                        break;
                         }
                 }
+        }
         //wyczyszczenie bufora zaznkow
         while(getch()!=10)
                 /*DONOTHING*/;
@@ -192,10 +202,15 @@ int main(int argc, char **argv) {
                         }
                 if (str[0] == 1){
                         printf("Wysyłam prosby o dane\n");
-                        while((!kbhit()))
+                        while((!kbhit())) {
                                 ret_val = get_data(buffer,pid,usb_ad,block_size,channel_count);
-                        while(getch()!=10)/*DONOTHING*/;
+                                if ((ret_val != 0) && (errno != USB_AD_CLIENT_TOO_SLOW)) {
+                                        printf("Blad, wychodze\n");
+                                        break;
+                                }
                         }
+                        while(getch()!=10)/*DONOTHING*/;
+                }
                 if (str[0] == 2){
                         memset(&buffer, 0, BUFFER_SIZE); 
                         params(buffer,pid);
@@ -205,10 +220,15 @@ int main(int argc, char **argv) {
                                 if (((int *)buffer)[i+4] == 1)
                                         channel_count++;
                         block_size = ((int *)buffer)[3];
-                        while((!kbhit()))
+                        while((!kbhit())) {
                                 ret_val = get_data(buffer,pid,usb_ad,block_size,channel_count);
-                        while(getch()!=10)/*DONOTHING*/;
+                                if((ret_val != 0) && (errno != USB_AD_CLIENT_TOO_SLOW)) {
+                                        printf("Blad, wychodze\n");
+                                        break;
+                                }
                         }
+                        while(getch()!=10)/*DONOTHING*/;
+                }
                 dialog = 1;
                 if (str[0] == 3){
                         loop = 0;

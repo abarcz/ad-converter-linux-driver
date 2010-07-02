@@ -29,7 +29,7 @@
 #define USB_AD_FQ_L 127                     //mlodszy bajt czestotliwosci
 #define USB_AD_FQ_DIV 0                     //podzial czestotliwosci (mozliwe wartosci: 00,01,10,11)
 
-#define USB_AD_DEBUG 0                      //powoduje wyswietlanie informacji debugu
+#define USB_AD_DEBUG 1                      //powoduje wyswietlanie informacji debugu
 
 /* zwraca czestotliwosc z jaka przetwornik w rzeczywistosci probkuje (na wszystkich kanalach) */
 unsigned int usb_ad_fq(void) {
