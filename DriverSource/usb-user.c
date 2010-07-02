@@ -10,6 +10,7 @@
 #include <sys/select.h>
 //#include <termios.h>
 #include "usb-ioctl.h"
+#include <string.h>
 //Kazdy IOCLT musi miec taki poczatek w buforze
 int kbhit()
 {
@@ -53,6 +54,7 @@ void set_beginning(char *bufor, int pid)
 void params(char *buffer,int pid){
         char str[32];
         int i;
+        memset(buffer, 0, BUFFER_SIZE);
         printf("Podaj parametry probkowania\nPodaj czestotliwosc:\n");
         set_beginning(buffer, pid);
         scanf("%d",&((unsigned int *)buffer)[2]);
@@ -111,6 +113,8 @@ int get_data(char *buffer, int pid, int usb_ad, int block_size, int channel_coun
         ret_val = ioctl(usb_ad, IOCTL_GET_DATA, buffer);
         if (ret_val == -USB_AD_CLIENT_TOO_SLOW)
                 printf("Nie nadazasz przyspiesz\n");
+        if (ret_val != 0)
+                return -1;
         for (i = 0; i < block_size * channel_count * 2 - 1; i+=2) {
                 printf("%d,%d  ",
                         buffer[i],
@@ -137,7 +141,7 @@ int main(int argc, char **argv) {
         //ROTFL for(i = 0;i < argc; i++)printf("%d\n",atoi(argv[i]));
         printf("Proba otwarcia urzadzenia...\n");
         int usb_ad = open("/dev/USB_AD0", O_RDWR);
-        if (usb_ad == -1) {
+        if (usb_ad < 0) {
                 printf("Nie powiodla sie\n");
                 exit(1);
                 }
@@ -161,6 +165,7 @@ int main(int argc, char **argv) {
                 }
         ret_val = param_send(buffer, usb_ad);
         printf("IOCTL odpowiedzial: %d\n", ret_val);
+        channel_count = 0;
         //Liczymy z ilu kanalow zbieramy informacje (zeby sensowanie wyswietlac)
         for (i = 0; i < 7; i++)
                 if (((int *)buffer)[i+4] == 1)
@@ -192,8 +197,10 @@ int main(int argc, char **argv) {
                         while(getch()!=10)/*DONOTHING*/;
                         }
                 if (str[0] == 2){
+                        memset(&buffer, 0, BUFFER_SIZE); 
                         params(buffer,pid);
                         param_send(buffer,usb_ad);
+                        channel_count = 0;
                         for (i = 0; i < 7; i++)
                                 if (((int *)buffer)[i+4] == 1)
                                         channel_count++;

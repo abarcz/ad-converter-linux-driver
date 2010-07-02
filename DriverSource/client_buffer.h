@@ -1,7 +1,6 @@
 #ifndef USB_AD_CLIENT_BUFFER
 #define USB_AD_CLIENT_BUFFER
 
-
 #include <linux/module.h>
 #include <linux/kernel.h>       /* printk() */
 #include <asm/uaccess.h>        /* copy_from/to_user */
@@ -34,20 +33,23 @@ int buffer_write(Client_buffer *buf, unsigned char *data, int size);
 /* kopiuje cala zawartosc bufora do tablicy */
 int buffer_copy_to_user(Client_buffer *buf, unsigned char *data, int size);
 
+/* usuwa bufor */
+void remove_buffer(Client_buffer *buf);
+
 /**** poczatek pliku .c ****/
 /* inicjalizacja nowo utworzonego bufora klienta */
 int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor)
 {
         int buffer_size;
         if (buf == NULL)
-                return USB_AD_ERROR_NULL;
+                return -EINVAL;
         if ((row_size <= 0) || (row_count <= 0) || (avg_divisor <= 0))
-                return USB_AD_ERROR_VALUE;
+                return -EINVAL;
         printk("<1>USB_AD buffer_init row_size = %d, row_count = %d, avg_divisor = %d\n", row_size, row_count, avg_divisor);
         buffer_size = row_size * row_count;
         buf->buf = kmalloc(buffer_size, GFP_KERNEL);
         if (buf->buf == NULL)               //nie udalo sie zaalokowac pamieci dla bufora
-                return USB_AD_ERROR_ALLOCATION;
+                return -ENOMEM;
         memset(buf->buf, 0, buffer_size);
         buf->row_size = row_size;
         buf->row_count = row_count;
@@ -65,13 +67,13 @@ int buffer_init(Client_buffer *buf, int row_size, int row_count, int avg_divisor
 */
 int buffer_write(Client_buffer *buf, unsigned char *data, int size) {
         if ((buf == NULL) || (buf->buf == NULL) || (data == NULL))
-                return USB_AD_ERROR_NULL;
+                return -EINVAL;
         if (buf->full)                      //bufor pelny, nie mozna pisac
-                return USB_AD_ERROR_FULL;
+                return -EPERM;
         if (size != buf->row_size)          //rozmiar danych sie nie zgadza
-                return USB_AD_ERROR_SIZE;
+                return -EINVAL;
         if (buf->curr_pos >= buf->row_count)//nie powinno nigdy sie wydarzyc
-                return USB_AD_ERROR_UNKNOWN;
+                return -EINVAL;
 
         /* blok usredniania wartosci */
         if (buf->avg_divisor == 1) {
@@ -103,16 +105,26 @@ int buffer_write(Client_buffer *buf, unsigned char *data, int size) {
 /* kopiuje cala zawartosc bufora do tablicy */
 int buffer_copy_to_user(Client_buffer *buf, unsigned char *data, int size) {
         int ret_val = 0;
-        printk("<1>USB_AD buffer_copy_to_user\n");
+        //printk("<1>USB_AD buffer_copy_to_user\n");
         if ((buf == NULL) || (buf->buf == NULL) || (data == NULL))
-                return USB_AD_ERROR_NULL;
+                return -EINVAL;
         if (size != buf->size)              //rozmiar danych sie nie zgadza
-                return USB_AD_ERROR_SIZE;
+                return -EINVAL;
         ret_val = copy_to_user(data, buf->buf, size);
         buf->curr_pos = 0L;
         buf->full = 0;                      //oznaczenie bufora jako przeczytanego
         memset(buf->buf, 0, buf->size);     //wyzerowanie bufora
         return ret_val;
+}
+
+void remove_buffer(Client_buffer *buf) 
+{
+        unsigned char *temp;
+        if((!buf) || (!buf->buf))
+                return;
+        temp = buf->buf;
+        buf->buf = NULL;
+        kfree(temp);
 }
 
 #endif
