@@ -12,14 +12,6 @@
    is an integer 512 is the largest possible packet on EHCI */
 #define USB_AD_WRITES_IN_FLIGHT 8           /* arbitrarily chosen */
 
-/**** mozliwe bledy ****/
-#define USB_AD_ERROR_NULL -1                //np niezainicjalizowany wskaznik
-#define USB_AD_ERROR_FULL -2                //np pelny bufor
-#define USB_AD_ERROR_SIZE -3                //np niewlasciwy rozmiar bufora
-#define USB_AD_ERROR_ALLOCATION -4          //blUSB_AD alokacji
-#define USB_AD_ERROR_VALUE -5               //nieprawidlowa wartosc
-#define USB_AD_ERROR_UNKNOWN -6             //?? ;)
-
 /**** inne stale ****/
 #define USB_AD_CHANNELS_NUM 7               //ilosc kanalow probkowanych przez A/C
 #define USB_AD_CLIENT_BUFFER_MAX_SIZE 1024  //w bajtach
@@ -36,6 +28,8 @@
 #define USB_AD_FQ_H 127                     //starszy bajt czestotliwosci
 #define USB_AD_FQ_L 127                     //mlodszy bajt czestotliwosci
 #define USB_AD_FQ_DIV 0                     //podzial czestotliwosci (mozliwe wartosci: 00,01,10,11)
+
+#define USB_AD_DEBUG 0                      //powoduje wyswietlanie informacji debugu
 
 /* zwraca czestotliwosc z jaka przetwornik w rzeczywistosci probkuje (na wszystkich kanalach) */
 unsigned int usb_ad_fq(void) {
