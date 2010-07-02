@@ -55,6 +55,9 @@ struct usb_ad {
         spinlock_t              err_lock;               /* lock for errors */
         struct kref             kref;
         struct mutex            io_mutex;               /* synchronize I/O with disconnect */
+        struct mutex            ioctl_count_mutex;      /* access to counter */
+        bool                    exiting;
+        int                     ioctl_active_count;     /* count active ioctls */
         struct completion       bulk_in_completion;     /* to wait for an ongoing read */
         bool                    running;                /* indicates that the device is already sending data */
         int                     already_printed;        /* for debug */
@@ -68,15 +71,39 @@ static void ad_read_bulk_callback(struct urb *urb);  //completion handler. in in
 static void ad_delete_internal(struct usb_ad *dev) 
 {
         int i;
+        bool ioctls_dead = 0;
         Client **temp_array;
         Client *temp_client;
         unsigned char *temp_char;
         struct usb_ad *temp_dev;
-        if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_delete executed\n");
+        printk("<1>USB_AD : usb_ad_delete executed\n");
         if (!dev) {
             printk("<1>USB_AD : delete : no device!\n");
             return;
         }
+        
+        mutex_lock(&dev->ioctl_count_mutex);
+                dev->exiting = 1;
+        mutex_unlock(&dev->ioctl_count_mutex);        
+        
+        if (!gpClients_array)
+                return;
+        
+        for (i = 0; i < USB_AD_MAX_CLIENTS_NUM; i ++)
+                        if (gpClients_array[i]) {
+                                wake_up(&gpClients_array[i]->queue);
+                                printk("<1>USB_AD : usb_ad_delete woken up a client\n");
+                        }
+        
+        while (!ioctls_dead) {
+                mutex_lock(&dev->ioctl_count_mutex);
+                        if (dev->ioctl_active_count == 0) {
+                                ioctls_dead = 1;
+                        }
+                mutex_unlock(&dev->ioctl_count_mutex);
+        }
+        
+        printk("<1>USB_AD : usb_ad_delete freeing urbs\n");
         usb_free_urb(dev->bulk_in_urb);
         usb_put_dev(dev->udev);
         if (dev->bulk_in_buffer) {
@@ -84,11 +111,13 @@ static void ad_delete_internal(struct usb_ad *dev)
             dev->bulk_in_buffer = NULL;
             kfree(temp_char);
         }
+        printk("<1>USB_AD : usb_ad_delete deleting dev\n");
         if (dev) {
             temp_dev = dev;
             dev = NULL;
             kfree(temp_dev);
         }
+        printk("<1>USB_AD : usb_ad_delete deleting clients array\n");
         /* usuniecie struktur klientow */
         if (gpClients_array) {
                 temp_array = gpClients_array;
@@ -104,6 +133,7 @@ static void ad_delete_internal(struct usb_ad *dev)
                 kfree(temp_array);
                 printk("<1>USB_AD : usb_ad_delete removed the Clients array\n");
         }
+        printk("<1>USB_AD : usb_ad_delete finished\n");
 }
 
 static void ad_delete(struct kref *kref)
@@ -274,7 +304,7 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
         size_t count = 35;
         Client *client;
         unsigned char *temp_buffer;
-        //printk("<1>USB_AD rclback!\n");
+        printk("<1>USB_AD rclback!\n");
 
         dev = urb->context;
 
@@ -330,11 +360,13 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                     gpClients_array[i] = NULL;
                                                     remove_client(client);
                                             }
-                                    } else {
+                                    } //else {
                                             if (client->first_buf.full) {
                                                     if (client->second_buf.full) {
-                                                            printk("<1>USB_AD : rclback : client with PID : %d has been warned\n", client->pid);
+                                                            //if(client->warning == 0)
+                                                                    printk("<1>USB_AD : rclback : client with PID : %d has been warned\n", client->pid);
                                                             client->warning = 1;
+                                                            wake_up(&client->queue);
                                                     } else {
                                                             //printk("<1>USB_AD rclback: choosing for sec_buf\n");
                                                             if (choose_bytes(client, dev->bulk_in_buffer, temp_buffer, dev->bulk_in_filled))
@@ -366,7 +398,7 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                             wake_up(&client->queue);
                                                     }
                                             }
-                                    }
+                                   // }
                             }
                     }
                    // dev->already_printed++;
@@ -579,8 +611,8 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
         struct usb_ad *dev;
         struct usb_interface *interface;
         int subminor;
-        //printk("<1>USB_AD : usb_ad_ioctl executed\n");
-
+        printk("<1>USB_AD : usb_ad_ioctl executed\n");
+        
         subminor = iminor(inode);
 
         interface = usb_find_interface(&ad_driver, subminor);
@@ -595,13 +627,28 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                 printk("<1>USB_AD : usb_ad_ioctl error : no device\n");
                 return -ENODEV;
         }
+        mutex_lock(&dev->ioctl_count_mutex);
+                if (dev->exiting) {
+                        mutex_unlock(&dev->ioctl_count_mutex);
+                        return -ENODEV;
+                }
+                dev->ioctl_active_count++;
+        mutex_unlock(&dev->ioctl_count_mutex);
+        
 
 
         //sprawdzenie czy to nasz
-        if (access_ok(VERIFY_READ,(char *)ioctl_param,2 * sizeof(int) ) == 0)
+        if (access_ok(VERIFY_READ,(char *)ioctl_param,2 * sizeof(int) ) == 0) {
+                mutex_lock(&dev->ioctl_count_mutex);
+                        dev->ioctl_active_count--;
+                mutex_unlock(&dev->ioctl_count_mutex);
                 return -EFAULT;
-        if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) {
+        }
+        if (((int*)ioctl_param)[0] != USB_AD_IOCTL_MAGIC_NUMBER) { 
                 printk("<1>USB_AD: Nie nasz IOCTL\n");
+                mutex_lock(&dev->ioctl_count_mutex);
+                        dev->ioctl_active_count--;
+                mutex_unlock(&dev->ioctl_count_mutex);
                 return -EIO;
         }
         pid = ((int*)ioctl_param)[1];
@@ -622,6 +669,9 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     if (access_ok(VERIFY_READ,(char *)ioctl_param,(4+USB_AD_CHANNELS_NUM) * sizeof(int)) == 0) {
                             printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS access not ok\n");
                             mutex_unlock(&dev->io_mutex);
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return -EFAULT;
                     }
                     for (j = 0;j < USB_AD_CHANNELS_NUM;j++)
@@ -633,16 +683,25 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             if(j == USB_AD_MAX_CLIENTS_NUM) {
                                     printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS reached max nr of clients\n");
                                     mutex_unlock(&dev->io_mutex);
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -EFAULT;
                             }
                             client = kmalloc(sizeof(Client),GFP_KERNEL);
                             if (client == NULL) {
                                     mutex_unlock(&dev->io_mutex);
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -EFAULT;
                             }
                             if (init_client(client,pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
                                     printk("<1>USB_AD : usb_ad_ioctl SET_PARAMS couldn't init client\n");
                                     mutex_unlock(&dev->io_mutex);
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -EFAULT;
                             }
                             gpClients_array[j] = client;
@@ -656,10 +715,16 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                             client = kmalloc(sizeof(Client),GFP_KERNEL);
                             if (client == NULL) {
                                     mutex_unlock(&dev->io_mutex);
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -EFAULT;
                             }
                             if (init_client(client,pid,((int *)ioctl_param)[2],((int *)ioctl_param)[3],pom) < 0) {
                                     mutex_unlock(&dev->io_mutex);
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -EFAULT;
                             }
                             client->ready_for_input = 1;
@@ -673,6 +738,9 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     if(!dev->open_count) {
                             printk("<1>USB_AD: Urzadzenie nie jest otwarte\n");
                             mutex_unlock(&dev->io_mutex);
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return -EFAULT;
                     }
 
@@ -680,49 +748,91 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     if (new == 1) {
                             if (USB_AD_DEBUG) printk("<1>USB_AD: Najpierw trzeba sie przedstawic sterownikowi, potem pobierac dane\n");
                             mutex_unlock(&dev->io_mutex);
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return -EFAULT;
                     }
                     if (access_ok(VERIFY_WRITE,(char *)ioctl_param,
                         gpClients_array[i]->buffer_size * gpClients_array[i]->channels_count) == 0 ) {
                             printk("<1>USB_AD : usb_ad_ioctl GET_DATA not access ok\n");
                             mutex_unlock(&dev->io_mutex);
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return -EFAULT;
                     }
                     //sprawdzamy czy przypadkiem nie jestesmy za wolni
-                    if (gpClients_array[i]-> warning == true)
+                    if (gpClients_array[i]->warning == 1) {
+                            printk("<1>USB_AD : usb_ad_ioctl TOO_SLOW SET\n");
                             too_slow = 1;
                         //return -TO_SLOW;
+                    }
                     //sprawdzic czy jest co wyslac jak nie to zawiesic
                     mutex_unlock(&dev->io_mutex);
                     if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl going to sleep for PID %d\n", pid);
-                    wait_event(gpClients_array[i]->queue, gpClients_array && gpClients_array[i] && ((gpClients_array[i]->first_buf.full) ||
-                        (gpClients_array[i]->second_buf.full)));
+                    if (gpClients_array[i]->warning == 0)
+                        wait_event(gpClients_array[i]->queue, (dev->exiting == 1) || (gpClients_array && gpClients_array[i] && ((gpClients_array[i]->first_buf.full) ||
+                            (gpClients_array[i]->second_buf.full))));
+                    mutex_lock(&dev->ioctl_count_mutex);
+                            if(dev->exiting == 1) {
+                                    dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
+                                    return -ENODEV;
+                            }
+                    mutex_unlock(&dev->ioctl_count_mutex);
+                                            
                     if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl awoken for PID %d\n", pid);
-                    if(!dev)
+                    if(!dev) {
+                            printk("<1>USB_AD IOCTL TO SIE NIE POWINNO ZDARZYC!\n");
                             return -ENODEV;
+                    }
                     mutex_lock(&dev->io_mutex);
                     if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl passed the mutex after wakeup for PID %d\n", pid);
-                    if((!gpClients_array) || (!gpClients_array[i]))
+                    if((!gpClients_array) || (!gpClients_array[i])) {
+                            printk("<1>USB_AD : usb_ad_ioctl Client doesn't exist no more!\n");
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return -ENODEV;
+                    }
                     //sprawdzenie ktory bufor mamy wyslac
                     if (gpClients_array[i]->first_buf.full) {
                             if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl going to copy first buf for PID %d\n", pid);
                             retval = buffer_copy_to_user(&(gpClients_array[i]->first_buf),
                                 (char *)ioctl_param,gpClients_array[i]->first_buf.size);
+                            if ((!retval) && (!gpClients_array[i]->second_buf.full))
+                                    gpClients_array[i]->warning = 0;
                             if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl copied first buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
-                            if (too_slow == 1)
+                            if (too_slow == 1) {
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -USB_AD_CLIENT_TOO_SLOW;
+                            }
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return retval;
                     }
                     if (gpClients_array[i]->second_buf.full) {
                             if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl going to copy second buf for PID %d\n", pid);
                             retval = buffer_copy_to_user(&(gpClients_array[i]->second_buf),
                                 (char *)ioctl_param,gpClients_array[i]->second_buf.size);
+                            if  ((!retval) && (!gpClients_array[i]->first_buf.full))
+                                    gpClients_array[i]->warning = 0;
                             if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl copied second buf for PID %d\n", pid);
                             mutex_unlock(&dev->io_mutex);
-                            if (too_slow == 1)
+                            if (too_slow == 1) {
+                                    mutex_lock(&dev->ioctl_count_mutex);
+                                            dev->ioctl_active_count--;
+                                    mutex_unlock(&dev->ioctl_count_mutex);
                                     return -USB_AD_CLIENT_TOO_SLOW;
+                            }
+                            mutex_lock(&dev->ioctl_count_mutex);
+                                    dev->ioctl_active_count--;
+                            mutex_unlock(&dev->ioctl_count_mutex);
                             return retval;
                     }
                     if (USB_AD_DEBUG) printk("<1>USB_AD : ad_ioctl GET DATA OK\n");
@@ -731,6 +841,9 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                     printk("<1>USB_AD: TO NIE MOZE SIE ZDAZYC (AKURAT)\n");
         }
         mutex_unlock(&dev->io_mutex);
+        mutex_lock(&dev->ioctl_count_mutex);
+                dev->ioctl_active_count--;
+        mutex_unlock(&dev->ioctl_count_mutex);
         return 0;
 }
 //--------------------------------------------------------------------IOCTL_end
@@ -777,6 +890,9 @@ static int ad_probe(struct usb_interface *interface,
         kref_init(&dev->kref);
         sema_init(&dev->limit_sem, USB_AD_WRITES_IN_FLIGHT);
         mutex_init(&dev->io_mutex);
+        printk("<1>USB_AD : ad_probe init ioctl count mutex\n");
+        mutex_init(&dev->ioctl_count_mutex);
+        printk("<1>USB_AD : ad_probe initialized ioctl count mutex\n");
         spin_lock_init(&dev->err_lock);
         init_usb_anchor(&dev->submitted);
         init_completion(&dev->bulk_in_completion);
@@ -799,6 +915,7 @@ static int ad_probe(struct usb_interface *interface,
         /* set up the endpoint information */
         /* use only the first bulk-in and bulk-out endpoints */
         iface_desc = interface->cur_altsetting;
+        printk("<1>USB_AD : ad_probe checking endpoints\n");
         for (i = 0; i < iface_desc->desc.bNumEndpoints; ++i) {
                 endpoint = &iface_desc->endpoint[i].desc;
 
@@ -837,6 +954,7 @@ static int ad_probe(struct usb_interface *interface,
         usb_set_intfdata(interface, dev);
 
         /* we can register the device now, as it is ready */
+        printk("<1>USB_AD : ad_probe registering device\n");
         retval = usb_register_dev(interface, &ad_class);
         if (retval) {
                 /* something prevented us from registering this driver */
@@ -851,6 +969,7 @@ static int ad_probe(struct usb_interface *interface,
                  interface->minor);
 
         /* alokuj i zeruj pamiec dla tablicy wskaznikow na klientow */
+        printk("<1>USB_AD : ad_probe allocating clients array\n");
         gpClients_array = kzalloc(sizeof(Client*) * USB_AD_MAX_CLIENTS_NUM, GFP_KERNEL);
         if (gpClients_array == NULL)
             err("usb_probe failed. Error number %d\n", -ENOMEM);
@@ -863,6 +982,10 @@ static int ad_probe(struct usb_interface *interface,
 
         init_client(gpClients_array[0], 555, usb_ad_fq(), 10, test_channels);
         */
+        printk("<1>USB_AD : ad_probe setting exiting flag to zero\n");
+        mutex_lock(&dev->ioctl_count_mutex);
+                dev->exiting = 0;
+        mutex_unlock(&dev->ioctl_count_mutex);
         if (USB_AD_DEBUG) printk("<1>USB_AD : ad_probe successful!\n");
         return 0;
 
@@ -896,9 +1019,10 @@ static void ad_disconnect(struct usb_interface *interface)
         usb_kill_anchored_urbs(&dev->submitted);
 
         /* decrement our usage count */
-        kref_put(&dev->kref, ad_delete);
+        //kref_put(&dev->kref, ad_delete);
 
         dev_info(&interface->dev, "USB_AD #%d now disconnected\n", minor);
+        ad_delete_internal(dev);
 }
 
 static void ad_draw_down(struct usb_ad *dev)
