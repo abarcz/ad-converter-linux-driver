@@ -1,4 +1,9 @@
-﻿Zmodyfikowałem usbenum.py tak, żeby wyświetlał dane tylko naszego urządzenia, 
+﻿Wszystkie pliki z tego katalogu pochodzą od dr inż. Wojciecha Zabołotnego, prowadzacego przedmiot 
+"Sterowniki urządzeń - podstawy programowania" na wydziale EiTI Politechniki Warszawskiej.
+http://www.ise.pw.edu.pl/~wzab/
+https://eres.elka.pw.edu.pl/eres/wwersje$.startup?Z_ID_PRZEDMIOTU=STER&Z_NR_WERSJI=1&Z_CHK=25285
+
+Zmodyfikowałem usbenum.py tak, żeby wyświetlał dane tylko naszego urządzenia, 
 a nie wszystkich urządzeń usb dostępnych w systemie ("zmodyfikowałem" - wielkie słowo jak na 3 spacje ;]).
 Wydruk dodałem do svn'a na wypadek gdybyśmy potrzebowali jakichś danych z urządzenia 
 (usbview nie działa na standardowym jądrze Ubuntu).
@@ -13,10 +18,9 @@ Po włączeniu urządzenia (czerwona dioda zapalona) i podłączaniu do kompa, o
 Jeśli powie, że nie znalazł mydev, spróbuj jeszcze raz.
 Po przerwaniu odbierania próbek trzeba wyłączyć i włączyć przetwornik do prądu.
 
-Jeśli będziesz chciał modyfikować skrypt:
+Modyfikowanie skryptu:
 Bloki kodu są określone przez wcięcia - istotne jest czy są to spacje czy taby. 
 (w wersji zmodyfikowanej pozmieniałem wszystkie wcięcia na 3 spacje)
 Jeśli gdzieś pojawi się tab zamiast spacji, interpreter wypluje błąd.
-Reszta na wiki ;)
 
 Aleksy
