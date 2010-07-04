@@ -238,7 +238,6 @@ static int ad_initialize(struct inode *inode)
                     printk("<1>USB_AD : usb_ad_open error couldn't rcv(1) %d\n", retval);
                     kfree(buffer);
                     dev->open_count--;
-                    //mutex_unlock(&dev->io_mutex);
                     return retval;
                 }
                 buffer[buff_len - 1] = '\0';
@@ -380,21 +379,42 @@ static void ad_read_bulk_callback(struct urb *urb)  //completion handler. in int
                                                 else if (write_res == 1) {
                                                         //printk("<1>USB_AD rclback : SECOND buf full\n");
                                                         wake_up(&client->queue);
+                                                        client->use_first_buf = 1;      //przelaczamy zapis na pierwszy bufor
                                                 }
                                         }
                                 } else {
-                                        if (choose_bytes(client, dev->bulk_in_buffer, temp_buffer,
-                                            dev->bulk_in_filled))
-                                                goto finish;
-                                        //printk("<1>USB_AD rclback: writing to first_buf\n");
-                                        write_res = buffer_write(&client->first_buf,
-                                            temp_buffer,
-                                            client->channels_count * 2);
-                                        if (write_res < 0)
-                                                        printk("<1>USB_AD rclback : error writing to first_buf %d\n", write_res);
-                                        else if (write_res == 1) {
-                                                //printk("<1>USB_AD rclback : FIRST buf full\n");
-                                                wake_up(&client->queue);
+                                        if (client->use_first_buf) {
+                                                if (choose_bytes(client, dev->bulk_in_buffer, temp_buffer,
+                                                    dev->bulk_in_filled))
+                                                        goto finish;
+                                                //printk("<1>USB_AD rclback: writing to first_buf\n");
+                                                write_res = buffer_write(&client->first_buf,
+                                                    temp_buffer,
+                                                    client->channels_count * 2);
+                                                if (write_res < 0)
+                                                                printk("<1>USB_AD rclback : error writing to first_buf %d\n", write_res);
+                                                else if (write_res == 1) {
+                                                        //printk("<1>USB_AD rclback : FIRST buf full\n");
+                                                        wake_up(&client->queue);
+                                                        client->use_first_buf = 0;      //przelaczamy zapis na drugi bufor
+                                                }
+                                        } else {
+                                                /* klient zdazyl odczytac pierwszy bufor, ale musimy kontynuowac zapis
+                                                 * do drugiego, zeby nie stracic juz zapisanych tam danych
+                                                 */
+                                                if (choose_bytes(client, dev->bulk_in_buffer, temp_buffer, dev->bulk_in_filled))
+                                                    goto finish;
+                                                //printk("<1>USB_AD rclback: writing to sec_buf\n");
+                                                write_res = buffer_write(&client->second_buf,
+                                                    temp_buffer,
+                                                    client->channels_count * 2);
+                                                if (write_res < 0)
+                                                        printk("<1>USB_AD rclback : error writing to sec_buf %d\n", write_res);
+                                                else if (write_res == 1) {
+                                                        //printk("<1>USB_AD rclback : SECOND buf full\n");
+                                                        wake_up(&client->queue);
+                                                        client->use_first_buf = 1;      //przelaczamy zapis na pierwszy bufor
+                                                }
                                         }
                                 }
                         }
@@ -793,8 +813,7 @@ int ad_ioctl(struct inode *inode, struct file *file, unsigned int ioctl_num, uns
                                     dev->ioctl_active_count--;
                             mutex_unlock(&dev->ioctl_count_mutex);
                             return retval;
-                    }
-                    if (gpClients_array[i]->second_buf.full) {
+                    } else if (gpClients_array[i]->second_buf.full) {
                             if (USB_AD_DEBUG) printk("<1>USB_AD : usb_ad_ioctl going to copy second buf for PID %d\n", pid);
                             retval = buffer_copy_to_user(&(gpClients_array[i]->second_buf),
                                 (char *)ioctl_param,gpClients_array[i]->second_buf.size);

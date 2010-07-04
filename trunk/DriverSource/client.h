@@ -17,6 +17,9 @@ struct Client {
         bool warning;                               //ostrzezenie - klient nie nadaza z odbieraniem
         int loops_after_warn_count;                 //ile petli minelo od ostrzezenia klienta
         int ready_for_input;                        //czy jest gotowy na przyjmowanie danych
+        bool use_first_buf;                         /* czy zapis ma sie odbywac do pierwszego bufora
+                                                     * jesli 0 => zapis do drugiego bufora 
+                                                     */ 
 };
 
 int round_div(const unsigned int a, const unsigned int b);
@@ -93,6 +96,7 @@ int init_client(Client *client, int pid, const unsigned int requested_fq, const 
                 client->channels[i] = channels[i];
         client->warning = 0;
         client->loops_after_warn_count = 0;
+        client->use_first_buf = 1;
         //printk("<1>USB_AD : init_client successfully completed\n");
         return 0;
         
