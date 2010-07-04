@@ -1,0 +1,10 @@
+Pliki sterownika:
+client.h            (struktura danych opisujaca podlaczony do sterownika program uzytkownika)
+client_buffer.h     (struktura danych opisujaca bufor klienta, wraz z metodami inicjalizacji, odczytu i zapisu)
+constants.h         (najwazniejsze stale sterownika)
+usb-ad.c            (kod sterownika)
+usb-ioctl.h         (definicje zwiazane z ioctlami, potrzebne zarowno sterownikowi jak i programowi uzytkownika)
+
+Pliki przykladowego programu uzytkownika:
+usb-ioctl.h         (j.w.)
+usb-user.c          (program przestrzeni uzytkownika pozwalajacy na odczyt z zadanymi parametrami z urzadzenia)
