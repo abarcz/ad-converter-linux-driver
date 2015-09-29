@@ -1,0 +1,1 @@
+Academic project for Warsaw University of Technology, faculty of Electronics, subject STER. Linux driver for PIC18F4550: http://www.ise.pw.edu.pl/~wzab/opiclab/
